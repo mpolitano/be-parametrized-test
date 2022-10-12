@@ -199,7 +199,8 @@ public class TreeMapTest {
 
 		Collection l = tmap.values();
 		assertTrue(tmap.repOK());
-				
+		assertTrue((l.isEmpty() && tmap.isEmpty()) || (!l.isEmpty() && !tmap.isEmpty()) );
+
 	 }
 	
 	
