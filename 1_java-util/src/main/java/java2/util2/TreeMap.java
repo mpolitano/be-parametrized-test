@@ -1114,7 +1114,7 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
 	public boolean isWellColored() {
 		if (root.color != BLACK)
 			return false;
-		LinkedList worklist = new LinkedList();
+		java.util.LinkedList worklist = new java.util.LinkedList();
 		worklist.add(root);
 		while (!worklist.isEmpty()) {
 			Entry current = (Entry) worklist.removeFirst();
@@ -1132,7 +1132,7 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
 				worklist.add(cr);
 		}
 		int numberOfBlack = -1;
-		LinkedList worklist2 = new LinkedList();
+		java.util.LinkedList worklist2 = new java.util.LinkedList();
 		worklist2.add(new Pair<Entry, Integer>(root, 0));
 		while (!worklist2.isEmpty()) {
 			Pair<Entry, Integer> p = (Pair<Entry, Integer>) worklist2.removeFirst();
