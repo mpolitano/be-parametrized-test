@@ -6,7 +6,7 @@
  */
 
 package java2.util2;
-
+;
 /**
  * Red-Black tree based implementation of the <tt>SortedMap</tt> interface.
  * This class guarantees that the map will be in ascending key order, sorted
@@ -1082,15 +1082,15 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
 	public boolean isBinTreeWithParentReferences() {
 		if (root == null)
 			return true;
-		Set visited = new HashSet();
-		LinkedList worklist = new LinkedList();
+		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();
+		java.util.LinkedList<Entry> worklist = new java.util.LinkedList<Entry>();
 		visited.add(root);
 		worklist.add(root);
 		if (root.parent != null)
 			return false;
 
 		while (!worklist.isEmpty()) {
-			Entry node = (Entry) worklist.removeFirst();
+			Entry node = worklist.removeFirst();
 			Entry left = node.left;
 			if (left != null) {
 				if (!visited.add(left))
