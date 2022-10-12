@@ -162,7 +162,7 @@ public class TreeMapTest {
     }
 	
 	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Parameters")
+	@MethodSource("provide_TMap_Parameters")
    	public void size_test(TreeMap tmap) {
     	int s = tmap.size();
        	assertTrue(tmap.repOK());
