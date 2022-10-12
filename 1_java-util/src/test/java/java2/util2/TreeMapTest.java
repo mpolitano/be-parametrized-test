@@ -4,6 +4,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java2.util2.linkedlist.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -139,6 +141,47 @@ public class TreeMapTest {
 
 	 }
 	
+	@ParameterizedTest
+	@MethodSource("provide_TMap_Int_Parameters")
+   	public void remove_test(TreeMap tmap, Integer i) {
+    	tmap.remove(i);
+    	
+    	assertTrue(tmap.repOK());
+    	assertTrue(!tmap.containsKey(i));
+    }
+	
+	@ParameterizedTest
+	@MethodSource("provide_TMap_Int_Parameters")
+   	public void size_test(TreeMap tmap) {
+    	int s = tmap.size();
+       	assertTrue(tmap.repOK());
+		assertTrue((s==0 && tmap.isEmpty()) ||(s!=0 && !tmap.isEmpty()));
+
+    }
+	
+	
+	@ParameterizedTest
+	@MethodSource("provide_TMap_Int_Int_Parameters")
+	public void sub_map_test(TreeMap tmap, Integer fromKey,Integer toKey) {
+
+		assumeTrue(fromKey<=toKey);
+
+		
+		TreeMap subTree = tmap.subMap(fromKey,toKey);
+		assertTrue(subTree.repOK());
+				
+	 }
+	
+	@ParameterizedTest
+	@MethodSource("provide_TMap_Int_Parameters")
+	public void tail_map_test(TreeMap tmap, Integer fromKey) {
+
+		assumeTrue(tmap.containsKey(fromKey));
+	
+		TreeMap subTree = tmap.tailMap(fromKey);
+		assertTrue(subTree.repOK());
+				
+	 }
 	
 	
 	/*
