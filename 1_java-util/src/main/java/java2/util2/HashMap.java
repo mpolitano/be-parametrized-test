@@ -1030,4 +1030,25 @@ DEFAULT_INITIAL_CAPACITY];
 	  return buf.toString();
   }
   
+  
+  public boolean repOK() {
+		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();
+		for (int i = 0; i < DEFAULT_INITIAL_CAPACITY; i++)
+			if (!isLinkedList(i, visited))
+				return false;
+		return true;
+	}
+
+	private boolean isLinkedList(int index, java.util.Set<Entry> visited) {
+		Entry current = table[index];
+		while (current != null) {
+			if (!visited.add(current))
+				return false;
+			current = current.next;
+		}
+		return true;
+	}
+  
+  
+  
 }
