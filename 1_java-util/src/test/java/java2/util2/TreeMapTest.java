@@ -1,10 +1,11 @@
 package java2.util2;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java2.util2.linkedlist.LinkedList;
+import utils.Config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -18,9 +19,19 @@ import java.util.stream.Stream;
 
 public class TreeMapTest { 
     
-	//Change with sed
-	public static int scope = 3;
-	public static String pathFile = "beapi-tests/serialize/java2.util2.TreeMap/"+scope+"/objects.ser";
+	
+	//Change with sedl 
+		public static int scope;
+		public static String pathFile;
+		
+	    @BeforeAll
+	    static void initAll() {
+	    	Config.readEnvironmentVariables();
+	    	scope = Config.scope;
+	    	pathFile = "beapi-tests/serialize/java2.util2.TreeMap/"+scope+"/objects.ser";
+
+	    }
+	
 	
 	
 	@ParameterizedTest
@@ -165,8 +176,7 @@ public class TreeMapTest {
 	public void sub_map_test(TreeMap tmap, Integer fromKey,Integer toKey) {
 
 		assumeTrue(fromKey<=toKey);
-
-		
+	
 		TreeMap subTree = tmap.subMap(fromKey,toKey);
 		assertTrue(subTree.repOK());
 				
@@ -182,6 +192,18 @@ public class TreeMapTest {
 		assertTrue(subTree.repOK());
 				
 	 }
+	
+	@ParameterizedTest
+	@MethodSource("provide_TMap_Parameters")
+	public void value_test(TreeMap tmap) {
+
+		Collection l = tmap.values();
+		assertTrue(tmap.repOK());
+				
+	 }
+	
+	
+	
 	
 	
 	/*
