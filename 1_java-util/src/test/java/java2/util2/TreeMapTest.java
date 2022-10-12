@@ -18,7 +18,7 @@ public class TreeMapTest {
     
 	//Change with sed
 	public static int scope = 3;
-	public static String pathFile = "beapi-tests/java2.util2.TreeMap/"+scope+"/objects.ser";
+	public static String pathFile = "beapi-tests/serialize/java2.util2.TreeMap/"+scope+"/objects.ser";
 	
 	
 	@ParameterizedTest
@@ -68,14 +68,14 @@ public class TreeMapTest {
     	assertTrue(tmap.repOK());
 	 }
 	
-	@ParameterizedTest
+/*	@ParameterizedTest
 	@MethodSource("provide_TMap_TMap_Parameters")
    	public void equals_test(TreeMap tmap, TreeMap tmap1) {
     	tmap.equals(tmap1);
     	assertTrue(tmap.repOK());
     	assertTrue(tmap1.repOK());
     }
-	
+*/
 	
 	@ParameterizedTest
 	@MethodSource("provide_TMap_Parameters")
@@ -140,187 +140,6 @@ public class TreeMapTest {
 	 }
 	
 	
-	
-	/*
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-	public void addTest(TreeMap tmap, Integer i) {
-		int oldSize = list.size();
-		list.add(i);
-		assertTrue(list.size() == oldSize+1);
-		assertTrue(list.repOK());
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Int_Parameters")
-	public void addTest1(LinkedList list, Integer i,Integer j) {
-    	assumeTrue(i<list.size());
-		int oldSize = list.size();
-		list.add(i,j);
-		assertTrue(list.size() == oldSize+1);
-		assertTrue(list.repOK());
-
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-	public void add_first_Test(LinkedList list, Integer i) {
-    	assumeTrue(i<list.size());
-		int oldSize = list.size();
-		list.add(i);
-		assertTrue(list.size() == oldSize+1);
-		assertTrue(list.repOK());
-
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-	public void add_last_Test(LinkedList list, Integer i) {
-    	assumeTrue(i<list.size());
-		int oldSize = list.size();
-		list.add(i);
-		assertTrue(list.size() == oldSize+1);
-		assertTrue(list.repOK());
-
-	 }
-	
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Parameters")
-	public void clone_Test(LinkedList list) {
-		LinkedList list1 = (LinkedList) list.clone();
-		assertTrue(list1.repOK());
-		assertTrue(list.repOK());
-		assertTrue(list.equals(list1));
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-	public void contains_Test(LinkedList list, Integer i) {
-	  	list.contains(i);
-    	assertTrue(list.repOK());
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_List_Parameters")
-   	public void equals_test(LinkedList list, LinkedList list1) {
-    	list.equals(list1);
-    	assertTrue(list.repOK());
-    	assertTrue(list1.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void get_test(LinkedList list, Integer i) {
-    	assumeTrue(i<list.size());
-    	list.get(i);
-    	assertTrue(list.repOK());
-    	
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void getFirst_test(LinkedList list, Integer i) {
-		assumeTrue(list.size()>0);
-    	Object obj=list.getFirst();
-    	assertTrue(list.repOK());
-    	assertTrue(obj.equals(list.get(0)));
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void getLast_test(LinkedList list, Integer i) {
-		assumeTrue(list.size()>0);
-    	Object obj=list.getLast();
-    	assertTrue(list.repOK());
-    	assertTrue(obj.equals(list.get(list.size()-1)));
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void index_test(LinkedList list, Integer i) {
-    	list.indexOf(i);
-    	assertTrue(list.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void empty_test(LinkedList list, Integer i) {
-    	list.isEmpty();
-    	assertTrue(list.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void const_test(LinkedList list, Integer i) {
-    	LinkedList list1 = new LinkedList();
-    	assertTrue(list1.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Parameters")
-   	public void remove_test(LinkedList list, Integer i) {
-    	list.remove(i);
-    	assertTrue(list.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Parameters")
-   	public void remove_first_test(LinkedList list) {
-    	assumeTrue(list.size()>0);
-
-		Object first = list.get(0);
-    	Object obj=list.removeFirst();
-    	assertTrue(list.repOK());
-    	assertTrue(first.equals(obj));
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Parameters")
-   	public void removeLast_test(LinkedList list) {
-    	assumeTrue(list.size()>0);
-
-		Object last = list.get(list.size()-1);
-    	Object obj=list.removeLast();
-    	assertTrue(list.repOK());
-    	assertTrue(last.equals(obj));
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Int_Parameters")
-   	public void set_test(LinkedList list, Integer i, Integer value) {
-    	assumeTrue(i<list.size());
-    	list.set(i,value);
-    	assertTrue(list.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Parameters")
-   	public void size_test(LinkedList list) {
-    	list.size();
-    	assertTrue(list.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Int_Parameters")
-   	public void sublist_test(LinkedList list,Integer i, Integer j) {
-    	assumeTrue(i>0 && j<list.size() && i<list.size());
-    	list.subList(i,j);
-    	assertTrue(list.repOK());
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_List_Parameters")
-   	public void toarray_test(LinkedList list) {
-    	Object[] lArray = list.toArray();
-    	assertTrue(list.repOK());
-//    	assertTrue(lArray[0].equals(list.getFirst()));
-
-    }
-	
-	*/
 	
 	/*
 	 * Providers..
