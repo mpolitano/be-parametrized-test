@@ -1,0 +1,4 @@
+#Ejecutar para randoop
+
+java -cp lib/*:build/classes/java/main/:build/classes/java/test org.pitest.mutationtest.commandline.MutationCoverageReport --reportDir pit-results 
+--targetClasses java2.util2.* --targetTests java2.util2.RegressionTest --sourceDirs src/main/java/
