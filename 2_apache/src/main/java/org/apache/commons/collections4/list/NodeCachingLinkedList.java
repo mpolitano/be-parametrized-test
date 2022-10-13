@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Collection;
+//import java.util.Collection;
+
 
 /**
  * A <code>List</code> implementation that stores a cache of internal Node objects
@@ -79,7 +80,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      *
      * @param coll  the collection to copy
      */
-    public NodeCachingLinkedList(final Collection coll) {
+    public NodeCachingLinkedList(final java.util.Collection<Integer>  coll) {
         super(coll);
         this.maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
     }
@@ -163,7 +164,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      *
      * @param node  the node to add to the cache
      */
-    public void addNodeToCache(final Node node, Object value) {
+    public void addNodeToCache(final Node node, Integer value) {
         if (isCacheFull()) {
             // don't cache the node.
             return;
@@ -187,7 +188,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      * @return the newly created node
      */
     @Override
-    public Node createNode(final Object value) {
+    public Node createNode(final Integer value) {
         final Node cachedNode = getNodeFromCache();
         if (cachedNode == null) {
             return super.createNode(value);
@@ -224,7 +225,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
         Node node = header.next;
         for (int currentIndex = 0; currentIndex < numberOfNodesToCache; currentIndex++) {
             final Node oldNode = node;
-            Object value = node.getValue();
+            Integer value = node.getValue();
             node = node.next;
             addNodeToCache(oldNode, value);
         }
@@ -346,8 +347,8 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
             if (m.previous != null)
               return false;
 
-            if (m.value != null)
-              return false;
+           // if (m.value != null)
+            // return false;
 
             m = m.next;
 
