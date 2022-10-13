@@ -1,10 +1,13 @@
-package java2.util2;
+package java2.util2.treemap;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java2.util2.Collection;
+import java2.util2.Comparator;
+import java2.util2.Set;
 import utils.Config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,11 +31,9 @@ public class TreeMapTest {
 	    static void initAll() {
 	    	Config.readEnvironmentVariables();
 	    	scope = Config.scope;
-	    	pathFile = "beapi-tests/serialize/java2.util2.TreeMap/"+scope+"/objects.ser";
+	    	pathFile = "beapi-tests/serialize/java2.util2.treemap.TreeMap/"+scope+"/objects.ser";
 
 	    }
-	
-	
 	
 	@ParameterizedTest
 	@MethodSource("provide_TMap_Parameters")

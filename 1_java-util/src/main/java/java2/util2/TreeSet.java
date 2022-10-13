@@ -6,7 +6,8 @@
  */
 
 package java2.util2;
-
+import java2.util2.hashmap.HashSet;
+import java2.util2.treemap.*;
 /**
  * This class implements the <tt>Set</tt> interface, backed by a
  * <tt>TreeMap</tt> instance.  This class guarantees that the sorted set will
@@ -236,20 +237,20 @@ public class TreeSet extends AbstractSet implements SortedSet, Cloneable, java.i
    *		  with the elements currently in the set.
    * @throws NullPointerException of the specified collection is null.
    */
-  public boolean addAll(Collection c) {
-    // Use linear-time version if applicable
-    if (m.size() == 0 && c.size() > 0 && c instanceof SortedSet && m instanceof TreeMap) {
-      SortedSet set = (SortedSet) c;
-      TreeMap map = (TreeMap) m;
-      Comparator cc = set.comparator();
-      Comparator mc = map.comparator();
-      if (cc == mc || (cc != null && cc.equals(mc))) {
-        map.addAllForTreeSet(set, PRESENT);
-        return true;
-      }
-    }
-    return super.addAll(c);
-  }
+//  public boolean addAll(Collection c) {
+//    // Use linear-time version if applicable
+//    if (m.size() == 0 && c.size() > 0 && c instanceof SortedSet && m instanceof TreeMap) {
+//      SortedSet set = (SortedSet) c;
+//      TreeMap map = (TreeMap) m;
+//      Comparator cc = set.comparator();
+//      Comparator mc = map.comparator();
+//      if (cc == mc || (cc != null && cc.equals(mc))) {
+//        map.addAllForTreeSet(set, PRESENT);
+//        return true;
+//      }
+//    }
+//    return super.addAll(c);
+//  }
 
   /**
    * Returns a view of the portion of this set whose elements range from
@@ -460,23 +461,23 @@ public class TreeSet extends AbstractSet implements SortedSet, Cloneable, java.i
    * Reconstitute the <tt>TreeSet</tt> instance from a stream (that is,
    * deserialize it).
    */
-  private void readObject(java.io.ObjectInputStream s)
-      throws java.io.IOException, ClassNotFoundException {
-    // Read in any hidden stuff
-    s.defaultReadObject();
-
-    // Read in Comparator
-    Comparator c = (Comparator) s.readObject();
-
-    // Create backing TreeMap and keySet view
-    m = (c == null ? new TreeMap() : new TreeMap(c));
-    keySet = m.keySet();
-
-    // Read in size
-    int size = s.readInt();
-
-    ((TreeMap) m).readTreeSet(size, s, PRESENT);
-  }
+//  private void readObject(java.io.ObjectInputStream s)
+//      throws java.io.IOException, ClassNotFoundException {
+//    // Read in any hidden stuff
+//    s.defaultReadObject();
+//
+//    // Read in Comparator
+//    Comparator c = (Comparator) s.readObject();
+//
+//    // Create backing TreeMap and keySet view
+//    m = (c == null ? new TreeMap() : new TreeMap(c));
+//    keySet = m.keySet();
+//
+//    // Read in size
+//    int size = s.readInt();
+//
+//    ((TreeMap) m).readTreeSet(size, s, PRESENT);
+//  }
   
   public boolean repOK() {
 		if (m == null)

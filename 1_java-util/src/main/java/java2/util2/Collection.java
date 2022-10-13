@@ -7,6 +7,8 @@
 
 package java2.util2;
 
+import java2.util2.hashmap.HashSet;
+
 /**
  * The root interface in the <i>collection hierarchy</i>.  A collection
  * represents a group of objects, known as its <i>elements</i>.  Some

@@ -5,7 +5,18 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
+package java2.util2.hashmap;
+
+import java2.util2.AbstractCollection;
+import java2.util2.AbstractSet;
+import java2.util2.ArrayList;
+import java2.util2.Collection;
+import java2.util2.ConcurrentModificationException;
+import java2.util2.Iterator;
+import java2.util2.Map;
+import java2.util2.NoSuchElementException;
+import java2.util2.Set;
+import java2.util2.Map.Entry;
 
 /**
  * This class implements the <tt>Map</tt> interface with a hash table, using
@@ -879,11 +890,11 @@ public class IdentityHashMap extends AbstractMap implements Map, java.io.Seriali
    * @see Object#equals(Object)
    * @see System#identityHashCode(Object)
    */
-  public Set keySet() {
-    Set ks = keySet;
-    if (ks != null) return ks;
-    else return keySet = new KeySet();
-  }
+//  public Set keySet() {
+//    Set ks = keySet;
+//    if (ks != null) return ks;
+//    else return keySet = new KeySet();
+//  }
 
   private class KeySet extends AbstractSet {
     public Iterator iterator() {
@@ -951,11 +962,11 @@ public class IdentityHashMap extends AbstractMap implements Map, java.io.Seriali
    *
    * @return a collection view of the values contained in this map.
    */
-  public Collection values() {
-    Collection vs = values;
-    if (vs != null) return vs;
-    else return values = new Values();
-  }
+//  public Collection values() {
+//    Collection vs = values;
+//    if (vs != null) return vs;
+//    else return values = new Values();
+//  }
 
   private class Values extends AbstractCollection {
     public Iterator iterator() {
@@ -1135,4 +1146,16 @@ public class IdentityHashMap extends AbstractMap implements Map, java.io.Seriali
       put(key, value);
     }
   }
+
+@Override
+public Set keySet() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Collection values() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

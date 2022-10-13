@@ -9,6 +9,8 @@ package java2.util2;
 
 import java.io.Serializable;
 
+import java2.util2.hashmap.AbstractMap;
+
 /**
  * This class consists exclusively of static methods that operate on or return
  * collections.  It contains polymorphic algorithms that operate on

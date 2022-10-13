@@ -39,8 +39,10 @@ randoop.main.Main gentests \
 --disable-contracts $omitmethods \
 --junit-package-name=$packagename \
 --only-test-public-members \
---omitmethods=\"toString\(\)|addAll\(\)|equals\(\)\"
+--omitmethods=\"toString\(\)|addAll\(\)|equals\(\)\" \
+--serialize-objects="randoop-obj/randoop.obj" \
 --forbid-null=true \
+--dont-output-tests=true \
 "
 
 echo "$cmd"

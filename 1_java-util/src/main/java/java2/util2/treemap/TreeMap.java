@@ -5,8 +5,11 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
-;
+package java2.util2.treemap;
+import java.io.Serializable;
+
+import java2.util2.*;
+
 /**
  * Red-Black tree based implementation of the <tt>SortedMap</tt> interface.
  * This class guarantees that the map will be in ascending key order, sorted
@@ -77,7 +80,7 @@ package java2.util2;
  * @see Collections#synchronizedMap(Map)
  * @since 1.2
  */
-public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.io.Serializable {
+public class TreeMap extends AbstractMap implements SortedMap, Cloneable, Serializable {
   /**
    * The Comparator used to maintain order in this TreeMap, or
    * null if this TreeMap uses its elements natural ordering.
@@ -86,17 +89,17 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    */
   private Comparator comparator = null;
 
-  private transient Entry root = null;
+  private Entry root = null;
 
   /**
    * The number of entries in the tree
    */
-  private transient int size = 0;
+  private int size = 0;
 
   /**
    * The number of structural modifications to the tree.
    */
-  private transient int modCount = 0;
+  private volatile int modCount = 0;
 
   private void incrementSize() {
     modCount++;
@@ -313,22 +316,22 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    *         this map does not permit <tt>null</tt> keys and a
    *         key in the specified map is <tt>null</tt>.
    */
-  public void putAll(Map map) {
-    int mapSize = map.size();
-    if (size == 0 && mapSize != 0 && map instanceof SortedMap) {
-      Comparator c = ((SortedMap) map).comparator();
-      if (c == comparator || (c != null && c.equals(comparator))) {
-        ++modCount;
-        try {
-          buildFromSorted(mapSize, map.entrySet().iterator(), null, null);
-        } catch (java.io.IOException cannotHappen) {
-        } catch (ClassNotFoundException cannotHappen) {
-        }
-        return;
-      }
-    }
-    super.putAll(map);
-  }
+//  public void putAll(Map map) {
+//    int mapSize = map.size();
+//    if (size == 0 && mapSize != 0 && map instanceof SortedMap) {
+//      Comparator c = ((SortedMap) map).comparator();
+//      if (c == comparator || (c != null && c.equals(comparator))) {
+//        ++modCount;
+//        try {
+//          buildFromSorted(mapSize, map.entrySet().iterator(), null, null);
+//        } catch (java.io.IOException cannotHappen) {
+//        } catch (ClassNotFoundException cannotHappen) {
+//        }
+//        return;
+//      }
+//    }
+//    super.putAll(map);
+//  }
 
   /**
    * Returns this map's entry for the given key, or <tt>null</tt> if the map
@@ -554,7 +557,7 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    * view the first time this view is requested.  The view is stateless,
    * so there's no reason to create more than one.
    */
-  private transient volatile Set entrySet = null;
+  private volatile Set entrySet = null;
 
   /**
    * Returns a Set view of the keys contained in this map.  The set's
@@ -568,35 +571,194 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    *
    * @return a set view of the keys contained in this TreeMap.
    */
-  public Set keySet() {
-    if (keySet == null) {
-      keySet =
-          new AbstractSet() {
-            public Iterator iterator() {
-              return new KeyIterator();
-            }
-
-            public int size() {
-              return TreeMap.this.size();
-            }
-
-            public boolean contains(Object o) {
-              return containsKey(o);
-            }
-
-            public boolean remove(Object o) {
-              int oldSize = size;
-              TreeMap.this.remove(o);
-              return size != oldSize;
-            }
-
-            public void clear() {
-              TreeMap.this.clear();
-            }
-          };
-    }
-    return keySet;
+  
+  /**
+   * Returns a collection view of the values contained in this map.  The
+   * collection is backed by the map, so changes to the map are reflected in
+   * the collection, and vice-versa.  The collection supports element
+   * removal, which removes the corresponding mapping from this map, via the
+   * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>,
+   * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt> operations.
+   * It does not support the <tt>add</tt> or <tt>addAll</tt> operations.
+   *
+   * @return a collection view of the values contained in this map.
+   */
+  public Collection values() {
+    Collection vs = values;
+    return (vs != null ? vs : (values = new Values()));
   }
+  
+  private class Values extends AbstractCollection implements java.io.Serializable {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Iterator iterator() {
+	      return newValueIterator();
+	    }
+
+	    public int size() {
+	      return size;
+	    }
+
+	    public boolean contains(Object o) {
+	      return containsValue(o);
+	    }
+
+	    public void clear() {
+	      TreeMap.this.clear();
+	    }
+	  }
+//
+//  private class ValueIterator extends HashIterator implements java.io.Serializable{
+//	    public Object next() {
+//	      return nextEntry().value;
+//	    }
+//	  }
+//
+//	  private class KeyIterator extends HashIterator implements java.io.Serializable {
+//	    public Object next() {
+//	      return nextEntry().getKey();
+//	    }
+//	  }
+
+//	  private class EntryIterator extends HashIterator implements java.io.Serializable {
+//	    public Object next() {
+//	      return nextEntry();
+//	    }
+//	  }
+
+	  // Subclass overrides these to alter behavior of views' iterator() method
+	  Iterator newKeyIterator() {
+	    return new KeyIterator();
+	  }
+
+	  Iterator newValueIterator() {
+	    return new ValueIterator();
+	  }
+
+	  Iterator newEntryIterator() {
+	    return new EntryIterator();
+	  }
+
+	  // Views
+
+//	  private Set entrySet = null;
+
+	  /**
+	   * Returns a set view of the keys contained in this map.  The set is
+	   * backed by the map, so changes to the map are reflected in the set, and
+	   * vice-versa.  The set supports element removal, which removes the
+	   * corresponding mapping from this map, via the <tt>Iterator.remove</tt>,
+	   * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt>, and
+	   * <tt>clear</tt> operations.  It does not support the <tt>add</tt> or
+	   * <tt>addAll</tt> operations.
+	   *
+	   * @return a set view of the keys contained in this map.
+	   */
+	  public Set keySet() {
+	    Set ks = keySet;
+	    return (ks != null ? ks : (keySet = new KeySet()));
+	  }
+
+	  private class KeySet extends AbstractSet implements java.io.Serializable {
+	    public Iterator iterator() {
+	      return newKeyIterator();
+	    }
+
+	    public int size() {
+	      return size;
+	    }
+
+	    public boolean contains(Object o) {
+	      return containsKey(o);
+	    }
+
+	    public boolean remove(Object o) {
+	      return TreeMap.this.remove(o) != null;
+	    }
+
+	    public void clear() {
+	      TreeMap.this.clear();
+	    }
+	  }
+
+	  
+	  /**
+	   * Returns a collection view of the mappings contained in this map.  Each
+	   * element in the returned collection is a <tt>Map.Entry</tt>.  The
+	   * collection is backed by the map, so changes to the map are reflected in
+	   * the collection, and vice-versa.  The collection supports element
+	   * removal, which removes the corresponding mapping from the map, via the
+	   * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>,
+	   * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt> operations.
+	   * It does not support the <tt>add</tt> or <tt>addAll</tt> operations.
+	   *
+	   * @return a collection view of the mappings contained in this map.
+	   * @see Map.Entry
+	   */
+	  public Set entrySet() {
+	    Set es = entrySet;
+	    return (es != null ? es : (entrySet = new EntrySet()));
+	  }
+
+	  private class EntrySet extends AbstractSet implements java.io.Serializable{
+	    public Iterator iterator() {
+	      return newEntryIterator();
+	    }
+
+	    public boolean contains(Object o) {
+	      if (!(o instanceof Map.Entry)) return false;
+	      Map.Entry e = (Map.Entry) o;
+	      Entry candidate = getEntry(e.getKey());
+	      return candidate != null && candidate.equals(e);
+	    }
+
+	    public boolean remove(Object o) {
+	      return true;
+	    }
+
+	    public int size() {
+	      return size;
+	    }
+
+	    public void clear() {
+	      TreeMap.this.clear();
+	    }
+	  }
+  
+  
+//  
+//  public Set keySet() {
+//    if (keySet == null) {
+//      keySet =
+//          new AbstractSet() {
+//            public Iterator iterator() {
+//              return new KeyIterator();
+//            }
+//
+//            public int size() {
+//              return TreeMap.this.size();
+//            }
+//
+//            public boolean contains(Object o) {
+//              return containsKey(o);
+//            }
+//
+//            public boolean remove(Object o) {
+//              int oldSize = size;
+//              TreeMap.this.remove(o);
+//              return size != oldSize;
+//            }
+//
+//            public void clear() {
+//              TreeMap.this.clear();
+//            }
+//          };
+//    }
+//    return keySet;
+//  }
 
   /**
    * Returns a collection view of the values contained in this map.  The
@@ -611,41 +773,42 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    *
    * @return a collection view of the values contained in this map.
    */
-  public Collection values() {
-    if (values == null) {
-      values =
-          new AbstractCollection() {
-            public Iterator iterator() {
-              return new ValueIterator();
-            }
-
-            public int size() {
-              return TreeMap.this.size();
-            }
-
-            public boolean contains(Object o) {
-              for (Entry e = firstEntry(); e != null; e = successor(e))
-                if (valEquals(e.getValue(), o)) return true;
-              return false;
-            }
-
-            public boolean remove(Object o) {
-              for (Entry e = firstEntry(); e != null; e = successor(e)) {
-                if (valEquals(e.getValue(), o)) {
-                  deleteEntry(e);
-                  return true;
-                }
-              }
-              return false;
-            }
-
-            public void clear() {
-              TreeMap.this.clear();
-            }
-          };
-    }
-    return values;
-  }
+//  public Collection values() {
+//  
+//    if (values == null) {
+//      values =
+//          new AbstractCollection() {
+//            public Iterator iterator() {
+//              return new ValueIterator();
+//            }
+//
+//            public int size() {
+//              return TreeMap.this.size();
+//            }
+//
+//            public boolean contains(Object o) {
+//              for (Entry e = firstEntry(); e != null; e = successor(e))
+//                if (valEquals(e.getValue(), o)) return true;
+//              return false;
+//            }
+//
+//            public boolean remove(Object o) {
+//              for (Entry e = firstEntry(); e != null; e = successor(e)) {
+//                if (valEquals(e.getValue(), o)) {
+//                  deleteEntry(e);
+//                  return true;
+//                }
+//              }
+//              return false;
+//            }
+//
+//            public void clear() {
+//              TreeMap.this.clear();
+//            }
+//          };
+//    }
+//    return values;
+//  }
 
   /**
    * Returns a set view of the mappings contained in this map.  The set's
@@ -661,45 +824,45 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    * @return a set view of the mappings contained in this map.
    * @see Map.Entry
    */
-  public Set entrySet() {
-    if (entrySet == null) {
-      entrySet =
-          new AbstractSet() {
-            public Iterator iterator() {
-              return new EntryIterator();
-            }
-
-            public boolean contains(Object o) {
-              if (!(o instanceof Map.Entry)) return false;
-              Map.Entry entry = (Map.Entry) o;
-              Object value = entry.getValue();
-              Entry p = getEntry(entry.getKey());
-              return p != null && valEquals(p.getValue(), value);
-            }
-
-            public boolean remove(Object o) {
-              if (!(o instanceof Map.Entry)) return false;
-              Map.Entry entry = (Map.Entry) o;
-              Object value = entry.getValue();
-              Entry p = getEntry(entry.getKey());
-              if (p != null && valEquals(p.getValue(), value)) {
-                deleteEntry(p);
-                return true;
-              }
-              return false;
-            }
-
-            public int size() {
-              return TreeMap.this.size();
-            }
-
-            public void clear() {
-              TreeMap.this.clear();
-            }
-          };
-    }
-    return entrySet;
-  }
+//  public Set entrySet() {
+//    if (entrySet == null) {
+//      entrySet =
+//          new AbstractSet() {
+//            public Iterator iterator() {
+//              return new EntryIterator();
+//            }
+//
+//            public boolean contains(Object o) {
+//              if (!(o instanceof Map.Entry)) return false;
+//              Map.Entry entry = (Map.Entry) o;
+//              Object value = entry.getValue();
+//              Entry p = getEntry(entry.getKey());
+//              return p != null && valEquals(p.getValue(), value);
+//            }
+//
+//            public boolean remove(Object o) {
+//              if (!(o instanceof Map.Entry)) return false;
+//              Map.Entry entry = (Map.Entry) o;
+//              Object value = entry.getValue();
+//              Entry p = getEntry(entry.getKey());
+//              if (p != null && valEquals(p.getValue(), value)) {
+//                deleteEntry(p);
+//                return true;
+//              }
+//              return false;
+//            }
+//
+//            public int size() {
+//              return TreeMap.this.size();
+//            }
+//
+//            public void clear() {
+//              TreeMap.this.clear();
+//            }
+//          };
+//    }
+//    return entrySet;
+//  }
 
   /**
    * Returns a view of the portion of this map whose keys range from
@@ -898,14 +1061,15 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
       return last;
     }
 
-    private transient Set entrySet = new EntrySetView();
+    private Set entrySet = new EntrySetView();
 
     public Set entrySet() {
       return entrySet;
     }
 
-    private class EntrySetView extends AbstractSet {
-      private transient int size = -1, sizeModCount;
+    private class EntrySetView extends AbstractSet  implements java.io.Serializable{
+      private int size = -1, sizeModCount;
+  	private static final long serialVersionUID = 1L;
 
       public int size() {
         if (size == -1 || sizeModCount != TreeMap.this.modCount) {
@@ -982,10 +1146,11 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
   /**
    * TreeMap Iterator.
    */
-  private class EntryIterator implements Iterator {
+  private class EntryIterator implements Iterator, java.io.Serializable {
     private int expectedModCount = TreeMap.this.modCount;
     private Entry lastReturned = null;
     Entry next;
+	private static final long serialVersionUID = 1L;
 
     EntryIterator() {
       next = firstEntry();
@@ -1022,20 +1187,25 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
     }
   }
 
-  private class KeyIterator extends EntryIterator {
+  private class KeyIterator extends EntryIterator implements java.io.Serializable {
     public Object next() {
       return nextEntry().key;
     }
+	private static final long serialVersionUID = 1L;
+
   }
 
-  private class ValueIterator extends EntryIterator {
-    public Object next() {
+  private class ValueIterator extends EntryIterator implements java.io.Serializable{
+	    private static final long serialVersionUID = -6520786458950516097L;
+
+	  public Object next() {
       return nextEntry().value;
     }
   }
 
-  private class SubMapEntryIterator extends EntryIterator {
+  private class SubMapEntryIterator extends EntryIterator implements java.io.Serializable{
     private final Object firstExcludedKey;
+    private static final long serialVersionUID = -6520786458950516097L;
 
     SubMapEntryIterator(Entry first, Entry firstExcluded) {
       super(first);
@@ -1153,9 +1323,10 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
 		return true;
 	}
 	
-	private class Pair<T, U> {
+	private class Pair<T, U> implements java.io.Serializable {
 		private T a;
 		private U b;
+		private static final long serialVersionUID = 1L;
 
 		public Pair(T a, U b) {
 			this.a = a;
@@ -1174,13 +1345,14 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    * Node in the Tree.  Doubles as a means to pass key-value pairs back to
    * user (see Map.Entry).
    */
-  static class Entry implements Map.Entry {
+  static class Entry implements Map.Entry, java.io.Serializable {
     Object key;
     Object value;
     Entry left = null;
     Entry right = null;
     Entry parent;
     boolean color = BLACK;
+	private static final long serialVersionUID = 1L;
 
     /**
      * Make a new cell with given key, value, and parent, and with
@@ -1498,35 +1670,35 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
    *             or by the keys' natural ordering if the TreeMap has no
    *             Comparator).
    */
-  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-    // Write out the Comparator and any hidden stuff
-    s.defaultWriteObject();
-
-    // Write out size (number of Mappings)
-    s.writeInt(size);
-
-    // Write out keys and values (alternating)
-    for (Iterator i = entrySet().iterator(); i.hasNext(); ) {
-      Entry e = (Entry) i.next();
-      s.writeObject(e.key);
-      s.writeObject(e.value);
-    }
-  }
-
-  /**
-   * Reconstitute the <tt>TreeMap</tt> instance from a stream (i.e.,
-   * deserialize it).
-   */
-  private void readObject(final java.io.ObjectInputStream s)
-      throws java.io.IOException, ClassNotFoundException {
-    // Read in the Comparator and any hidden stuff
-    s.defaultReadObject();
-
-    // Read in size
-    int size = s.readInt();
-
-    buildFromSorted(size, null, s, null);
-  }
+//  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+//    // Write out the Comparator and any hidden stuff
+//    s.defaultWriteObject();
+//
+//    // Write out size (number of Mappings)
+//    s.writeInt(size);
+//
+//    // Write out keys and values (alternating)
+//    for (Iterator i = entrySet().iterator(); i.hasNext(); ) {
+//      Entry e = (Entry) i.next();
+//      s.writeObject(e.key);
+//      s.writeObject(e.value);
+//    }
+//  }
+//
+//  /**
+//   * Reconstitute the <tt>TreeMap</tt> instance from a stream (i.e.,
+//   * deserialize it).
+//   */
+//  private void readObject(final java.io.ObjectInputStream s)
+//      throws java.io.IOException, ClassNotFoundException {
+//    // Read in the Comparator and any hidden stuff
+//    s.defaultReadObject();
+//
+//    // Read in size
+//    int size = s.readInt();
+//
+//    buildFromSorted(size, null, s, null);
+//  }
 
   /** Intended to be called only from TreeSet.readObject **/
   void readTreeSet(int size, java.io.ObjectInputStream s, Object defaultVal)
@@ -1678,4 +1850,12 @@ public class TreeMap extends AbstractMap implements SortedMap, Cloneable, java.i
     for (int m = sz - 1; m >= 0; m = m / 2 - 1) level++;
     return level;
   }
+
+@Override
+public void putAll(Map t) {
+	// TODO Auto-generated method stub
+	
+}
+
+
 }

@@ -5,7 +5,12 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
+package java2.util2.hashmap;
+
+import java2.util2.Collection;
+import java2.util2.Hashtable;
+import java2.util2.Set;
+import java2.util2.TreeSet;
 
 /**
  * <p>Hash table and linked list implementation of the <tt>Set</tt> interface,

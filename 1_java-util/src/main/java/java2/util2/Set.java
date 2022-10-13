@@ -7,6 +7,8 @@
 
 package java2.util2;
 
+import java2.util2.hashmap.HashSet;
+
 /**
  * A collection that contains no duplicate elements.  More formally, sets
  * contain no pair of elements <code>e1</code> and <code>e2</code> such that
@@ -61,7 +63,7 @@ package java2.util2;
  * @see Collections#EMPTY_SET
  * @since 1.2
  */
-public interface Set extends Collection {
+public interface Set extends Collection,  java.io.Serializable {
   // Query Operations
 
   /**

@@ -5,8 +5,9 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
+package java2.util2.hashmap;
 
+import java2.util2.*;
 /**
  * This class implements the <tt>Set</tt> interface, backed by a hash table
  * (actually a <tt>HashMap</tt> instance).  It makes no guarantees as to the
@@ -148,7 +149,8 @@ public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Seri
    * @see ConcurrentModificationException
    */
   public Iterator iterator() {
-    return map.keySet().iterator();
+//    return map.keySet().iterator();
+	  return null;
   }
 
   /**
@@ -234,20 +236,20 @@ public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Seri
    *		   (int), followed by all of its elements (each an Object) in
    *             no particular order.
    */
-  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-    // Write out any hidden serialization magic
-    s.defaultWriteObject();
-
-    // Write out HashMap capacity and load factor
-    s.writeInt(map.capacity());
-    s.writeFloat(map.loadFactor());
-
-    // Write out size
-    s.writeInt(map.size());
-
-    // Write out all elements in the proper order.
-    for (Iterator i = map.keySet().iterator(); i.hasNext(); ) s.writeObject(i.next());
-  }
+//  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+//    // Write out any hidden serialization magic
+//    s.defaultWriteObject();
+//
+//    // Write out HashMap capacity and load factor
+//    s.writeInt(map.capacity());
+//    s.writeFloat(map.loadFactor());
+//
+//    // Write out size
+//    s.writeInt(map.size());
+//
+//    // Write out all elements in the proper order.
+//    for (Iterator i = map.keySet().iterator(); i.hasNext(); ) s.writeObject(i.next());
+//  }
 
   /**
    * Reconstitute the <tt>HashSet</tt> instance from a stream (that is,

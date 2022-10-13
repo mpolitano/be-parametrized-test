@@ -5,8 +5,12 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
+package java2.util2.hashmap;
 
+import java2.util2.Collection;
+import java2.util2.Iterator;
+import java2.util2.Map;
+import java2.util2.Set;
 import java2.util2.Map.Entry;
 
 /**
@@ -44,7 +48,7 @@ import java2.util2.Map.Entry;
  * @see Collection
  * @since 1.2
  */
-public abstract class AbstractMap implements Map {
+public abstract class AbstractMap implements Map{
   /**
    * Sole constructor.  (For invocation by subclass constructors, typically
    * implicit.)
@@ -329,8 +333,8 @@ public abstract class AbstractMap implements Map {
    * appropriate view the first time this view is requested.  The views are
    * stateless, so there's no reason to create more than one of each.
    */
-  transient volatile Set keySet = null;
-  transient volatile Collection values = null;
+  volatile Set keySet = null;
+  volatile Collection values = null;
 
   /**
    * Returns a Set view of the keys contained in this map.  The Set is
@@ -358,7 +362,7 @@ public abstract class AbstractMap implements Map {
   public Set keySet() {
     if (keySet == null) {
       keySet =
-          new AbstractSet() {
+          new java2.util2.AbstractSet() {
             public Iterator iterator() {
               return new Iterator() {
                 private Iterator i = entrySet().iterator();
@@ -413,39 +417,39 @@ public abstract class AbstractMap implements Map {
    *
    * @return a collection view of the values contained in this map.
    */
-  public Collection values() {
-    if (values == null) {
-      values =
-          new AbstractCollection() {
-            public Iterator iterator() {
-              return new Iterator() {
-                private Iterator i = entrySet().iterator();
-
-                public boolean hasNext() {
-                  return i.hasNext();
-                }
-
-                public Object next() {
-                  return ((Entry) i.next()).getValue();
-                }
-
-                public void remove() {
-                  i.remove();
-                }
-              };
-            }
-
-            public int size() {
-              return AbstractMap.this.size();
-            }
-
-            public boolean contains(Object v) {
-              return AbstractMap.this.containsValue(v);
-            }
-          };
-    }
-    return values;
-  }
+//  public Collection values() {
+//    if (values == null) {
+//      values =
+//          new AbstractCollection() {
+//            public Iterator iterator() {
+//              return new Iterator() {
+//                private Iterator i = entrySet().iterator();
+//
+//                public boolean hasNext() {
+//                  return i.hasNext();
+//                }
+//
+//                public Object next() {
+//                  return ((Entry) i.next()).getValue();
+//                }
+//
+//                public void remove() {
+//                  i.remove();
+//                }
+//              };
+//            }
+//
+//            public int size() {
+//              return AbstractMap.this.size();
+//            }
+//
+//            public boolean contains(Object v) {
+//              return AbstractMap.this.containsValue(v);
+//            }
+//          };
+//    }
+//    return values;
+//  }
 
   /**
    * Returns a set view of the mappings contained in this map.  Each element
@@ -589,12 +593,12 @@ public abstract class AbstractMap implements Map {
    *
    * @return a shallow copy of this map.
    */
-  protected Object clone() throws CloneNotSupportedException {
-    AbstractMap result = (AbstractMap) super.clone();
-    result.keySet = null;
-    result.values = null;
-    return result;
-  }
+//  protected Object clone() throws CloneNotSupportedException {
+//    AbstractMap result = (AbstractMap) super.clone();
+//    result.keySet = null;
+//    result.values = null;
+//    return result;
+//  }
 
   /**
    * This should be made public as soon as possible.  It greately simplifies

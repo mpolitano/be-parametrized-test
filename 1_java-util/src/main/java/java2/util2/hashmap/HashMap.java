@@ -5,10 +5,11 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
+package java2.util2.hashmap;
 
-import java.io.*;
+import java.io.IOException;
 
+import java2.util2.*;
 //import java2.util2.Map.Entry;
 
 /**
@@ -100,7 +101,7 @@ maximum number of entries divided by the load factor, no
  * @see	    Hashtable
  * @since   1.2
  */
-public class HashMap extends AbstractMap implements Map, Cloneable, Serializable {
+public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Serializable {
   /**
    * The default initial capacity - MUST be a power of two.
    */
@@ -124,18 +125,18 @@ public class HashMap extends AbstractMap implements Map, Cloneable, Serializable
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-  transient Entry[] table;
+   Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
    */
-  transient int size;
+   int size;
 
   /**
    * The next size value at which to resize (capacity * load factor).
    * @serial
    */
-  int threshold;
+  transient int threshold;
 
   /**
    * The load factor for the hash table.
@@ -151,7 +152,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, Serializable
    * rehash).  This field is used to make iterators on Collection-views of
    * the HashMap fail-fast.  (See ConcurrentModificationException).
    */
-  transient volatile int modCount;
+  public volatile int modCount;
 
   /**
    * Constructs an empty <tt>HashMap</tt> with the specified initial
@@ -650,10 +651,10 @@ DEFAULT_INITIAL_CAPACITY];
     return result;
   }
 
-  static class Entry implements Map.Entry {
-    final Object key;
-    Object value;
-    final int hash;
+  public static class Entry implements Map.Entry, java.io.Serializable {
+    public final Object key;
+    public Object value;
+    public int hash;
     Entry next;
 
     /**
@@ -728,7 +729,7 @@ DEFAULT_INITIAL_CAPACITY];
     size++;
   }
 
-  private abstract class HashIterator implements Iterator {
+  private abstract class HashIterator implements Iterator,java.io.Serializable{
     Entry next; // next entry to return
     int expectedModCount; // For fast-fail
     int index; // current slot
@@ -776,19 +777,19 @@ DEFAULT_INITIAL_CAPACITY];
     }
   }
 
-  private class ValueIterator extends HashIterator {
+  private class ValueIterator extends HashIterator implements java.io.Serializable{
     public Object next() {
       return nextEntry().value;
     }
   }
 
-  private class KeyIterator extends HashIterator {
+  private class KeyIterator extends HashIterator implements java.io.Serializable {
     public Object next() {
       return nextEntry().getKey();
     }
   }
 
-  private class EntryIterator extends HashIterator {
+  private class EntryIterator extends HashIterator implements java.io.Serializable {
     public Object next() {
       return nextEntry();
     }
@@ -809,7 +810,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   // Views
 
-  private transient Set entrySet = null;
+  private Set entrySet = null;
 
   /**
    * Returns a set view of the keys contained in this map.  The set is
@@ -827,7 +828,7 @@ DEFAULT_INITIAL_CAPACITY];
     return (ks != null ? ks : (keySet = new KeySet()));
   }
 
-  private class KeySet extends AbstractSet {
+  private class KeySet extends AbstractSet implements java.io.Serializable {
     public Iterator iterator() {
       return newKeyIterator();
     }
@@ -865,8 +866,13 @@ DEFAULT_INITIAL_CAPACITY];
     return (vs != null ? vs : (values = new Values()));
   }
 
-  private class Values extends AbstractCollection {
-    public Iterator iterator() {
+  private class Values extends AbstractCollection implements java.io.Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Iterator iterator() {
       return newValueIterator();
     }
 
@@ -901,7 +907,7 @@ DEFAULT_INITIAL_CAPACITY];
     return (es != null ? es : (entrySet = new EntrySet()));
   }
 
-  private class EntrySet extends AbstractSet {
+  private class EntrySet extends AbstractSet implements java.io.Serializable{
     public Iterator iterator() {
       return newEntryIterator();
     }
@@ -939,50 +945,50 @@ DEFAULT_INITIAL_CAPACITY];
    *             are returned by <tt>entrySet().iterator()</tt>.
    *
    */
-  private void writeObject(java.io.ObjectOutputStream s) throws IOException {
-    // Write out the threshold, loadfactor, and any hidden stuff
-    s.defaultWriteObject();
-
-    // Write out number of buckets
-    s.writeInt(table.length);
-
-    // Write out size (number of Mappings)
-    s.writeInt(size);
-
-    // Write out keys and values (alternating)
-    for (Iterator i = entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry e = (Map.Entry) i.next();
-      s.writeObject(e.getKey());
-      s.writeObject(e.getValue());
-    }
-  }
-
-  private static final long serialVersionUID = 362498820763181265L;
-
-  /**
-   * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
-   * deserialize it).
-   */
-  private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
-    // Read in the threshold, loadfactor, and any hidden stuff
-    s.defaultReadObject();
-
-    // Read in number of buckets and allocate the bucket array;
-    int numBuckets = s.readInt();
-    table = new Entry[numBuckets];
-
-    init(); // Give subclass a chance to do its thing.
-
-    // Read in size (number of Mappings)
-    int size = s.readInt();
-
-    // Read the keys and values, and put the mappings in the HashMap
-    for (int i = 0; i < size; i++) {
-      Object key = s.readObject();
-      Object value = s.readObject();
-      putForCreate(key, value);
-    }
-  }
+//  private void writeObject(java.io.ObjectOutputStream s) throws IOException {
+//    // Write out the threshold, loadfactor, and any hidden stuff
+//    s.defaultWriteObject();
+//
+//    // Write out number of buckets
+//    s.writeInt(table.length);
+//
+//    // Write out size (number of Mappings)
+//    s.writeInt(size);
+//
+//    // Write out keys and values (alternating)
+//    for (Iterator i = entrySet().iterator(); i.hasNext(); ) {
+//      Map.Entry e = (Map.Entry) i.next();
+//      s.writeObject(e.getKey());
+//      s.writeObject(e.getValue());
+//    }
+//  }
+//
+//  private static final long serialVersionUID = 362498820763181265L;
+//
+//  /**
+//   * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
+//   * deserialize it).
+//   */
+//  private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
+//    // Read in the threshold, loadfactor, and any hidden stuff
+//    s.defaultReadObject();
+//
+//    // Read in number of buckets and allocate the bucket array;
+//    int numBuckets = s.readInt();
+//    table = new Entry[numBuckets];
+//
+//    init(); // Give subclass a chance to do its thing.
+//
+//    // Read in size (number of Mappings)
+//    int size = s.readInt();
+//
+//    // Read the keys and values, and put the mappings in the HashMap
+//    for (int i = 0; i < size; i++) {
+//      Object key = s.readObject();
+//      Object value = s.readObject();
+//      putForCreate(key, value);
+//    }
+//  }
 
   // These methods are used when serializing HashSets
   int capacity() {
@@ -1048,7 +1054,6 @@ DEFAULT_INITIAL_CAPACITY];
 		}
 		return true;
 	}
-  
   
   
 }

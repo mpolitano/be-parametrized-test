@@ -5,11 +5,14 @@
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-package java2.util2;
-
+package java2.util2.hashmap;
+import java2.util2.*;
 import java.lang.ref.WeakReference;
 import java.lang.ref.ReferenceQueue;
 
+import java2.util2.Map.Entry;
+import java2.util2.hashmap.AbstractMap.SimpleEntry;
+import java2.util2.treemap.*;
 /**
  * A hashtable-based <tt>Map</tt> implementation with <em>weak keys</em>.
  * An entry in a <tt>WeakHashMap</tt> will automatically be removed when
@@ -761,10 +764,10 @@ public class WeakHashMap extends AbstractMap implements Map {
    *
    * @return a set view of the keys contained in this map.
    */
-  public Set keySet() {
-    Set ks = keySet;
-    return (ks != null ? ks : (keySet = new KeySet()));
-  }
+//  public Set keySet() {
+//    Set ks = keySet;
+//    return (ks != null ? ks : (keySet = new KeySet()));
+//  }
 
   private class KeySet extends AbstractSet {
     public Iterator iterator() {
@@ -814,10 +817,10 @@ public class WeakHashMap extends AbstractMap implements Map {
    *
    * @return a collection view of the values contained in this map.
    */
-  public Collection values() {
-    Collection vs = values;
-    return (vs != null ? vs : (values = new Values()));
-  }
+//  public Collection values() {
+//    Collection vs = values;
+//    return (vs != null ? vs : (values = new Values()));
+//  }
 
   private class Values extends AbstractCollection {
     public Iterator iterator() {
@@ -908,4 +911,16 @@ public class WeakHashMap extends AbstractMap implements Map {
       return c.toArray(a);
     }
   }
+
+@Override
+public Set keySet() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Collection values() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
