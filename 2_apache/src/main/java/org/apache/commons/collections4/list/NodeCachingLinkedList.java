@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-//import java.util.Collection;
+import java.util.Collection;
 
 
 /**
@@ -278,7 +278,9 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
                 buf.append(",");
         }
         buf.append("]");
-
+        buf.append("-" +this.cacheSize);
+        buf.append("-" +maximumCacheSize);
+        buf.append("-" +modCount);
 
         return buf.toString();
 //        return super.toString();
@@ -323,6 +325,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
             if (n.next.previous != n)
               return false;
 
+           
             if (n != null) {
                 n = n.next;
             }

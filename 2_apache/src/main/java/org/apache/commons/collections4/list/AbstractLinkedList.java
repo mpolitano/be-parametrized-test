@@ -21,11 +21,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.util.AbstractList;
+//import java.util.Collection;
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+//import java.util.List;
+//import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.collections4.Collection;
-import org.apache.commons.collections4.Iterator;
 import org.apache.commons.collections4.List;
 import org.apache.commons.collections4.ListIterator;
 import org.apache.commons.collections4.OrderedIterator;
@@ -41,7 +44,7 @@ import org.apache.commons.collections4.OrderedIterator;
  * @since 3.0
  * @version $Id: AbstractLinkedList.java 1494296 2013-06-18 20:54:29Z tn $
  */
-public abstract class AbstractLinkedList implements List {
+public abstract class AbstractLinkedList implements org.apache.commons.collections4.List {
 
     /*
      * Implementation notes:
@@ -82,7 +85,7 @@ public abstract class AbstractLinkedList implements List {
      *
      * @param coll  the collection to copy
      */
-    protected AbstractLinkedList(final java.util.Collection  coll) {
+    protected AbstractLinkedList(final java.util.Collection coll) {
         super();
         init();
         addAll(coll);
@@ -155,14 +158,14 @@ public abstract class AbstractLinkedList implements List {
         return indexOf(value) != -1;
     }
 
-   /* public boolean containsAll(final Collection coll) {
-        for (final Integer o : coll) {
-            if (!contains(o)) {
+    public boolean containsAll(final java.util.Collection coll) {
+        for (final Object o : coll) {
+            if (!contains((Integer)o)) {
                 return false;
             }
         }
         return true;
-    }*/
+    }
 
     //-----------------------------------------------------------------------
 
@@ -196,9 +199,9 @@ public abstract class AbstractLinkedList implements List {
      * @param toIndexExclusive  the index to end at
      * @return the new sublist
      */
- //   public List subList(final int fromIndexInclusive, final int toIndexExclusive) {
-   //     return new LinkedSubList(this, fromIndexInclusive, toIndexExclusive);
-    //}
+    public org.apache.commons.collections4.List subList(final int fromIndexInclusive, final int toIndexExclusive) {
+        return new LinkedSubList(this, fromIndexInclusive, toIndexExclusive);
+    }
 
     //-----------------------------------------------------------------------
 
@@ -212,18 +215,19 @@ public abstract class AbstractLinkedList implements List {
         addNodeBefore(node, value);
     }
 
-    public boolean addAll(final java.util.Collection  coll) {
+    public boolean addAll(final java.util.Collection coll) {
         return addAll(size, coll);
     }
 
-    public boolean addAll(final int index, final java.util.Collection<Integer> coll) {
+    public boolean addAll(final int index, final java.util.Collection coll) {
         final Node node = getNode(index, true);
-        for (final Integer e : coll) {
-            addNodeBefore(node, e);
+        for (final Object e : coll) {
+            addNodeBefore(node, (Integer)e);
         }
         return true;
     }
-
+   
+    
     //-----------------------------------------------------------------------
 
     public Integer remove(final int index) {
@@ -252,11 +256,11 @@ public abstract class AbstractLinkedList implements List {
      * <code>coll</code> that provides a fast (e.g. O(1)) implementation of
      * {@link Collection#contains(Object)}.
      */
-    public boolean removeAll(final Collection coll) {
+    public boolean removeAll(final java.util.Collection coll) {
         boolean modified = false;
         final Iterator it = iterator();
         while (it.hasNext()) {
-            if (coll.contains(it.next())) {
+            if (coll.contains((Integer)it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -275,11 +279,11 @@ public abstract class AbstractLinkedList implements List {
      * <code>coll</code> that provides a fast (e.g. O(1)) implementation of
      * {@link Collection#contains(Object)}.
      */
-    public boolean retainAll(final Collection coll) {
+    public boolean retainAll(final java.util.Collection coll) {
         boolean modified = false;
         final Iterator it = iterator();
         while (it.hasNext()) {
-            if (coll.contains(it.next()) == false) {
+            if (coll.contains((Integer)it.next()) == false) {
                 it.remove();
                 modified = true;
             }
@@ -371,15 +375,15 @@ public abstract class AbstractLinkedList implements List {
         return !(it1.hasNext() || it2.hasNext());
     }
 
-   /* @Override
-    public int hashCode() {
-        int hashCode = 1;
-        for (final Object e : this) {
-            hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
-        }
-        return hashCode;
-    }
-*/
+    //@Override
+    //public int hashCode() {
+      //  int hashCode = 1;
+        //for (final Object e : this) {
+          //  hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
+        //}
+        //return hashCode;
+    //}
+
     @Override
     public String toString() {
         if (size() == 0) {
@@ -412,7 +416,7 @@ public abstract class AbstractLinkedList implements List {
      * @param value2  the second value to compare, may be null
      * @return true if equal
      */
-    protected boolean isEqualValue(final Object value1, final Object value2) {
+    protected boolean isEqualValue(final Integer value1, final Integer value2) {
         return value1 == value2 || (value1 == null ? false : value1.equals(value2));
     }
 
@@ -573,9 +577,9 @@ public abstract class AbstractLinkedList implements List {
      * @param subList  the sublist to get an iterator for
      * @return a new iterator on the given sublist
      */
-    //protected Iterator createSubListIterator(final LinkedSubList subList) {
-    //    return createSubListListIterator(subList, 0);
-    //}
+    protected Iterator createSubListIterator(final LinkedSubList subList) {
+        return createSubListListIterator(subList, 0);
+    }
 
     /**
      * Creates a list iterator for the sublist.
@@ -584,9 +588,9 @@ public abstract class AbstractLinkedList implements List {
      * @param fromIndex  the index to start from, relative to the sublist
      * @return a new list iterator on the given sublist
      */
-//    protected ListIterator createSubListListIterator(final LinkedSubList subList, final int fromIndex) {
-  //      return new LinkedSubListIterator(subList, fromIndex);
-    //}
+    protected ListIterator createSubListListIterator(final LinkedSubList subList, final int fromIndex) {
+        return new LinkedSubListIterator(subList, fromIndex);
+    }
 
     //-----------------------------------------------------------------------
     /**
@@ -603,8 +607,8 @@ public abstract class AbstractLinkedList implements List {
         outputStream.writeInt(size());
         for (Node node = header.next; node != header; node = node.next) {
 
-//        for (final Object e : this) {
-            outputStream.writeObject(header.value);
+        //for (final Object e : this) {
+            outputStream.writeObject(node.value);
         }
     }
 
@@ -623,7 +627,7 @@ public abstract class AbstractLinkedList implements List {
         init();
         final int size = inputStream.readInt();
         for (int i = 0; i < size; i++) {
-            add( (Integer)inputStream.readObject());
+            add((Integer) inputStream.readObject());
         }
     }
 
@@ -741,7 +745,8 @@ public abstract class AbstractLinkedList implements List {
     /**
      * A list iterator over the linked list.
      */
-    protected static class LinkedListIterator implements ListIterator, OrderedIterator {
+    
+    protected static class LinkedListIterator implements org.apache.commons.collections4.ListIterator, OrderedIterator {
 
         /** The parent list */
         protected final AbstractLinkedList parent;
@@ -822,12 +827,12 @@ public abstract class AbstractLinkedList implements List {
             return next != parent.header;
         }
 
-        public Integer next() {
+        public Object next() {
             checkModCount();
             if (!hasNext()) {
                 throw new NoSuchElementException("No element at index " + nextIndex + ".");
             }
-            final Integer value = next.getValue();
+            final Object value = next.getValue();
             current = next;
             next = next.next;
             nextIndex++;
@@ -838,13 +843,13 @@ public abstract class AbstractLinkedList implements List {
             return next.previous != parent.header;
         }
 
-        public Integer previous() {
+        public Object previous() {
             checkModCount();
             if (!hasPrevious()) {
                 throw new NoSuchElementException("Already at start of list.");
             }
             next = next.previous;
-            final Integer value = next.getValue();
+            final Object value = next.getValue();
             current = next;
             nextIndex--;
             return value;
@@ -893,12 +898,12 @@ public abstract class AbstractLinkedList implements List {
     /**
      * A list iterator over the linked sub list.
      */
-   // protected static class LinkedSubListIterator extends LinkedListIterator {
+    protected static class LinkedSubListIterator extends LinkedListIterator {
 
         /** The parent list */
-//        protected final LinkedSubList sub;
+        protected final LinkedSubList sub;
 
-/*        protected LinkedSubListIterator(final LinkedSubList sub, final int startIndex) {
+        protected LinkedSubListIterator(final LinkedSubList sub, final int startIndex) {
             super(sub.parent, startIndex + sub.offset);
             this.sub = sub;
         }
@@ -931,23 +936,23 @@ public abstract class AbstractLinkedList implements List {
             sub.expectedModCount = parent.modCount;
             sub.size--;
         }
-    }*/
+    }
 
     //-----------------------------------------------------------------------
     /**
      * The sublist implementation for AbstractLinkedList.
      */
-  //  protected static class LinkedSubList extends AbstractList {
+    protected static class LinkedSubList extends org.apache.commons.collections4.AbstractList {
         /** The main list */
-  //      AbstractLinkedList parent;
+        AbstractLinkedList parent;
         /** Offset from the main list */
-   //     int offset;
+        int offset;
         /** Sublist size */
-   //     int size;
+        int size;
         /** Sublist modCount */
-    //    int expectedModCount;
+        int expectedModCount;
 
-/*        protected LinkedSubList(final AbstractLinkedList parent, final int fromIndex, final int toIndex) {
+        protected LinkedSubList(final AbstractLinkedList parent, final int fromIndex, final int toIndex) {
             if (fromIndex < 0) {
                 throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
             }
@@ -987,23 +992,23 @@ public abstract class AbstractLinkedList implements List {
         }
 
         @Override
-        public Object remove(final int index) {
+        public Integer remove(final int index) {
             rangeCheck(index, size);
             checkModCount();
-            final Object result = parent.remove(index + offset);
+            final Integer result = parent.remove(index + offset);
             expectedModCount = parent.modCount;
             size--;
             LinkedSubList.this.modCount++;
             return result;
         }
-*/
-       /* @Override
-        public boolean addAll(final Collection coll) {
+
+        @Override
+        public boolean addAll(final java.util.Collection coll) {
             return addAll(size, coll);
         }
 
         @Override
-        public boolean addAll(final int index, final Collection coll) {
+        public boolean addAll(final int index, final java.util.Collection coll) {
             rangeCheck(index, size + 1);
             final int cSize = coll.size();
             if (cSize == 0) {
@@ -1017,9 +1022,9 @@ public abstract class AbstractLinkedList implements List {
             LinkedSubList.this.modCount++;
             return true;
         }
-*/
- /*       @Override
-        public Object set(final int index, final Object obj) {
+
+        @Override
+        public Integer set(final int index, final Integer obj) {
             rangeCheck(index, size);
             checkModCount();
             return parent.set(index + offset, obj);
@@ -1048,10 +1053,10 @@ public abstract class AbstractLinkedList implements List {
             return parent.createSubListListIterator(this, index);
         }
 
-        @Override
-        public List subList(final int fromIndexInclusive, final int toIndexExclusive) {
-            return new LinkedSubList(parent, fromIndexInclusive + offset, toIndexExclusive + offset);
-        }
+        //@Override
+       // public List subList(final int fromIndexInclusive, final int toIndexExclusive) {
+        //    return new LinkedSubList(parent, fromIndexInclusive + offset, toIndexExclusive + offset);
+        //}
 
         protected void rangeCheck(final int index, final int beyond) {
             if (index < 0 || index >= beyond) {
@@ -1064,6 +1069,36 @@ public abstract class AbstractLinkedList implements List {
                 throw new ConcurrentModificationException();
             }
         }
-    }*/
+
+		@Override
+		public Integer[] toArray(Integer[] a) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean containsAll(java.util.Collection c) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean removeAll(java.util.Collection c) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean retainAll(java.util.Collection c) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public List subList(int fromIndex, int toIndex) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+    }
 
 }

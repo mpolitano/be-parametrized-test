@@ -7,7 +7,6 @@
 
 package org.apache.commons.collections4;
 
-
 /**
  *
  * An iterator for lists that allows the programmer
@@ -45,7 +44,7 @@ package org.apache.commons.collections4;
  * @see Enumeration
  * @since   1.2
  */
-public interface ListIterator extends Iterator {
+public interface ListIterator extends java.util.Iterator {
   // Query Operations
 
   /**
@@ -69,7 +68,7 @@ public interface ListIterator extends Iterator {
    * @return the next element in the list.
    * @exception NoSuchElementException if the iteration has no next element.
    */
-  Integer next();
+  Object next();
 
   /**
    * Returns <tt>true</tt> if this list iterator has more elements when
@@ -94,7 +93,7 @@ public interface ListIterator extends Iterator {
    * @exception NoSuchElementException if the iteration has no previous
    *            element.
    */
-  Integer previous();
+  Object previous();
 
   /**
    * Returns the index of the element that would be returned by a subsequent

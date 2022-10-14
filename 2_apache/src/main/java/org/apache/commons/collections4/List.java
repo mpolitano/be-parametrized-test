@@ -7,7 +7,6 @@
 
 package org.apache.commons.collections4;
 
-
 /**
  * An ordered collection (also known as a <i>sequence</i>).  The user of this
  * interface has precise control over where in the list each element is
@@ -86,7 +85,7 @@ package org.apache.commons.collections4;
  * @see AbstractSequentialList
  * @since 1.2
  */
-public interface List extends Collection{
+public interface List extends Collection {
   // Query Operations
 
   /**
@@ -126,7 +125,7 @@ public interface List extends Collection{
    *
    * @return an iterator over the elements in this list in proper sequence.
    */
-  Iterator iterator();
+  java.util.Iterator iterator();
 
   /**
    * Returns an array containing all of the elements in this list in proper
@@ -155,7 +154,7 @@ public interface List extends Collection{
    * 		  this list.
    * @throws NullPointerException if the specified array is <tt>null</tt>.
    */
- // Integer[] toArray(Integer[] a);
+  Integer[] toArray(Integer[] a);
 
   // Modification Operations
 
@@ -223,7 +222,7 @@ public interface List extends Collection{
    *         <tt>null</tt>.
    * @see #contains(Object)
    */
-//  boolean containsAll(Collection c);
+  boolean containsAll(java.util.Collection c);
 
   /**
    * Appends all of the elements in the specified collection to the end of
@@ -280,7 +279,7 @@ public interface List extends Collection{
    * @throws IndexOutOfBoundsException if the index is out of range (index
    *		  &lt; 0 || index &gt; size()).
    */
-  //boolean addAll(int index, Collection c);
+  //boolean addAll(int index, java.util.Collection c);
 
   /**
    * Removes from this list all the elements that are contained in the
@@ -303,7 +302,7 @@ public interface List extends Collection{
    * @see #remove(Object)
    * @see #contains(Object)
    */
-  //boolean removeAll(Collection c);
+  boolean removeAll(java.util.Collection c);
 
   /**
    * Retains only the elements in this list that are contained in the
@@ -328,7 +327,7 @@ public interface List extends Collection{
    * @see #remove(Object)
    * @see #contains(Object)
    */
-  //boolean retainAll(Collection c);
+  boolean retainAll(java.util.Collection c);
 
   /**
    * Removes all of the elements from this list (optional operation).  This
@@ -392,7 +391,7 @@ public interface List extends Collection{
    * @throws IndexOutOfBoundsException if the index is out of range (index
    * 		  &lt; 0 || index &gt;= size()).
    */
-  Object get(int index);
+  Integer get(int index);
 
   /**
    * Replaces the element at the specified position in this list with the
@@ -553,5 +552,5 @@ public interface List extends Collection{
    * @throws IndexOutOfBoundsException for an illegal endpoint index value
    *     (fromIndex &lt; 0 || toIndex &gt; size || fromIndex &gt; toIndex).
    */
-//  List subList(int fromIndex, int toIndex);
+  List subList(int fromIndex, int toIndex);
 }

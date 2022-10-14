@@ -1,4 +1,3 @@
-package org.apache.commons.collections4;
 /*
  * @(#)Collection.java	1.39 03/01/17
  *
@@ -6,7 +5,7 @@ package org.apache.commons.collections4;
  * SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 
-
+package org.apache.commons.collections4;
 
 
 /**
@@ -122,7 +121,7 @@ public interface Collection {
    *
    * @return an <tt>Iterator</tt> over the elements in this collection
    */
-  Iterator iterator();
+  java.util.Iterator iterator();
 
   /**
    * Returns an array containing all of the elements in this collection.  If
@@ -140,7 +139,7 @@ public interface Collection {
    *
    * @return an array containing all of the elements in this collection
    */
-  Object[] toArray();
+  Integer[] toArray();
 
   /**
    * Returns an array containing all of the elements in this collection;
@@ -265,7 +264,7 @@ public interface Collection {
    *         <tt>null</tt>.
    * @see    #contains(Object)
    */
-  //boolean containsAll(Collection c);
+  boolean containsAll(java.util.Collection c);
 
   /**
    * Adds all of the elements in the specified collection to this collection
@@ -291,7 +290,7 @@ public interface Collection {
    *	       collection.
    * @see #add(Object)
    */
- // boolean addAll(Collection c);
+  boolean addAll(java.util.Collection c);
 
   /**
    *
@@ -317,7 +316,7 @@ public interface Collection {
    * @see #remove(Object)
    * @see #contains(Object)
    */
- // boolean removeAll(Collection c);
+  boolean removeAll(java.util.Collection c);
 
   /**
    * Retains only the elements in this collection that are contained in the
@@ -342,7 +341,7 @@ public interface Collection {
    * @see #remove(Object)
    * @see #contains(Object)
    */
-  //boolean retainAll(Collection c);
+  boolean retainAll(java.util.Collection c);
 
   /**
    * Removes all of the elements from this collection (optional operation).
