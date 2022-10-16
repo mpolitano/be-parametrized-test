@@ -103,6 +103,10 @@ maximum number of entries divided by the load factor, no
  */
 public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Serializable {
   /**
+	 * 
+	 */
+
+/**
    * The default initial capacity - MUST be a power of two.
    */
   static final int DEFAULT_INITIAL_CAPACITY = 0;
@@ -125,7 +129,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-   Entry[] table;
+   transient Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
@@ -136,7 +140,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
    * The next size value at which to resize (capacity * load factor).
    * @serial
    */
-  transient int threshold;
+   int threshold;
 
   /**
    * The load factor for the hash table.
@@ -485,34 +489,34 @@ DEFAULT_INITIAL_CAPACITY];
    * @param m mappings to be stored in this map.
    * @throws NullPointerException if the specified map is null.
    */
-  public void putAll(Map m) {
-    int numKeysToBeAdded = m.size();
-    if (numKeysToBeAdded == 0) {
-      return;
-    }
-
-    /*
-     * Expand the map if the map if the number of mappings to be added
-     * is greater than or equal to threshold.  This is conservative; the
-     * obvious condition is (m.size() + size) >= threshold, but this
-     * condition could result in a map with twice the appropriate capacity,
-     * if the keys to be added overlap with the keys already in this map.
-     * By using the conservative calculation, we subject ourself
-     * to at most one extra resize.
-     */
-    if (numKeysToBeAdded > threshold) {
-      int targetCapacity = (int) (numKeysToBeAdded / loadFactor + 1);
-      if (targetCapacity > MAXIMUM_CAPACITY) targetCapacity = MAXIMUM_CAPACITY;
-      int newCapacity = table.length;
-      while (newCapacity < targetCapacity) newCapacity <<= 1;
-      if (newCapacity > table.length) resize(newCapacity);
-    }
-
-    for (Iterator i = m.entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry e = (Map.Entry) i.next();
-      put(e.getKey(), e.getValue());
-    }
-  }
+//  public void putAll(Map m) {
+//    int numKeysToBeAdded = m.size();
+//    if (numKeysToBeAdded == 0) {
+//      return;
+//    }
+//
+//    /*
+//     * Expand the map if the map if the number of mappings to be added
+//     * is greater than or equal to threshold.  This is conservative; the
+//     * obvious condition is (m.size() + size) >= threshold, but this
+//     * condition could result in a map with twice the appropriate capacity,
+//     * if the keys to be added overlap with the keys already in this map.
+//     * By using the conservative calculation, we subject ourself
+//     * to at most one extra resize.
+//     */
+//    if (numKeysToBeAdded > threshold) {
+//      int targetCapacity = (int) (numKeysToBeAdded / loadFactor + 1);
+//      if (targetCapacity > MAXIMUM_CAPACITY) targetCapacity = MAXIMUM_CAPACITY;
+//      int newCapacity = table.length;
+//      while (newCapacity < targetCapacity) newCapacity <<= 1;
+//      if (newCapacity > table.length) resize(newCapacity);
+//    }
+//
+//    for (Iterator i = m.entrySet().iterator(); i.hasNext(); ) {
+//      Map.Entry e = (Map.Entry) i.next();
+//      put(e.getKey(), e.getValue());
+//    }
+//  }
 
   /**
    * Removes the mapping for this key from this map if present.
@@ -652,7 +656,11 @@ DEFAULT_INITIAL_CAPACITY];
   }
 
   public static class Entry implements Map.Entry, java.io.Serializable {
-    public final Object key;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public final Object key;
     public Object value;
     public int hash;
     Entry next;
@@ -778,19 +786,34 @@ DEFAULT_INITIAL_CAPACITY];
   }
 
   private class ValueIterator extends HashIterator implements java.io.Serializable{
-    public Object next() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Object next() {
       return nextEntry().value;
     }
   }
 
   private class KeyIterator extends HashIterator implements java.io.Serializable {
-    public Object next() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Object next() {
       return nextEntry().getKey();
     }
   }
 
   private class EntryIterator extends HashIterator implements java.io.Serializable {
-    public Object next() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Object next() {
       return nextEntry();
     }
   }
@@ -829,7 +852,12 @@ DEFAULT_INITIAL_CAPACITY];
   }
 
   private class KeySet extends AbstractSet implements java.io.Serializable {
-    public Iterator iterator() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Iterator iterator() {
       return newKeyIterator();
     }
 
@@ -908,7 +936,12 @@ DEFAULT_INITIAL_CAPACITY];
   }
 
   private class EntrySet extends AbstractSet implements java.io.Serializable{
-    public Iterator iterator() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Iterator iterator() {
       return newEntryIterator();
     }
 
@@ -945,50 +978,50 @@ DEFAULT_INITIAL_CAPACITY];
    *             are returned by <tt>entrySet().iterator()</tt>.
    *
    */
-//  private void writeObject(java.io.ObjectOutputStream s) throws IOException {
-//    // Write out the threshold, loadfactor, and any hidden stuff
-//    s.defaultWriteObject();
-//
-//    // Write out number of buckets
-//    s.writeInt(table.length);
-//
-//    // Write out size (number of Mappings)
-//    s.writeInt(size);
-//
-//    // Write out keys and values (alternating)
-//    for (Iterator i = entrySet().iterator(); i.hasNext(); ) {
-//      Map.Entry e = (Map.Entry) i.next();
-//      s.writeObject(e.getKey());
-//      s.writeObject(e.getValue());
-//    }
-//  }
-//
-//  private static final long serialVersionUID = 362498820763181265L;
-//
-//  /**
-//   * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
-//   * deserialize it).
-//   */
-//  private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
-//    // Read in the threshold, loadfactor, and any hidden stuff
-//    s.defaultReadObject();
-//
-//    // Read in number of buckets and allocate the bucket array;
-//    int numBuckets = s.readInt();
-//    table = new Entry[numBuckets];
-//
-//    init(); // Give subclass a chance to do its thing.
-//
-//    // Read in size (number of Mappings)
-//    int size = s.readInt();
-//
-//    // Read the keys and values, and put the mappings in the HashMap
-//    for (int i = 0; i < size; i++) {
-//      Object key = s.readObject();
-//      Object value = s.readObject();
-//      putForCreate(key, value);
-//    }
-//  }
+  private void writeObject(java.io.ObjectOutputStream s) throws IOException {
+    // Write out the threshold, loadfactor, and any hidden stuff
+    s.defaultWriteObject();
+
+    // Write out number of buckets
+    s.writeInt(table.length);
+
+    // Write out size (number of Mappings)
+    s.writeInt(size);
+
+    // Write out keys and values (alternating)
+    for (Iterator i = entrySet().iterator(); i.hasNext(); ) {
+      Map.Entry e = (Map.Entry) i.next();
+      s.writeObject(e.getKey());
+      s.writeObject(e.getValue());
+    }
+  }
+
+  private static final long serialVersionUID = 362498820763181265L;
+
+  /**
+   * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
+   * deserialize it).
+   */
+  private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
+    // Read in the threshold, loadfactor, and any hidden stuff
+    s.defaultReadObject();
+
+    // Read in number of buckets and allocate the bucket array;
+    int numBuckets = s.readInt();
+    table = new Entry[numBuckets];
+
+    init(); // Give subclass a chance to do its thing.
+
+    // Read in size (number of Mappings)
+    int size = s.readInt();
+
+    // Read the keys and values, and put the mappings in the HashMap
+    for (int i = 0; i < size; i++) {
+      Object key = s.readObject();
+      Object value = s.readObject();
+      putForCreate(key, value);
+    }
+  }
 
   // These methods are used when serializing HashSets
   int capacity() {

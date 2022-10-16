@@ -39,7 +39,7 @@ package java2.util2;
  * @see Collection
  * @since 1.2
  */
-public abstract class AbstractCollection implements Collection {
+public abstract class AbstractCollection implements Collection, java.io.Serializable {
   /**
    * Sole constructor.  (For invocation by subclass constructors, typically
    * implicit.)

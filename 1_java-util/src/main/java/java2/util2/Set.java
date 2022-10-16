@@ -63,7 +63,8 @@ import java2.util2.hashmap.HashSet;
  * @see Collections#EMPTY_SET
  * @since 1.2
  */
-public interface Set extends Collection,  java.io.Serializable {
+public interface Set extends Collection {
+	
   // Query Operations
 
   /**

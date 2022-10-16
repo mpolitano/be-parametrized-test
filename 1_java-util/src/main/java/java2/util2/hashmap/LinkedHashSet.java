@@ -10,7 +10,7 @@ package java2.util2.hashmap;
 import java2.util2.Collection;
 import java2.util2.Hashtable;
 import java2.util2.Set;
-import java2.util2.TreeSet;
+import java2.util2.treemap.TreeSet;
 
 /**
  * <p>Hash table and linked list implementation of the <tt>Set</tt> interface,

@@ -39,8 +39,9 @@ randoop.main.Main gentests \
 --disable-contracts $omitmethods \
 --junit-package-name=$packagename \
 --only-test-public-members \
---omitmethods=\"toString\(\)|addAll\(\)|equals\(\)\"
+--omitmethods=\".*All\(\.*|toString\(\)|fin$classname|repOK\" \
 --forbid-null=true \
+--null-ratio=0
 "
 
 echo "$cmd"
