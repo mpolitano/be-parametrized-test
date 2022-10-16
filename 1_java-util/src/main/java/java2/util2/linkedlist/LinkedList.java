@@ -89,10 +89,10 @@ public class LinkedList extends AbstractSequentialList
    * @param  c the collection whose elements are to be placed into this list.
    * @throws NullPointerException if the specified collection is null.
    */
-  public LinkedList(Collection c) {
-    this();
-    addAll(c);
-  }
+//  public LinkedList(Collection c) {
+//    this();
+//    addAll(c);
+//  }
 
   /**
    * Returns the first element in this list.
@@ -209,6 +209,7 @@ public class LinkedList extends AbstractSequentialList
    * @param o element to be removed from this list, if present.
    * @return <tt>true</tt> if the list contained the specified element.
    */
+  
   public boolean remove(Object o) {
     if (o == null) {
       for (Entry e = header.next; e != header; e = e.next) {
@@ -240,9 +241,9 @@ public class LinkedList extends AbstractSequentialList
    * @return <tt>true</tt> if this list changed as a result of the call.
    * @throws NullPointerException if the specified collection is null.
    */
-  public boolean addAll(Collection c) {
-    return addAll(size, c);
-  }
+//  public boolean addAll(Collection c) {
+//    return addAll(size, c);
+//  }
 
   /**
    * Inserts all of the elements in the specified collection into this
@@ -260,24 +261,24 @@ public class LinkedList extends AbstractSequentialList
    *            range (<tt>index &lt; 0 || index &gt; size()</tt>).
    * @throws NullPointerException if the specified collection is null.
    */
-  public boolean addAll(int index, Collection c) {
-    Object[] a = c.toArray();
-    int numNew = a.length;
-    if (numNew == 0) return false;
-    modCount++;
-
-    Entry successor = (index == size ? header : entry(index));
-    Entry predecessor = successor.previous;
-    for (int i = 0; i < numNew; i++) {
-      Entry e = new Entry(a[i], successor, predecessor);
-      predecessor.next = e;
-      predecessor = e;
-    }
-    successor.previous = predecessor;
-
-    size += numNew;
-    return true;
-  }
+//  public boolean addAll(int index, Collection c) {
+//    Object[] a = c.toArray();
+//    int numNew = a.length;
+//    if (numNew == 0) return false;
+//    modCount++;
+//
+//    Entry successor = (index == size ? header : entry(index));
+//    Entry predecessor = successor.previous;
+//    for (int i = 0; i < numNew; i++) {
+//      Entry e = new Entry(a[i], successor, predecessor);
+//      predecessor.next = e;
+//      predecessor = e;
+//    }
+//    successor.previous = predecessor;
+//
+//    size += numNew;
+//    return true;
+//  }
 
   /**
    * Removes all of the elements from this list.
@@ -346,11 +347,11 @@ public class LinkedList extends AbstractSequentialList
    * @throws IndexOutOfBoundsException if the specified index is out of
    * 		  range (<tt>index &lt; 0 || index &gt;= size()</tt>).
    */
-  public Object remove(int index) {
-    Entry e = entry(index);
-    remove(e);
-    return e.element;
-  }
+//  public Object remove(int index) {
+//    Entry e = entry(index);
+//    remove(e);
+//    return e.element;
+//  }
 
   /**
    * Return the indexed entry.
