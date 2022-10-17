@@ -1,85 +1,227 @@
 package java2.util2.treemap;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
-import java2.util2.Collection;
 import java2.util2.Comparator;
 import java2.util2.Set;
 import utils.Config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.stream.Stream;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class TreeMapTest { 
     
 	
 	//Change with sedl 
-		public static int scope;
-		public static String pathFile;
-		
-	    @BeforeAll
-	    static void initAll() {
-	    	Config.readEnvironmentVariables();
-	    	scope = Config.scope;
-	    	pathFile = "beapi-tests/serialize/java2.util2.treemap.TreeMap/"+scope+"/objects.ser";
+	public static int scope;
+	public static String pathFile;
+	private static int count = 0;
+	
+	@BeforeAll
+    static void initAll() {
+    	Config.readEnvironmentVariables();
+    	scope = Config.scope;
+    	pathFile = "serialize/java2.util2.treemap.TreeMap/"+Config.scope+"/objects.ser";
+    }
 
-	    }
+	@AfterAll
+    static void afterAll() {
+		File dir = new File("../scripts/reportBEAPI/java2.util2.treemap.TreeMap/"+Config.scope);
+		 if (! dir.exists()){
+		        dir.mkdir();            
+		 }
+        	File file = new File(dir + "/tests.txt");
+            try{
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(String.valueOf(count) );
+                bw.close();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+                System.exit(-1);
+            }
+	}
+
 	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-	public void clear_Test(TreeMap tmap) {
-		tmap.clear();
-		assertTrue(tmap.size() == 0);
-		assertTrue(tmap.repOK());
+	@Test
+	public void clear_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+				tmap.clear();
+				assertTrue(tmap.size() == 0);
+				assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+	}
+	
+//	@ParameterizedTest
+//	@MethodSource("provide_TMap_Parameters")
+//	public void clone_Test(TreeMap tmap) {
+//		TreeMap tmap1 = (TreeMap) tmap.clone();
+//		assertTrue(tmap1.repOK());
+//		assertTrue(tmap.repOK());
+//		assertTrue(tmap.equals(tmap1));
+//	 }
+	
+	@Test
+	public void comparator_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+				Comparator c =  tmap.comparator();
+				assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+
 	 }
 	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-	public void clone_Test(TreeMap tmap) {
-		TreeMap tmap1 = (TreeMap) tmap.clone();
-		assertTrue(tmap1.repOK());
-		assertTrue(tmap.repOK());
-		assertTrue(tmap.equals(tmap1));
+	@Test
+	public void toString_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+				tmap.toString();
+				assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+
 	 }
 	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-	public void comparator_Test(TreeMap tmap) {
-		Comparator c =  tmap.comparator();
-		assertTrue(tmap.repOK());
+	@Test
+	public void constructor_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		TreeMap t = new TreeMap();
+
 	 }
 	
 	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Parameters")
-	public void contains_key_Test(TreeMap tmap, Integer i) {
-	  	tmap.containsKey(i);
-    	assertTrue(tmap.repOK());
+	
+	@Test
+	public void contains_key_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+			  	tmap.containsKey(i);
+		    	assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
 	 }
 	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Parameters")
-	public void contains_value_Test(TreeMap tmap, Integer i) {
-	  	tmap.containsValue(i);
-    	assertTrue(tmap.repOK());
+	@Test
+	public void contains_value_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+			  	tmap.containsValue(i);
+		    	assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+
 	 }
 	
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-	public void entry_set_Test(TreeMap tmap) {
-	  	Set s = tmap.entrySet();
-    	assertTrue(tmap.repOK());
+	public void entry_set_Test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+			  	Set s = tmap.entrySet();
+		    	assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
 	 }
 	
 /*	@ParameterizedTest
@@ -91,249 +233,247 @@ public class TreeMapTest {
     }
 */
 	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-   	public void first_key_test(TreeMap tmap) {
-    	assumeTrue(tmap.size()>0);
-    	Integer k = (Integer) tmap.firstKey();
-    	assertTrue(tmap.repOK());
-    	assertTrue(tmap.containsKey(k));
-    	
-    }
-	
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Parameters")
-   	public void head_map_test(TreeMap tmap, Integer i) {
-    	TreeMap tmap1 =  tmap.headMap(i);
-    	assertTrue(tmap.repOK());
-    	assertTrue(tmap1.repOK());   	
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-   	public void empty_test(TreeMap tmap) {
-    	boolean p = tmap.isEmpty();
-    	assertTrue(tmap.repOK());
-    	assertTrue((p ==true && tmap.size() ==0) || (p ==false && tmap.size() !=0));
-    }
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-   	public void key_set_test(TreeMap tmap) {
-    	Set s = tmap.keySet();
-    	assertTrue(tmap.repOK());
-    	assertTrue(s.size() == tmap.size());
-    
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-   	public void last_key_test(TreeMap tmap) {
-    	assumeTrue(tmap.size()>0);
-    	Integer k = (Integer) tmap.lastKey();
-    	assertTrue(tmap.repOK());
-    	assertTrue(tmap.containsKey(k));
-    	
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Int_Parameters")
-	public void put_test(TreeMap tmap, Integer key,Integer value) {
-		int oldSize = tmap.size();
-		boolean b = tmap.containsKey(key);
-		
-		tmap.put(key,value);
-		
-		assertTrue((!b && tmap.size() == oldSize+1) ||(b && tmap.size() == oldSize));
-		assertTrue(tmap.repOK());
-		assertTrue(tmap.containsKey(key) && tmap.containsValue(value));
+	@Test
+   	public void first_key_test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				if(tmap.size()>0) {
+					count++;
+			    	Object k = (Object) tmap.firstKey();
+			    	assertTrue(tmap.repOK());
+			    	assertTrue(tmap.containsKey(k));
 
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Parameters")
-   	public void remove_test(TreeMap tmap, Integer i) {
-    	tmap.remove(i);
-    	
-    	assertTrue(tmap.repOK());
-    	assertTrue(!tmap.containsKey(i));
-    }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-   	public void size_test(TreeMap tmap) {
-    	int s = tmap.size();
-       	assertTrue(tmap.repOK());
-		assertTrue((s==0 && tmap.isEmpty()) ||(s!=0 && !tmap.isEmpty()));
-
-    }
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Int_Parameters")
-	public void sub_map_test(TreeMap tmap, Integer fromKey,Integer toKey) {
-
-		assumeTrue(fromKey<=toKey);
-	
-		TreeMap subTree = tmap.subMap(fromKey,toKey);
-		assertTrue(subTree.repOK());
-				
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Int_Parameters")
-	public void tail_map_test(TreeMap tmap, Integer fromKey) {
-
-		assumeTrue(tmap.containsKey(fromKey));
-	
-		TreeMap subTree = tmap.tailMap(fromKey);
-		assertTrue(subTree.repOK());
-				
-	 }
-	
-	@ParameterizedTest
-	@MethodSource("provide_TMap_Parameters")
-	public void value_test(TreeMap tmap) {
-
-		Collection l = tmap.values();
-		assertTrue(tmap.repOK());
-		assertTrue((l.isEmpty() && tmap.isEmpty()) || (!l.isEmpty() && !tmap.isEmpty()) );
-
-	 }
-	
-	
-	
-	
-	
-	/*
-	 * Providers..
-	 */
-	
-	
-	private static Stream<Arguments> provide_TMap_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-			try {
-				fileTestUnit= new FileInputStream(pathFile);
-				ois = new ObjectInputStream(fileTestUnit);
-			
-				TreeMap tmap = (TreeMap)nextObject(ois);
-				while(tmap != null){
-					stream = Stream.concat(Stream.of(Arguments.of(tmap)), stream);
-					tmap = (TreeMap)nextObject(ois);
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		    	assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+
+
 			}
-   		 catch (ClassNotFoundException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-  		}
-	  	return stream;
-	  }
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+    }
 	
 	
-	private static Stream<Arguments> provide_TMap_Int_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-	    	for(int i = 1; i <scope; i++) {
-					try {
-						fileTestUnit= new FileInputStream(pathFile);
-						ois = new ObjectInputStream(fileTestUnit);
-					
-						TreeMap tmap = (TreeMap)nextObject(ois);
-						
-						while(tmap != null){
-							stream = Stream.concat(Stream.of(Arguments.of(tmap,i)), stream);
-							tmap = (TreeMap)nextObject(ois);
-						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		   		 catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-		  		}
-		  	}		
-	  	return stream;
-	  }
 	
-	private static Stream<Arguments> provide_TMap_Int_Int_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-	    	for(int i = 1; i <scope; i++) {
-		    	for(int j = 1; j <scope; j++) {
+//	@ParameterizedTest
+//	@MethodSource("provide_TMap_Int_Parameters")
+//   	public void head_map_test(TreeMap tmap, Object i) {
+//    	TreeMap tmap1 =  tmap.headMap(i);
+//    	assertTrue(tmap.repOK());
+//    	assertTrue(tmap1.repOK());   	
+//    }
+//	
+	@Test
+   	public void empty_test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
 
-					try {
-						fileTestUnit= new FileInputStream(pathFile);
-						ois = new ObjectInputStream(fileTestUnit);
-					
-						TreeMap tmap = (TreeMap)nextObject(ois);
-						
-						while(tmap != null){
-							stream = Stream.concat(Stream.of(Arguments.of(tmap,i,j)), stream);
-							tmap = (TreeMap)nextObject(ois);
-						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			   		 catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-			   		 }
-		    	}	
-		    }		
-	  	return stream;
-	  }
-	
-	private static Stream<Arguments> provide_TMap_TMap_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-		  	FileInputStream fileTestUnit1;
-	    	ObjectInputStream ois;
-	    	ObjectInputStream ois1;
+				count++;
+				boolean p = tmap.isEmpty();
+		    	assertTrue(tmap.repOK());
+		    	assertTrue((p ==true && tmap.size() ==0) || (p ==false && tmap.size() !=0));
+				tmap = (TreeMap)nextObject(ois);
 
-			try {
-				fileTestUnit= new FileInputStream(pathFile);
-				ois = new ObjectInputStream(fileTestUnit);
-				
-				TreeMap tmap = (TreeMap)nextObject(ois);
-				TreeMap tmap1;
-				while(tmap != null){
-					fileTestUnit1= new FileInputStream(pathFile);
-					ois1 = new ObjectInputStream(fileTestUnit1);
-					tmap1 = (TreeMap)nextObject(ois1);
-					while(tmap1 != null){
-						stream = Stream.concat(Stream.of(Arguments.of(tmap,tmap1)), stream);
-						tmap1 = (TreeMap)nextObject(ois1);
-
-					}
-					tmap = (TreeMap)nextObject(ois);
-
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-	   		 catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-	   		 }
-	  	return stream;
-	  }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+    }
+	
+	
+//	@ParameterizedTest
+//	@MethodSource("provide_TMap_Parameters")
+//   	public void key_set_test(TreeMap tmap) {
+//    	Set s = tmap.keySet();
+//    	assertTrue(tmap.repOK());
+//    	assertTrue(s.size() == tmap.size());
+//    
+//    }
+	
+	@Test
+   	public void last_key_test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				count++;
+				Object k =null;
+		    	if(tmap.size()>0) {
+			    	k = (Object) tmap.lastKey();
+			    	assertTrue(tmap.containsKey(k));
+		    	}
+		    	assertTrue(tmap.repOK());
+				tmap = (TreeMap)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+    }
+	
+	@Test
+	public void put_test() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+
+				count++;
+				int oldSize = tmap.size();
+				boolean b = tmap.containsKey(key);
+				
+				tmap.put(key,0);
+				
+				assertTrue((!b && tmap.size() == oldSize+1) ||(b && tmap.size() == oldSize));
+				assertTrue(tmap.repOK());
+				assertTrue(tmap.containsKey(key) && tmap.containsValue(0));
+				tmap = (TreeMap)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+		
+
+
+	 }
+	
+	@Test
+   	public void remove_test() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+
+				count++;
+				tmap.remove(key);
+		    	
+		    	assertTrue(tmap.repOK());
+		    	assertTrue(!tmap.containsKey(key));
+				tmap = (TreeMap)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+		
+
+    }
+	
+	@Test
+   	public void size_test() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			TreeMap tmap = (TreeMap)nextObject(ois);
+			while(tmap != null){
+				int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+
+		    	int s = tmap.size();
+		       	assertTrue(tmap.repOK());
+				assertTrue((s==0 && tmap.isEmpty()) ||(s!=0 && !tmap.isEmpty()));
+				tmap = (TreeMap)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}	
+		
+
+
+    }
+	
+	
+//	@ParameterizedTest
+//	@MethodSource("provide_TMap_Int_Int_Parameters")
+//	public void sub_map_test(TreeMap tmap, Object fromKey,Object toKey) {
+//
+//		assumeTrue((Integer)fromKey<=(Integer)toKey);
+//	
+//		TreeMap subTree = tmap.subMap(fromKey,toKey);
+//		assertTrue(subTree.repOK());
+//				
+//	 }
+	
+//	@ParameterizedTest
+//	@MethodSource("provide_TMap_Int_Parameters")
+//	public void tail_map_test(TreeMap tmap, Object fromKey) {
+//
+//		assumeTrue(tmap.containsKey(fromKey));
+//	
+//		TreeMap subTree = tmap.tailMap(fromKey);
+//		assertTrue(subTree.repOK());
+//				
+//	 }
+	
+//	@ParameterizedTest
+//	@MethodSource("provide_TMap_Parameters")
+//	public void value_test(TreeMap tmap) {
+//
+//		Collection l = tmap.values();
+//		assertTrue(tmap.repOK());
+//		assertTrue((l.isEmpty() && tmap.isEmpty()) || (!l.isEmpty() && !tmap.isEmpty()) );
+
+//	 }
+	
+	
+	
 	
 
 	public static Object nextObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
