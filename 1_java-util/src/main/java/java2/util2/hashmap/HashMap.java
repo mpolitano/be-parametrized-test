@@ -220,12 +220,12 @@ DEFAULT_INITIAL_CAPACITY];
    * @param   m the map whose mappings are to be placed in this map.
    * @throws  NullPointerException if the specified map is null.
    */
-  public HashMap(Map m) {
-    this(
-        Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1, DEFAULT_INITIAL_CAPACITY),
-        DEFAULT_LOAD_FACTOR);
-    putAllForCreate(m);
-  }
+//  public HashMap(Map m) {
+//    this(
+//        Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1, DEFAULT_INITIAL_CAPACITY),
+//        DEFAULT_LOAD_FACTOR);
+//    putAllForCreate(m);
+//  }
 
   // internal utilities
 
@@ -889,33 +889,33 @@ DEFAULT_INITIAL_CAPACITY];
    *
    * @return a collection view of the values contained in this map.
    */
-  public Collection values() {
-    Collection vs = values;
-    return (vs != null ? vs : (values = new Values()));
-  }
-
-  private class Values extends AbstractCollection implements java.io.Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public Iterator iterator() {
-      return newValueIterator();
-    }
-
-    public int size() {
-      return size;
-    }
-
-    public boolean contains(Object o) {
-      return containsValue(o);
-    }
-
-    public void clear() {
-      HashMap.this.clear();
-    }
-  }
+//  public Collection values() {
+//    Collection vs = values;
+//    return (vs != null ? vs : (values = new Values()));
+//  }
+//
+//  private class Values extends AbstractCollection implements java.io.Serializable {
+//    /**
+//	 * 
+//	 */
+//	private static final long serialVersionUID = 1L;
+//
+//	public Iterator iterator() {
+//      return newValueIterator();
+//    }
+//
+//    public int size() {
+//      return size;
+//    }
+//
+//    public boolean contains(Object o) {
+//      return containsValue(o);
+//    }
+//
+//    public void clear() {
+//      HashMap.this.clear();
+//    }
+//  }
 
   /**
    * Returns a collection view of the mappings contained in this map.  Each
@@ -1086,6 +1086,12 @@ DEFAULT_INITIAL_CAPACITY];
 			current = current.next;
 		}
 		return true;
+	}
+
+	@Override
+	public Collection values() {
+		// TODO Auto-generated method stub
+		return null;
 	}
   
   
