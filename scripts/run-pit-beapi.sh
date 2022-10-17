@@ -17,12 +17,10 @@ budget=$3
 function run_many() {
 	for budget in $budgets
     do
-    	pushd $projectsdir/ > /dev/null
-    	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
-        popd > /dev/null
 	    for project in $projects
 	    do
-    		pushd $projectsdir/$project > /dev/null
+            pushd $projectsdir/$project > /dev/null
+            sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	        for casestudy in $cases 
         	do
         		pathPitResult="pit/$casesstudy/$budget/"
@@ -57,5 +55,5 @@ function run_many() {
 #to run a single case
 budgets="3"
 projects="1_java-util"
-cases="java2.util2.linkedlist.LinkedList"
+cases="java2.util2.treemap.TreeMap"
 run_many

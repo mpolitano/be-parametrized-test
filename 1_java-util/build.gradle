@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    testCompile("junit:junit:4.12")
 	testImplementation(platform('org.junit:junit-bom:5.8.2'))
 	testImplementation('org.junit.jupiter:junit-jupiter')
 	testImplementation("org.assertj:assertj-core:3.22.0")
@@ -23,12 +24,24 @@ test {
 			events "passed", "skipped", "failed"
 		}
 	}
+	afterSuite { desc, result -> 
+if (!desc.parent) { // will match the outermost suite
+        println "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+      }    }
 }
+
+
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
+    reports {
+	    xml.enabled false
+	    html.enabled true
+	    csv.enabled true	    
+	  }
 }
 
+    
 /*
 
 // Make build fail if tests don't cover enough code 
@@ -51,7 +64,7 @@ check.dependsOn jacocoTestCoverageVerification
 */
 
 pitest {
-    targetClasses = ['java2.util2.linkedlist*']
+    targetClasses = ['java2.util2.treemap*']
     //by default "${project.group}.*"
 //    pitestVersion = '1.4.1' //not needed when a default PIT version should be used
     threads = 4

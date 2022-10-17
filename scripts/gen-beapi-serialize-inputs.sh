@@ -76,7 +76,7 @@ pushd $projectsdir/$1 > /dev/null
 set_config_options
 cp=./build/classes:./lib/*.jar:../lib/korat/korat.jar
 outdir=./beapi-tests
-serializeDir=$outdir/serialize/$class/$scope/
+serializeDir=serialize/$class/$scope/
 mkdir -p $serializeDir
 #omitfile=$scriptsdir/config/$project/omitmethods/$class
 #if [[ -f "$omitfile" ]]; then
@@ -107,7 +107,9 @@ cmd="java -Xmx$maxheap -ea -cp $bejar:$cp randoop.main.Main gentests \
 --only-test-public-members $beopts \
 --discard-generation-seqs \
 --serialize-objects=$serializeDir/objects.ser \
---omitmethods=\".*All\(\.*|toString\(\)|fin$classname|repOK\"" 
+--omitmethods=\".*All\(\.*|toString\(\)|fin$classname|repOK\"
+--dont-output-tests=true \
+" 
 #--id-triples-extensions \
 #--output_computed_extensions=computedExt.txt \
 #--output_gen_seqs_objs=seqObj.txt

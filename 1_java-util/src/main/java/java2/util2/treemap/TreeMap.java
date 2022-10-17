@@ -91,7 +91,7 @@ public class TreeMap  implements java.io.Serializable {
   /**
    * The number of entries in the tree
    */
-  private transient int size = 0;
+  private int size = 0;
 
   /**
    * The number of structural modifications to the tree.

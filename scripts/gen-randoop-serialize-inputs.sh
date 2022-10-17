@@ -15,7 +15,6 @@ cp=./build/classes:./lib/*.jar
 outdir=randoop-tests
 
 pushd $projectsdir/$1 > /dev/null
-echo "aca toy"
 echo $BE_EXP_SRC
 echo $projectsdir/$1
 
@@ -26,8 +25,13 @@ if [[ -f "$omitfile" ]]; then
     omitmethods="--omit-methods=\"$strres\""
 fi
 
+# literals="$scriptsdir/literals/literals${scope}.txt"
+
+
 echo ""
 echo "> Executing Randoop"
+serializeDir=serialize/$class/$budget/
+mkdir -p $serializeDir
 
 randoop_jar=../lib/randoop-serialize.jar
 
@@ -39,11 +43,15 @@ randoop.main.Main gentests \
 --disable-contracts $omitmethods \
 --junit-package-name=$packagename \
 --only-test-public-members \
---omitmethods=\"toString\(\)|addAll\(\)|equals\(\)\" \
---serialize-objects="randoop-obj/randoop.obj" \
+--omitmethods=\".*All\(\.*|toString\(\)|fin$classname|repOK\" \
+--serialize-objects="$serializeDir/randoop.ser" \
 --forbid-null=true \
 --dont-output-tests=true \
+--null-ratio=0
 "
+# --literals-file=$literals \
+#--literals-level=ALL \
+
 
 echo "$cmd"
 bash -c "$cmd"
