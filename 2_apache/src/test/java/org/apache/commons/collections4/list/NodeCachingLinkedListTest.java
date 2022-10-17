@@ -196,25 +196,51 @@ public class NodeCachingLinkedListTest {
 	//org.apache.commons.collections4.list.AbstractLinkedList.remove(int)
 	@ParameterizedTest
 	@MethodSource("provide_NCL_Int_Parameters")
-	public void remove_test(NodeCachingLinkedList list, Integer i) {
+	public void remove_index_test(NodeCachingLinkedList list, Integer i) {
+		
+		assumeTrue(i<list.size());
 		int oldSize = list.size();
-		boolean b = list.remove(i);
+		Integer value = list.remove(i.intValue());
 		assertTrue(list.repOK());
-		assertTrue((b && list.size() == oldSize-1 ) || (!b && list.size() == oldSize));
+		assertTrue(list.size() == oldSize-1);
 
 	 }
 	
 	
-	//org.apache.commons.collections4.list.AbstractLinkedList.equals(java.lang.Object)
+		//org.apache.commons.collections4.list.AbstractLinkedList.equals(java.lang.Object)
 		//org.apache.commons.collections4.list.AbstractLinkedList.add(int,java.lang.Integer)
 	    //org.apache.commons.collections4.list.AbstractLinkedList.iterator()
 		//org.apache.commons.collections4.list.AbstractLinkedList.listIterator()
 		//org.apache.commons.collections4.list.AbstractLinkedList.listIterator(int)
+		//org.apache.commons.collections4.list.NodeCachingLinkedList.removeAllNodes()
 
 	//org.apache.commons.collections4.list.AbstractLinkedList.remove(java.lang.Integer)
-//org.apache.commons.collections4.list.NodeCachingLinkedList.removeAllNodes()
+	@ParameterizedTest
+	@MethodSource("provide_NCL_Int_Parameters")
+	public void remove_value_test(NodeCachingLinkedList list, Integer value) {
+		int oldSize = list.size();
+		boolean b = list.remove(value);
+		assertTrue(list.repOK());
+		assertTrue((b && list.size() == oldSize-1 ) || (!b && list.size() == oldSize));
+
+	 }
+
+	
 //org.apache.commons.collections4.list.AbstractLinkedList.removeFirst()
-//org.apache.commons.collections4.list.AbstractLinkedList.removeLast()
+	@ParameterizedTest
+	@MethodSource("provide_NCL_Parameters")
+	public void remove_first_test(NodeCachingLinkedList list) {
+		assumeTrue(list.size() > 0);
+		int oldSize = list.size();
+		Integer value = list.removeFirst();
+		assertTrue(list.repOK());
+	//	assertTrue((b && list.size() == oldSize-1 ) || (!b && list.size() == oldSize));
+
+	 }
+
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.removeLast()
 //
 //org.apache.commons.collections4.list.NodeCachingLinkedList.repOK()
 //org.apache.commons.collections4.list.AbstractLinkedList.set(int,java.lang.Integer)
