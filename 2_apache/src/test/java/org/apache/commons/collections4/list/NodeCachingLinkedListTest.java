@@ -1,23 +1,23 @@
 package org.apache.commons.collections4.list;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.params.ParameterizedTest;
-//import org.junit.jupiter.params.provider.Arguments;
-//import org.junit.jupiter.params.provider.MethodSource;
 
 import utils.Config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-//import java.util.stream.Stream;
 import java.util.Random;
 
 
@@ -47,6 +47,25 @@ public class NodeCachingLinkedListTest {
 		System.out.println(count); 
 	}
 
+	
+	@AfterAll
+    static void afterAll() {
+		File dir = new File("../scripts/reportBEAPI/org.apache.commons.collections4.list.NodeCachingLinkedList/"+Config.scope);
+		 if (! dir.exists()){
+		        dir.mkdir();            
+		 }
+        	File file = new File(dir + "/tests.txt");
+            try{
+                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(String.valueOf(count) );
+                bw.close();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+                System.exit(-1);
+            }
+	}
 
 	@Test
 	public void clear_test() {
