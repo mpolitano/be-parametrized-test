@@ -351,7 +351,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     }
 
     //-----------------------------------------------------------------------
-    @Override
+  /*  @Override
     public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
@@ -374,7 +374,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
         return !(it1.hasNext() || it2.hasNext());
     }
-
+*/
     //@Override
     //public int hashCode() {
       //  int hashCode = 1;

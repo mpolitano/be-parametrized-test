@@ -250,7 +250,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
     }
 
 
-    @Override
+/*    @Override
     public String toString() {
         final StringBuilder buf = new StringBuilder();
         Node node = header.next;
@@ -285,7 +285,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
         return buf.toString();
 //        return super.toString();
     }
-    
+    */
     public boolean repOK(){
 
         if (this.header == null)

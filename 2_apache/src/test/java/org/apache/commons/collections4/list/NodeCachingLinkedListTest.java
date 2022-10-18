@@ -957,12 +957,109 @@ public class NodeCachingLinkedListTest {
 		}
 	}
 	
-	//org.apache.commons.collections4.list.AbstractLinkedList.equals(java.lang.Object)
-	//org.apache.commons.collections4.list.AbstractLinkedList.iterator()
-	//org.apache.commons.collections4.list.AbstractLinkedList.listIterator()
-	//org.apache.commons.collections4.list.AbstractLinkedList.listIterator(int)
-	//org.apache.commons.collections4.list.NodeCachingLinkedList.toString()
 
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.iterator()
+	@Test
+	public void Iterator_test() {
+
+		FileInputStream fileTestUnit;
+		ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+			while(ncl != null){
+				
+				count++;
+				java.util.Iterator i = ncl.iterator();
+				assertTrue(ncl.repOK());
+
+				ncl = (NodeCachingLinkedList)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.listIterator()
+	@Test
+	public void ListIterator_test() {
+
+		FileInputStream fileTestUnit;
+		ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+			while(ncl != null){
+				
+				count++;
+				org.apache.commons.collections4.ListIterator i = ncl.listIterator();
+				assertTrue(ncl.repOK());
+
+				ncl = (NodeCachingLinkedList)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.listIterator(int)
+	@Test
+	public void ListIterator_Int_test() {
+
+		FileInputStream fileTestUnit;
+		ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+			while(ncl != null){
+				
+				Random r = new Random();
+				int i = r.nextInt(scope);
+				
+				count++;
+				if(i<ncl.size()) {
+					org.apache.commons.collections4.ListIterator listIter = ncl.listIterator(i);
+					assertTrue(ncl.repOK());
+				}
+				ncl = (NodeCachingLinkedList)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	//org.apache.commons.collections4.list.NodeCachingLinkedList.toString()
+	//org.apache.commons.collections4.list.AbstractLinkedList.equals(java.lang.Object)
 
 
 	
