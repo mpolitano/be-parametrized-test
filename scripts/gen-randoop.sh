@@ -15,7 +15,6 @@ cp=./build/classes:./lib/*.jar
 outdir=randoop-tests
 
 pushd $projectsdir/$1 > /dev/null
-echo "aca toy"
 echo $BE_EXP_SRC
 echo $projectsdir/$1
 
@@ -39,7 +38,7 @@ randoop.main.Main gentests \
 --disable-contracts $omitmethods \
 --junit-package-name=$packagename \
 --only-test-public-members \
---omitmethods=\".*All\(\.*|toString\(\)|fin$classname|repOK\" \
+--omitmethods='.*All\(\.*|toString\(\)|fin$classname|repOK' \
 --forbid-null=true \
 --null-ratio=0
 "

@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import utils.Config;
 
-public class TestSchedule {
+public class ScheduleTest {
 
 	//Change with sedl 
 		public static int scope;
@@ -30,7 +30,7 @@ public class TestSchedule {
 	    static void initAll() {
 	    	Config.readEnvironmentVariables();
 	    	scope = Config.scope;
-	    	pathFile = "serialize/builders.Schedule/4/objects.ser";
+	    	pathFile = "serialize/builders.Schedule/"+Config.scope+"/objects.ser";
 	    }
 	
 	

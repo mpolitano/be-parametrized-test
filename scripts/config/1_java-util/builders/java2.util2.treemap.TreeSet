@@ -1,2 +1,3 @@
 java2.util2.treemap.TreeSet.<init>\(\)
 java2.util2.treemap.TreeSet.add\(java.lang.Object\)
+java2.util2.treemap.TreeSet.remove\(java.lang.Object\)

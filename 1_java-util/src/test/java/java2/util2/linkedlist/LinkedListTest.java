@@ -14,6 +14,7 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java2.util2.NoSuchElementException;
 import java.util.stream.Stream;
 
 
@@ -23,12 +24,11 @@ public class LinkedListTest {
 	public static int scope;
 	public static String pathFile;
 	
-    @BeforeAll
+	@BeforeAll
     static void initAll() {
     	Config.readEnvironmentVariables();
     	scope = Config.scope;
-    	pathFile = "beapi-tests/serialize/java2.util2.linkedlist.LinkedList/"+scope+"/randoop.obj";
-
+    	pathFile = "serialize/java2.util2.linkedlist.LinkedList/"+Config.scope+"/objects.ser";
     }
 	
 	@ParameterizedTest
@@ -43,10 +43,14 @@ public class LinkedListTest {
 	@ParameterizedTest
 	@MethodSource("provide_List_Int_Int_Parameters")
 	public void addTest1(LinkedList list, Integer i,Integer j) {
-    	assumeTrue(i<list.size());
-		int oldSize = list.size();
-		list.add(i,j);
-		assertTrue(list.size() == oldSize+1);
+			int oldSize = 0;
+		try {
+			oldSize = list.size();
+			list.add(i,j);
+		} catch (IndexOutOfBoundsException e) {
+			assertTrue(list.repOK());
+		}
+//		assertTrue(list.size() == oldSize+1);
 		assertTrue(list.repOK());
 
 	 }
@@ -58,6 +62,14 @@ public class LinkedListTest {
 		int oldSize = list.size();
 		list.add(i);
 		assertTrue(list.size() == oldSize+1);
+		assertTrue(list.repOK());
+
+	 }
+	
+	@ParameterizedTest
+	@MethodSource("provide_List_Int_Parameters")
+	public void indexOf_Test(LinkedList list, Integer i) {
+		list.lastIndexOf(i);
 		assertTrue(list.repOK());
 
 	 }
@@ -117,19 +129,42 @@ public class LinkedListTest {
 	@ParameterizedTest
 	@MethodSource("provide_List_Int_Parameters")
    	public void getFirst_test(LinkedList list, Integer i) {
-		assumeTrue(list.size()>0);
-    	Object obj=list.getFirst();
+		try {
+			list.getFirst();
+		}catch(NoSuchElementException e) {
+	    	assertTrue(list.repOK());
+		}
     	assertTrue(list.repOK());
-    	assertTrue(obj.equals(list.get(0)));
+//    	assertTrue(obj.equals(list.get(0)));
     }
 	
 	@ParameterizedTest
 	@MethodSource("provide_List_Int_Parameters")
    	public void getLast_test(LinkedList list, Integer i) {
-		assumeTrue(list.size()>0);
-    	Object obj=list.getLast();
+//		null;
+		try {
+			Object obj=list.getLast();
+		}catch(NoSuchElementException e) {
+	    	assertTrue(list.repOK());
+		}
     	assertTrue(list.repOK());
-    	assertTrue(obj.equals(list.get(list.size()-1)));
+//    	assertTrue(obj.equals(list.get(list.size()-1)));    
+    }
+	
+	@ParameterizedTest
+	@MethodSource("provide_List_Int_Parameters")
+   	public void addFirst_test(LinkedList list, Integer i) {
+		list.addFirst(i);;
+    	assertTrue(list.repOK());
+		assumeTrue(list.contains(i));
+    }
+	
+	@ParameterizedTest
+	@MethodSource("provide_List_Int_Parameters")
+   	public void addLast_test(LinkedList list, Integer i) {
+		list.addLast(i);;
+    	assertTrue(list.repOK());
+		assumeTrue(list.contains(i));
     }
 	
 	@ParameterizedTest
@@ -156,7 +191,11 @@ public class LinkedListTest {
 	@ParameterizedTest
 	@MethodSource("provide_List_Int_Parameters")
    	public void remove_test(LinkedList list, Integer i) {
-    	list.remove(i);
+		try {
+			list.remove(i);
+		} catch (IndexOutOfBoundsException e){
+	    	assertTrue(list.repOK());
+		}
     	assertTrue(list.repOK());
     }
 	
@@ -186,7 +225,7 @@ public class LinkedListTest {
 	@MethodSource("provide_List_Int_Int_Parameters")
    	public void set_test(LinkedList list, Integer i, Integer value) {
     	assumeTrue(i<list.size());
-    	list.set(i,value);
+    	list.set(i,0);
     	assertTrue(list.repOK());
     }
 	
@@ -197,14 +236,14 @@ public class LinkedListTest {
     	assertTrue(list.repOK());
     }
 	
-	@ParameterizedTest
-	@MethodSource("provide_List_Int_Int_Parameters")
-   	public void sublist_test(LinkedList list,Integer i, Integer j) {
-    	assumeTrue(i>0 && j<list.size() && i<list.size());
-    	list.subList(i,j);
-    	assertTrue(list.repOK());
-    }
-	
+//	@ParameterizedTest
+//	@MethodSource("provide_List_Int_Int_Parameters")
+//   	public void sublist_test(LinkedList list,Integer i, Integer j) {
+//    	assumeTrue(i>0 && j<list.size() && i<list.size());
+//    	list.subList(i,j);
+//    	assertTrue(list.repOK());
+//    }
+//	
 	@ParameterizedTest
 	@MethodSource("provide_List_Parameters")
    	public void toarray_test(LinkedList list) {

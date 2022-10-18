@@ -190,10 +190,10 @@ public class LinkedHashMap extends HashMap {
    * @param  m the map whose mappings are to be placed in this map.
    * @throws NullPointerException if the specified map is null.
    */
-  public LinkedHashMap(Map m) {
-    super(m);
-    accessOrder = false;
-  }
+//  public LinkedHashMap(Map m) {
+//    super(m);
+//    accessOrder = false;
+//  }
 
   /**
    * Constructs an empty <tt>LinkedHashMap</tt> instance with the

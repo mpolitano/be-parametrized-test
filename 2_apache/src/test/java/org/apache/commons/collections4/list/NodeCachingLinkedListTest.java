@@ -33,7 +33,6 @@ public class NodeCachingLinkedListTest {
 		Config.readEnvironmentVariables();
 		scope = Config.scope;
 		pathFile = "beapi-tests/serialize/org.apache.commons.collections4.list.NodeCachingLinkedList/"+scope+"/objects.ser";
-
 	}
 
 	static int count;
@@ -47,9 +46,6 @@ public class NodeCachingLinkedListTest {
 	void showCount() {
 		System.out.println(count); 
 	}
-
-
-
 
 
 	@Test
