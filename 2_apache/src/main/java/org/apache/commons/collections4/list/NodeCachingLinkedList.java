@@ -55,12 +55,12 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      * Cached nodes are stored in a singly-linked list with
      * <code>next</code> pointing to the next element.
      */
-    private transient Node firstCachedNode;
+    private Node firstCachedNode;
 
     /**
      * The size of the cache.
      */
-    private transient int cacheSize;
+    private int cacheSize;
 
     /**
      * The maximum size of the cache.
@@ -80,10 +80,10 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      *
      * @param coll  the collection to copy
      */
-    public NodeCachingLinkedList(final java.util.Collection<Integer>  coll) {
-        super(coll);
-        this.maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
-    }
+//    public NodeCachingLinkedList(final java.util.Collection<Integer>  coll) {
+//        super(coll);
+//        this.maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
+//    }
 
     /**
      * Constructor that species the maximum cache size.

@@ -32,7 +32,7 @@ public class NodeCachingLinkedListTest {
 	static void initAll() {
 		Config.readEnvironmentVariables();
 		scope = Config.scope;
-		pathFile = "beapi-tests/serialize/org.apache.commons.collections4.list.NodeCachingLinkedList/"+scope+"/objects.ser";
+		pathFile = "serialize/org.apache.commons.collections4.list.NodeCachingLinkedList/"+scope+"/objects.ser";
 	}
 
 	static int count;
@@ -44,7 +44,7 @@ public class NodeCachingLinkedListTest {
 
 	@AfterEach
 	void showCount() {
-		System.out.println(count); 
+		System.out.println("Test:" + count); 
 	}
 
 	
@@ -67,6 +67,73 @@ public class NodeCachingLinkedListTest {
             }
 	}
 
+	@Test
+	public void cont_test() {
+
+		NodeCachingLinkedList ncl = new NodeCachingLinkedList();
+		ncl = new NodeCachingLinkedList(100);
+
+	}
+	
+	@Test
+	public void getNodeFromCache_test() {
+
+		FileInputStream fileTestUnit;
+		ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+			while(ncl != null){
+				count++;
+				ncl.getNodeFromCache();
+				assertTrue(ncl.repOK());
+				ncl = (NodeCachingLinkedList)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	@Test
+	public void createNode_test() {
+
+		FileInputStream fileTestUnit;
+		ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+			while(ncl != null){
+				count++;
+				Random r = new Random();
+				int i = r.nextInt(scope);	
+
+				ncl.createNode(i);
+				assertTrue(ncl.repOK());
+				ncl = (NodeCachingLinkedList)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	@Test
 	public void clear_test() {
 
@@ -236,40 +303,40 @@ public class NodeCachingLinkedListTest {
 	}
 
 
-	@Test
-	public void index_of_test() {
+//	@Test
+//	public void index_of_test() {
+//
+//		FileInputStream fileTestUnit;
+//		ObjectInputStream ois;
+//		try {
+//			fileTestUnit= new FileInputStream(pathFile);
+//			ois = new ObjectInputStream(fileTestUnit);
+//
+//			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+//			while(ncl != null){
+//				count++;
+//				Random r = new Random();
+//				int value = r.nextInt(scope);	
+//
+//				Integer index = ncl.indexOf(value);
+//				assertTrue(ncl.repOK());
+//				assertTrue( (ncl.contains(value) && index >0 && index < ncl.size())||
+//						(!ncl.contains(value) && index == -1));
+//
+//
+//				ncl = (NodeCachingLinkedList)nextObject(ois);
+//
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-		FileInputStream fileTestUnit;
-		ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-
-			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
-			while(ncl != null){
-				count++;
-				Random r = new Random();
-				int value = r.nextInt(scope);	
-
-				Integer index = ncl.indexOf(value);
-				assertTrue(ncl.repOK());
-				assertTrue( (ncl.contains(value) && index >0 && index < ncl.size())||
-						(!ncl.contains(value) && index == -1));
-
-
-				ncl = (NodeCachingLinkedList)nextObject(ois);
-
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
+//	}
 
 
 

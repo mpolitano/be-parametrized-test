@@ -85,11 +85,11 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      *
      * @param coll  the collection to copy
      */
-    protected AbstractLinkedList(final java.util.Collection coll) {
-        super();
-        init();
-        addAll(coll);
-    }
+//    protected AbstractLinkedList(final java.util.Collection coll) {
+//        super();
+//        init();
+//        addAll(coll);
+//    }
 
     /**
      * The equivalent of a default constructor, broken out so it can be called
@@ -159,13 +159,15 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     }
 
     public boolean containsAll(final java.util.Collection coll) {
-        for (final Object o : coll) {
-            if (!contains((Integer)o)) {
-                return false;
-            }
-        }
-        return true;
+		return false;
     }
+//        for (final Object o : coll) {
+//            if (!contains((Integer)o)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     //-----------------------------------------------------------------------
 
@@ -384,27 +386,27 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         //return hashCode;
     //}
 
-    @Override
-    public String toString() {
-        if (size() == 0) {
-            return "[]";
-        }
-        final StringBuilder buf = new StringBuilder(16 * size());
-        buf.append('[');
-
-        final Iterator it = iterator();
-        boolean hasNext = it.hasNext();
-        while (hasNext) {
-            final Object value = it.next();
-            buf.append(value == this ? "(this Collection)" : value);
-            hasNext = it.hasNext();
-            if (hasNext) {
-                buf.append(", ");
-            }
-        }
-        buf.append(']');
-        return buf.toString();
-    }
+//    @Override
+//    public String toString() {
+//        if (size() == 0) {
+//            return "[]";
+//        }
+//        final StringBuilder buf = new StringBuilder(16 * size());
+//        buf.append('[');
+//
+//        final Iterator it = iterator();
+//        boolean hasNext = it.hasNext();
+//        while (hasNext) {
+//            final Object value = it.next();
+//            buf.append(value == this ? "(this Collection)" : value);
+//            hasNext = it.hasNext();
+//            if (hasNext) {
+//                buf.append(", ");
+//            }
+//        }
+//        buf.append(']');
+//        return buf.toString();
+//    }
 
     //-----------------------------------------------------------------------
     /**
@@ -638,9 +640,13 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      * From Commons Collections 3.1, all access to the <code>value</code> property
      * is via the methods on this class.
      */
-    protected static class Node {
+    protected static class Node  implements java.io.Serializable{
 
-        /** A pointer to the node before this node */
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		/** A pointer to the node before this node */
         protected Node previous;
         /** A pointer to the node after this node */
         protected Node next;
