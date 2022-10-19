@@ -43,7 +43,7 @@ public class LinkedListTest {
 	
 	@AfterAll
     static void afterAll() {
-		File dir = new File("../scripts/reportBEAPI/java2.util2.treemap.TreeMap/"+Config.scope);
+		File dir = new File("../scripts/reportBEAPI/java2.util2.linkedlist.LinkedList/"+Config.scope);
 		 if (! dir.exists()){
 		        dir.mkdir();            
 		 }
