@@ -613,7 +613,9 @@ DEFAULT_INITIAL_CAPACITY];
    */
   public boolean containsValue(Object value) {
     if (value == null) {
-      return containsNullValue();
+//      return containsNullValue();
+      return true;
+
     }
 
     Entry[] tab = table;
@@ -622,15 +624,15 @@ DEFAULT_INITIAL_CAPACITY];
     return false;
   }
 
-  /**
-   * Special-case code for containsValue with null argument
-   **/
-  private boolean containsNullValue() {
-    Entry[] tab = table;
-    for (int i = 0; i < tab.length; i++)
-      for (Entry e = tab[i]; e != null; e = e.next) if (e.value == null) return true;
-    return false;
-  }
+//  /**
+//   * Special-case code for containsValue with null argument
+//   **/
+//  private boolean containsNullValue() {
+//    Entry[] tab = table;
+//    for (int i = 0; i < tab.length; i++)
+//      for (Entry e = tab[i]; e != null; e = e.next) if (e.value == null) return true;
+//    return false;
+//  }
 
   /**
    * Returns a shallow copy of this <tt>HashMap</tt> instance: the keys and
@@ -701,10 +703,10 @@ DEFAULT_INITIAL_CAPACITY];
       }
       return false;
     }
-
-    public int hashCode() {
-      return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
-    }
+//
+//    public int hashCode() {
+//      return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+//    }
 
     public String toString() {
       return getKey() + "=" + getValue();
@@ -1032,43 +1034,42 @@ DEFAULT_INITIAL_CAPACITY];
     return loadFactor;
   }
   
-  @Override
-  public String toString() {
-	  StringBuilder buf = new StringBuilder();
-	  buf.append("{");
-
-	  List sorted = new ArrayList(keySet());
-	  
-	  boolean firstNull = false;
-	  if (sorted.remove(null)) {
-		  Object key = null;
-		  Object value = get(key);
-		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
-		  firstNull = true;
-	  }
-	  
-	  Collections.sort(sorted);
-	  
-	  Iterator i = sorted.iterator();
-	  boolean hasNext = i.hasNext();
-	  while (hasNext) {
-		  if (firstNull) {
-			  buf.append(", ");
-			  firstNull = false;
-		  }
-		  
-		  Object key = i.next();
-		  Object value = get(key);
-		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
-
-		  hasNext = i.hasNext();
-		  if (hasNext) buf.append(", ");
-	  }
-
-	  buf.append("}");
-	  return buf.toString();
-  }
-  
+//  public String toString() {
+//	  StringBuilder buf = new StringBuilder();
+//	  buf.append("{");
+//
+//	  List sorted = new ArrayList(keySet());
+//	  
+//	  boolean firstNull = false;
+//	  if (sorted.remove(null)) {
+//		  Object key = null;
+//		  Object value = get(key);
+//		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
+//		  firstNull = true;
+//	  }
+//	  
+//	  Collections.sort(sorted);
+//	  
+//	  Iterator i = sorted.iterator();
+//	  boolean hasNext = i.hasNext();
+//	  while (hasNext) {
+//		  if (firstNull) {
+//			  buf.append(", ");
+//			  firstNull = false;
+//		  }
+//		  
+//		  Object key = i.next();
+//		  Object value = get(key);
+//		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
+//
+//		  hasNext = i.hasNext();
+//		  if (hasNext) buf.append(", ");
+//	  }
+//
+//	  buf.append("}");
+//	  return buf.toString();
+//  }
+//  
   
   public boolean repOK() {
 		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();

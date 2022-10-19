@@ -115,30 +115,30 @@ public class TreeMapTest {
 
 	 }
 	
-	@Test
-	public void toString_Test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			TreeMap tmap = (TreeMap)nextObject(ois);
-			while(tmap != null){
-				count++;
-				tmap.toString();
-				assertTrue(tmap.repOK());
-				tmap = (TreeMap)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
-	 }
+//	@Test
+//	public void toString_Test() {
+//		FileInputStream fileTestUnit;
+//	  	ObjectInputStream ois;
+//		try {
+//			fileTestUnit= new FileInputStream(pathFile);
+//			ois = new ObjectInputStream(fileTestUnit);
+//			TreeMap tmap = (TreeMap)nextObject(ois);
+//			while(tmap != null){
+//				count++;
+//				tmap.toString();
+//				assertTrue(tmap.repOK());
+//				tmap = (TreeMap)nextObject(ois);
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		 catch (ClassNotFoundException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//		}
+//
+//	 }
 	
 	@Test
 	public void constructor_Test() {

@@ -1,5 +1,6 @@
 package java2.util2.hashmap;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -7,8 +8,11 @@ import utils.Config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,6 +34,25 @@ public class HashMapTest {
 	    	scope = Config.scope;
 	    	pathFile = "serialize/java2.util2.hashmap.HashMap/"+Config.scope+"/objects.ser";
 	    }
+		
+		@AfterAll
+	    static void afterAll() {
+			File dir = new File("../scripts/reportBEAPI/java2.util2.treemap.TreeMap/"+Config.scope);
+			 if (! dir.exists()){
+			        dir.mkdir();            
+			 }
+	        	File file = new File(dir + "/tests.txt");
+	            try{
+	                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+	                BufferedWriter bw = new BufferedWriter(fw);
+	                bw.write(String.valueOf(count) );
+	                bw.close();
+	            }
+	            catch (IOException e){
+	                e.printStackTrace();
+	                System.exit(-1);
+	            }
+		}
 	
 		@Test
 		public void clear_Test() {
@@ -64,8 +87,8 @@ public class HashMapTest {
 			HashMap h = null;
 
 	    	try {
-				int i = ThreadLocalRandom.current().nextInt(-1, scope + 1);
-				int j = ThreadLocalRandom.current().nextInt(-1, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(-3, scope + 1);
+				int j = ThreadLocalRandom.current().nextInt(-3, scope + 1);
 
 	    		h = new HashMap(i,j);
 			}catch(IllegalArgumentException e) {
@@ -75,6 +98,59 @@ public class HashMapTest {
 				assertTrue(h.repOK());
 
 		 }
+	    
+	    @Test
+		public void keyset_Test() {
+	    	FileInputStream fileTestUnit;
+		  	ObjectInputStream ois;
+			try {
+				fileTestUnit= new FileInputStream(pathFile);
+				ois = new ObjectInputStream(fileTestUnit);
+				HashMap hmap = (HashMap)nextObject(ois);
+				while(hmap != null){
+					count++;	
+					hmap.keySet();
+					assertTrue(hmap.repOK());
+					hmap = (HashMap)nextObject(ois);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+			
+//			assertTrue(hmap.equals(hmap1));
+		 }
+	    
+//	    @Test
+//		public void ketItset_Test() {
+//	    	FileInputStream fileTestUnit;
+//		  	ObjectInputStream ois;
+//			try {
+//				fileTestUnit= new FileInputStream(pathFile);
+//				ois = new ObjectInputStream(fileTestUnit);
+//				HashMap hmap = (HashMap)nextObject(ois);
+//				while(hmap != null){
+//					count++;	
+//					HashMap hmap1 = (HashMap) hmap.key();
+//					assertTrue(hmap.repOK());
+//					hmap = (HashMap)nextObject(ois);
+//				}
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			 catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			}
+//			
+////			assertTrue(hmap.equals(hmap1));
+//		 }
+		 
 	    
 	    @Test
 		public void constructor1_Test() {
@@ -171,6 +247,7 @@ public class HashMapTest {
 					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
 				  	hmap.containsValue(i);
 			    	assertTrue(hmap.repOK());
+			    	
 					hmap = (HashMap)nextObject(ois);
 				}
 			} catch (IOException e) {
