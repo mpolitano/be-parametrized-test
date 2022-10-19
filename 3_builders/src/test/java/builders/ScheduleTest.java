@@ -2,21 +2,21 @@ package builders;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
+import java.util.concurrent.ThreadLocalRandom;
+
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+
 
 import utils.Config;
 
@@ -25,7 +25,8 @@ public class ScheduleTest {
 	//Change with sedl 
 		public static int scope;
 		public static String pathFile;
-		
+		private static int count = 0;
+
 	    @BeforeAll
 	    static void initAll() {
 	    	Config.readEnvironmentVariables();
@@ -33,6 +34,25 @@ public class ScheduleTest {
 	    	pathFile = "serialize/builders.Schedule/"+Config.scope+"/objects.ser";
 	    }
 	
+		@AfterAll
+	    static void afterAll() {
+			File dir = new File("../scripts/reportBEAPI/builders.Schedule/"+Config.scope);
+			 if (! dir.exists()){
+			        dir.mkdir();            
+			 }
+	        	File file = new File(dir + "/tests.txt");
+	            try{
+	                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+	                BufferedWriter bw = new BufferedWriter(fw);
+	                bw.write(String.valueOf(count) );
+	                bw.close();
+	            }
+	            catch (IOException e){
+	                e.printStackTrace();
+	                System.exit(-1);
+	            }
+		}
+		
 	
 	    @Test
 	public void test_init() {
@@ -48,239 +68,341 @@ public class ScheduleTest {
 		assertTrue(sch.repOK());
 	}
 	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Int_Parameters")
-	public void test_add(Schedule sch, Integer i) {
-		try {
-			sch.addProcess(i);
-		} catch (java.lang.IllegalArgumentException e) {
-			assertTrue(sch.repOK());       
-		}
-		assertTrue(sch.repOK());       
-	}
+	   @Test
+		public void test_add() {
 	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Parameters")
-	public void test_block(Schedule sch) {
-		sch.blockProcess();
-		assertTrue(sch.repOK());
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Int_Parameters")
-	public void test_initPrioQueue_good(Schedule sch, Integer i) {
-		//workaround for stream stackoverflow
-		try {
-				sch.initPrioQueue(-1,i);
-		} catch (java.lang.IllegalArgumentException e) {
-			assertTrue(sch.repOK());
-		}
-		assertTrue(sch.repOK());
-
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Int_Parameters")
-	public void test_initPrioQueue_bad(Schedule sch,Integer i) {
-		try {	
-			sch.initPrioQueue(-1,i);
-		} catch (java.lang.IllegalArgumentException e) {
-			assertTrue(sch.repOK());
-		}
-		assertTrue(sch.repOK());
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Parameters")
-	public void test_finishAll(Schedule sch) {
-		sch.finishAllProcesses();
-		assertTrue(sch.repOK());
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Parameters")
-	public void test_finishProcess(Schedule sch) {
-		sch.finishProcess();
-		assertTrue(sch.repOK());
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Parameters")
-	public void test_quantum(Schedule sch) {
-		sch.quantumExpire();
-		assertTrue(sch.repOK());
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Int_Parameters")
-	public void test_unblockProcess(Schedule sch, Integer i) {
-		try {
-			sch.unblockProcess(i);
-//		assertThrows(IllegalArgumentException.class,
-//	            ()->{
-//	            //do whatever you want to do here
-//	            //ex : objectName.thisMethodShoulThrowNullPointerExceptionForNullParameter(null);
-//	            });
-        } catch (java.lang.IllegalArgumentException e) {
-			assertTrue(sch.repOK());
-        }
-		assertTrue(sch.repOK());
-
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Int_Parameters")
-	public void test_upgradeProcess_good(Schedule sch, Integer i) {
-		try {
-			sch.upgradeProcessPrio(i,0);
-        } catch (java.lang.IllegalArgumentException | java.lang.StackOverflowError e) {
-			assertTrue(sch.repOK());
-        }
-		assertTrue(sch.repOK());
-
-	}
-	
-	@ParameterizedTest
-	@MethodSource("provide_Sch_Int_Parameters")
-	public void test_upgradeProcess_nogood(Schedule sch, Integer i) {
-		try {
-			sch.upgradeProcessPrio(0,i);
-        } catch (java.lang.IllegalArgumentException | java.lang.StackOverflowError e) {
-			assertTrue(sch.repOK());
-        }
-		assertTrue(sch.repOK());
-	}
-	
-	/*
-	 * Providers..
-	 */
-	
-	
-	private static Stream<Arguments> provide_Sch_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
+			FileInputStream fileTestUnit;
+		  	ObjectInputStream ois;
 			try {
 				fileTestUnit= new FileInputStream(pathFile);
 				ois = new ObjectInputStream(fileTestUnit);
-			
-				Schedule list = (Schedule)nextObject(ois);
-				while(list != null){
-					stream = Stream.concat(Stream.of(Arguments.of(list)), stream);
-					list = (Schedule)nextObject(ois);
+				Schedule sch = (Schedule)nextObject(ois);
+				while(sch != null){
+					count++;
+					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					
+					try {
+						sch.addProcess(i);
+					} catch (java.lang.IllegalArgumentException e) {
+						assertTrue(sch.repOK());       
+					}
+					assertTrue(sch.repOK());
+	
+					sch = (Schedule)nextObject(ois);
+	
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-   		 catch (ClassNotFoundException e) {
+			 catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-  		}
-	  	return stream;
-	  }
+			}
+		
+       
+	}
 	
-	
-	@SuppressWarnings("resource")
-	private static Stream<Arguments> provide_Sch_Int_Parameters() {
-		Stream<Arguments> stream = Stream.empty();
-	   	
-	  	FileInputStream fileTestUnit;
-    	ObjectInputStream ois;
-    	for(int i = 0; i <scope; i++) {
-				try {
-					fileTestUnit= new FileInputStream(pathFile);
-					ois = new ObjectInputStream(fileTestUnit);
+	   @Test
+	public void test_block() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			Schedule sch = (Schedule)nextObject(ois);
+			while(sch != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
 				
-					Schedule list = (Schedule)nextObject(ois);
-					
-					while(list != null){
-//						Random r = new Random();
-//						float random = 0 + r.nextFloat() * (1 - 0);
+				
+				sch.blockProcess();
+				assertTrue(sch.repOK());
+				sch = (Schedule)nextObject(ois);
 
-						stream = Stream.concat(Stream.of(Arguments.of(list,i)), stream);
-						list = (Schedule)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+
+	}
+	
+	   @Test
+	public void test_initPrioQueue_good() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			Schedule sch = (Schedule)nextObject(ois);
+			while(sch != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+				int j = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+
+				try {
+					sch.initPrioQueue(j,i);
+			} catch (java.lang.IllegalArgumentException e) {
+				assertTrue(sch.repOK());
+			}
+			assertTrue(sch.repOK());
+				sch = (Schedule)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+		//workaround for stream stackoverflow
+	
+
+	}
+	
+	   @Test
+	public void test_initPrioQueue_bad() {
+			
+			
+			FileInputStream fileTestUnit;
+		  	ObjectInputStream ois;
+			try {
+				fileTestUnit= new FileInputStream(pathFile);
+				ois = new ObjectInputStream(fileTestUnit);
+				Schedule sch = (Schedule)nextObject(ois);
+				while(sch != null){
+					count++;
+					int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+					int j = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+					try {
+						sch.initPrioQueue(i,i);
+					} catch (java.lang.IllegalArgumentException e) {
+						assertTrue(sch.repOK());
 					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						assertTrue(sch.repOK());
+						sch = (Schedule)nextObject(ois);
+
 				}
-	   		 catch (ClassNotFoundException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-	  		}
-	  	}		
-  	return stream;
-	  }
+			}
+			 catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+			
+			//workaround for stream stackoverflow
+		
 
-	  
-	private static Stream<Arguments> provide_Sch_Float_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-					try {
-						fileTestUnit= new FileInputStream(pathFile);
-						ois = new ObjectInputStream(fileTestUnit);
+		}
+		
+	   @Test
+	public void test_finishAll() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			Schedule sch = (Schedule)nextObject(ois);
+			while(sch != null){
+				count++;
+				try {
 					
-						Schedule list = (Schedule)nextObject(ois);
-						
-						while(list != null){	
-					    	for(int i = 0; i <scope; i++) {
+					sch.finishAllProcesses();
+					assertTrue(sch.repOK());
+				} catch (java.lang.IllegalArgumentException e) {
+					assertTrue(sch.repOK());
+				}
+					assertTrue(sch.repOK());
+					sch = (Schedule)nextObject(ois);
 
-	//							Random r = new Random();
-	//							float random = 0 + r.nextFloat() * (1 - 0);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+
+	}
 	
-								stream = Stream.concat(Stream.of(Arguments.of(list,i)), stream);
-								list = (Schedule)nextObject(ois);
-					    	}
-						}
+	   @Test
+	public void test_finishProcess() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			Schedule sch = (Schedule)nextObject(ois);
+			while(sch != null){
+				count++;
+					
+					sch.finishProcess();
+					assertTrue(sch.repOK());
+					sch = (Schedule)nextObject(ois);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+
+		}
+	   
+	
+		@Test
+	public void test_quantum() {
+		
+			FileInputStream fileTestUnit;
+		  	ObjectInputStream ois;
+			try {
+				fileTestUnit= new FileInputStream(pathFile);
+				ois = new ObjectInputStream(fileTestUnit);
+				Schedule sch = (Schedule)nextObject(ois);
+				while(sch != null){
+					count++;
 						
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-					}
-		   		 catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-		  		}
-//		  	}		
-	  	return stream;
-	  }
+						sch.quantumExpire();
+						assertTrue(sch.repOK());
+						sch = (Schedule)nextObject(ois);
+
+				}	
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+		}
+
 	
-	private static Stream<Arguments> provide_Sch_Int_Float_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-	    	for(int i = 0; i <scope; i++) {
-		    	for(int j = -1; j <0; j++) {
+		@Test
+	public void test_unblockProcess() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			Schedule sch = (Schedule)nextObject(ois);
+			while(sch != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+
+				try {
+					sch.unblockProcess(i);
+
+		        } catch (java.lang.IllegalArgumentException e) {
+					assertTrue(sch.repOK());
+		        }
+				assertTrue(sch.repOK());
+					sch = (Schedule)nextObject(ois);
+
+			}	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+
+	}
+	
+		@Test
+	public void test_upgradeProcess_good() {
+			FileInputStream fileTestUnit;
+		  	ObjectInputStream ois;
+			try {
+				fileTestUnit= new FileInputStream(pathFile);
+				ois = new ObjectInputStream(fileTestUnit);
+				Schedule sch = (Schedule)nextObject(ois);
+				while(sch != null){
+					count++;
+					int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+					int j = ThreadLocalRandom.current().nextInt(-2, scope + 1);
 
 					try {
-						fileTestUnit= new FileInputStream(pathFile);
-						ois = new ObjectInputStream(fileTestUnit);
-					
-						Schedule list = (Schedule)nextObject(ois);
-						
-						while(list != null){
-							Random r = new Random();
-							float random = 0 + r.nextFloat() * (1 - 0);
-							stream = Stream.concat(Stream.of(Arguments.of(list,i,j)), stream);
-							list = (Schedule)nextObject(ois);
-						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			   		 catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-			   		 }
-		    	}	
-		    }		
-	  	return stream;
-	  }
+						sch.upgradeProcessPrio(i,j);
+			        } catch (java.lang.IllegalArgumentException | java.lang.StackOverflowError e) {
+						assertTrue(sch.repOK());
+			        }
+					assertTrue(sch.repOK());
+						sch = (Schedule)nextObject(ois);
+
+				}	
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+			
+		
+
+	}
+	
+	@Test
+	public void test_upgradeProcess_nogood() {
+		
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			Schedule sch = (Schedule)nextObject(ois);
+			while(sch != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+
+				try {
+					sch.upgradeProcessPrio(0,i);
+		        } catch (java.lang.IllegalArgumentException | java.lang.StackOverflowError e) {
+					assertTrue(sch.repOK());
+		        }
+				assertTrue(sch.repOK());
+					sch = (Schedule)nextObject(ois);
+
+			}	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+		
+		
+	}
 	
 	
 

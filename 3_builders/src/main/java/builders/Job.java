@@ -14,9 +14,6 @@ public class Job implements java.io.Serializable{
 
 	public int priority;
 	
-	public Job() {
-    }
-
 	public Job(int newNum) {
 		next = null;
 		prev = null;
@@ -55,12 +52,12 @@ public class Job implements java.io.Serializable{
 		priority = newPriority;
 	}
 
-	public String toString() {
-		final StringBuilder buf = new StringBuilder(1);
-		// buf.append(this.val);
-		// buf.append(",");
-		buf.append(this.priority);
-		return buf.toString();
-	}
+//	public String toString() {
+//		final StringBuilder buf = new StringBuilder(1);
+//		// buf.append(this.val);
+//		// buf.append(",");
+//		buf.append(this.priority);
+//		return buf.toString();
+//	}
 
 }
