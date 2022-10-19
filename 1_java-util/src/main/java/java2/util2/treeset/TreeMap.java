@@ -96,7 +96,7 @@ public class TreeMap implements java.io.Serializable {
 	/**
 	 * The number of entries in the tree
 	 */
-	public transient int size = 0;
+	public int size = 0;
 
 	private void incrementSize() {
 		size++;
@@ -732,8 +732,12 @@ public class TreeMap implements java.io.Serializable {
 		}
 	}
 
-	public class Entry {
+	public class Entry  implements java.io.Serializable{
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		public int key;
 		public Object value;
 		public Entry left = null;
