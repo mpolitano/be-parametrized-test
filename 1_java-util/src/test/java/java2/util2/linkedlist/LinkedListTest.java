@@ -89,6 +89,37 @@ public class LinkedListTest {
 
 	 }
 
+	@Test
+	public void iterTest() {
+		FileInputStream fileTestUnit;
+	  	ObjectInputStream ois;
+		try {
+			fileTestUnit= new FileInputStream(pathFile);
+			ois = new ObjectInputStream(fileTestUnit);
+			LinkedList list = (LinkedList)nextObject(ois);
+			while(list != null){
+				count++;
+				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+			try {	
+				list.listIterator(i);
+			} catch (IndexOutOfBoundsException e) {
+				assertTrue(list.repOK());
+			}
+				list = (LinkedList)nextObject(ois);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+		
+
+	 }
+
+	@Test
 	public void addTest1() {
 		FileInputStream fileTestUnit;
 	  	ObjectInputStream ois;
@@ -97,8 +128,8 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
-				int j = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(-1, scope + 1);
+				int j = ThreadLocalRandom.current().nextInt(-1, scope + 1);
 
 				int oldSize = 0;
 				try {
@@ -542,7 +573,7 @@ public class LinkedListTest {
 
     }
 	
-
+   	@Test
    	public void const_test() {
 		count++;
 
@@ -562,7 +593,7 @@ public class LinkedListTest {
 				try {
 					count++;
 
-					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					Integer i = ThreadLocalRandom.current().nextInt(0, scope + 1);
 					list.remove(i);
 				} catch (IndexOutOfBoundsException e){
 			    	assertTrue(list.repOK());

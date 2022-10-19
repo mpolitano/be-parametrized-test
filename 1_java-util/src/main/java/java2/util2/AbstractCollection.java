@@ -41,6 +41,11 @@ package java2.util2;
  */
 public abstract class AbstractCollection implements Collection, java.io.Serializable {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+/**
    * Sole constructor.  (For invocation by subclass constructors, typically
    * implicit.)
    */
