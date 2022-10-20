@@ -36,7 +36,7 @@ function run_many() {
                         pushd $projectsdir/$project > /dev/null
                         SECONDS=0
                         start_time=$SECONDS
-                        cmd="timeout 3600 ./gradlew clean test --tests ${packganme}${classname}Test jacocoTestReport -Dorg.gradle.jvmargs="-Xss4m""
+                        cmd="./gradlew clean test --tests ${packganme}${classname}Test jacocoTestReport -Dorg.gradle.jvmargs="-Xss4m""
                         echo "$cmd"
                         bash -c "$cmd"
                         elapsed=$(( SECONDS - start_time ))
