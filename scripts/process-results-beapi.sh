@@ -53,7 +53,7 @@ function process_results() {
                     if [[ -f $covreport ]]; then
                         covline=$(cat $covreport | grep ",$classname,")
                         linesmiss=$(echo $covline | cut -d',' -f9)
-                        linescov=$(echo $covline | cut -d',' -f5)
+                        linescov=$(echo $covline | cut -d',' -f9)
                         branchesmiss=$(echo $covline | cut -d',' -f6)
                         branchescov=$(echo $covline | cut -d',' -f7)
                     fi
