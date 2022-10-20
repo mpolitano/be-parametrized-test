@@ -421,6 +421,8 @@ public class TreeMapTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
+				count++;
+
 				int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 		    	int s = tmap.size();

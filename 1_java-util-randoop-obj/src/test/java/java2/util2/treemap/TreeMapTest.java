@@ -144,6 +144,8 @@ public class TreeMapTest {
 	
 	@Test
 	public void constructor_Test() {
+		count++;
+
 		FileInputStream fileTestUnit;
 	  	ObjectInputStream ois;
 		TreeMap t = new TreeMap();
@@ -421,6 +423,7 @@ public class TreeMapTest {
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
 				int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
+				count++;
 
 		    	int s = tmap.size();
 		       	assertTrue(tmap.repOK());

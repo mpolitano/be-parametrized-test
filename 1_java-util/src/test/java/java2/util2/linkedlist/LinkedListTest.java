@@ -719,6 +719,8 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
+				count++;
+
 				list.size();
 		    	assertTrue(list.repOK());
 		    	list = (LinkedList)nextObject(ois);
@@ -751,6 +753,8 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
+				count++;
+
 		    	Object[] lArray = list.toArray();
 		    	assertTrue(list.repOK());
 		    	list = (LinkedList)nextObject(ois);

@@ -656,6 +656,8 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
 			    	if(list.size()>0) {
+						count++;
+
 			    		Object last = list.get(list.size()-1);
 			        	Object obj=list.removeLast();
 			        	assertTrue(list.repOK());

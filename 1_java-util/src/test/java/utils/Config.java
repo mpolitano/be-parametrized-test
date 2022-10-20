@@ -18,7 +18,7 @@ public class Config {
         try {
             props.load(new FileInputStream(propFile));
             scope = Integer.parseInt(props.getProperty("scope"));
-            scope = Integer.parseInt(props.getProperty("literals"));
+            literals = Integer.parseInt(props.getProperty("literals"));
 
             path = props.getProperty("path");
         } catch (Exception e) {

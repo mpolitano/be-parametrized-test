@@ -91,7 +91,8 @@ public class HashMapTest {
 		    	for (int j = -1; j<literals-1;j++) {
 
 	    		
-	  
+					count++;
+
 			HashMap h = null;
 
 	    	try {
@@ -182,6 +183,8 @@ public class HashMapTest {
 			HashMap h = null;
 
 	    	try {
+				count++;
+
 	    		h = new HashMap();
 			}catch(IllegalArgumentException e) {
 //				assertTrue(h.repOK());
@@ -195,6 +198,8 @@ public class HashMapTest {
 		public void constructor2_Test() {
 	    		HashMap h = null;
 	    	try {
+				count++;
+
 				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				h = new HashMap(i);
 			}catch(IllegalArgumentException e) {
@@ -269,6 +274,8 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
+					count++;
+
 					int i = ThreadLocalRandom.current().nextInt(-1, literals );
 				  	hmap.containsValue(i);
 			    	assertTrue(hmap.repOK());
@@ -296,6 +303,8 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
+					count++;
+
 					Set s = hmap.entrySet();
 			    	assertTrue(hmap.repOK());
 					hmap = (HashMap)nextObject(ois);
@@ -321,6 +330,8 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
+					count++;
+
 					int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			    	Integer v =  (Integer)hmap.get(key);
 			    	assertTrue(hmap.repOK());
@@ -352,6 +363,8 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
+					count++;
+
 					boolean p = hmap.isEmpty();
 			    	assertTrue(hmap.repOK());
 			    	assertTrue((p ==true && hmap.size() ==0) || (p ==false && hmap.size() !=0));
@@ -389,6 +402,8 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
+					count++;
+
 					int oldSize = hmap.size();
 					int key = ThreadLocalRandom.current().nextInt(-1, literals );
 					int value = ThreadLocalRandom.current().nextInt(-1, literals );
@@ -423,6 +438,8 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
+					count++;
+
 					int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 					hmap.remove(key);
