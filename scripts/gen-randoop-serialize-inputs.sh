@@ -40,7 +40,7 @@ randoop.main.Main gentests \
 --testclass=$class \
 --junit-output-dir=$outdir \
 --time-limit=$budget \
---disable-contracts $omitmethods \
+--disable-contracts \
 --junit-package-name=$packagename \
 --only-test-public-members \
 --serialize-objects="$serializeDir/randoop.ser" \

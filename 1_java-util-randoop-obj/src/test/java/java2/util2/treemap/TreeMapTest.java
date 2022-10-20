@@ -355,18 +355,19 @@ public class TreeMapTest {
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
 				int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
+				int value = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 				count++;
 				int oldSize = tmap.size();
 				boolean b = tmap.containsKey(key);
 				
-				tmap.put(key,0);
+				tmap.put(key,value);
 				
 				assertTrue((!b && tmap.size() == oldSize+1) ||(b && tmap.size() == oldSize));
 				assertTrue(tmap.repOK());
 				assertTrue(tmap.containsKey(key) && tmap.containsValue(0));
+				
 				tmap = (TreeMap)nextObject(ois);
-
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
