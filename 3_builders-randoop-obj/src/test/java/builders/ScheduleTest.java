@@ -26,12 +26,14 @@ public class ScheduleTest {
 		public static int scope;
 		public static String pathFile;
 		private static int count = 0;
+		public static int literals;
 
 	    @BeforeAll
 	    static void initAll() {
 	    	Config.readEnvironmentVariables();
 	    	scope = Config.scope;
 	    	pathFile = "serialize/builders.Schedule/"+Config.scope+"/randoop.ser";
+	    	literals = Config.literals;
 	    }
 	
 		@AfterAll
@@ -79,7 +81,7 @@ public class ScheduleTest {
 				Schedule sch = (Schedule)nextObject(ois);
 				while(sch != null){
 					count++;
-					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 					
 					try {
 						sch.addProcess(i);
@@ -114,7 +116,7 @@ public class ScheduleTest {
 			Schedule sch = (Schedule)nextObject(ois);
 			while(sch != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				
 				
 				sch.blockProcess();
@@ -145,8 +147,8 @@ public class ScheduleTest {
 			Schedule sch = (Schedule)nextObject(ois);
 			while(sch != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
-				int j = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
+				int j = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 
 				try {
 					sch.initPrioQueue(j,i);
@@ -183,8 +185,8 @@ public class ScheduleTest {
 				Schedule sch = (Schedule)nextObject(ois);
 				while(sch != null){
 					count++;
-					int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
-					int j = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+					int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
+					int j = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 					try {
 						sch.initPrioQueue(i,i);
 					} catch (java.lang.IllegalArgumentException e) {
@@ -310,7 +312,7 @@ public class ScheduleTest {
 			Schedule sch = (Schedule)nextObject(ois);
 			while(sch != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 
 				try {
 					sch.unblockProcess(i);
@@ -344,8 +346,8 @@ public class ScheduleTest {
 				Schedule sch = (Schedule)nextObject(ois);
 				while(sch != null){
 					count++;
-					int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
-					int j = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+					int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
+					int j = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 
 					try {
 						sch.upgradeProcessPrio(i,j);
@@ -380,7 +382,7 @@ public class ScheduleTest {
 			Schedule sch = (Schedule)nextObject(ois);
 			while(sch != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(-2, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 
 				try {
 					sch.upgradeProcessPrio(0,i);

@@ -27,12 +27,14 @@ public class NodeCachingLinkedListTest {
 	//Change with sedl 
 	public static int scope;
 	public static String pathFile;
+	public static int literals;
 
 	@BeforeAll
 	static void initAll() {
 		Config.readEnvironmentVariables();
 		scope = Config.scope;
 		pathFile = "serialize/org.apache.commons.collections4.list.NodeCachingLinkedList/"+scope+"/randoop.ser";
+		literals = Config.literals;
 	}
 
 	static int count;
@@ -116,7 +118,7 @@ public class NodeCachingLinkedListTest {
 			while(ncl != null){
 				count++;
 				Random r = new Random();
-				int i = r.nextInt(scope);	
+				int i = r.nextInt(literals);	
 
 				ncl.createNode(i);
 				assertTrue(ncl.repOK());
@@ -175,7 +177,7 @@ public class NodeCachingLinkedListTest {
 			while(ncl != null){
 				count++;
 				Random r = new Random();
-				int i = r.nextInt(scope);	
+				int i = r.nextInt(literals);	
 
 				int oldSize = ncl.size();
 				ncl.add(i);
@@ -213,7 +215,7 @@ public class NodeCachingLinkedListTest {
 			while(ncl != null){
 				count++;
 				Random r = new Random();
-				int i = r.nextInt(scope);	
+				int i = r.nextInt(literals);	
 
 
 				//assumeTrue(i<ncl.size());
@@ -316,7 +318,7 @@ public class NodeCachingLinkedListTest {
 //			while(ncl != null){
 //				count++;
 //				Random r = new Random();
-//				int value = r.nextInt(scope);	
+//				int value = r.nextInt(literals);	
 //
 //				Integer index = ncl.indexOf(value);
 //				assertTrue(ncl.repOK());
@@ -355,7 +357,7 @@ public class NodeCachingLinkedListTest {
 			while(ncl != null){
 				count++;
 				Random r = new Random();
-				int value = r.nextInt(scope);	
+				int value = r.nextInt(literals);	
 
 				boolean b = ncl.contains(value);
 				assertTrue(ncl.repOK());
@@ -454,7 +456,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
 				count++;
 
@@ -494,7 +496,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
 				count++;
 
@@ -598,7 +600,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
 				count++;
 
@@ -635,7 +637,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int index = r.nextInt(scope);
+				int index = r.nextInt(literals);
 				
 				count++;
 
@@ -674,7 +676,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
 				count++;
 
@@ -710,7 +712,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
 				count++;
 
@@ -788,9 +790,9 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
-				int index = r.nextInt(scope);
+				int index = r.nextInt(literals);
 				
 				
 				count++;
@@ -829,9 +831,9 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
-				int index = r.nextInt(scope);
+				int index = r.nextInt(literals);
 				
 				
 				count++;
@@ -904,7 +906,7 @@ public class NodeCachingLinkedListTest {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
 			while(ncl != null){
 				Random r = new Random();
-				int value = r.nextInt(scope);
+				int value = r.nextInt(literals);
 				
 				count++;
 
@@ -1104,7 +1106,7 @@ public class NodeCachingLinkedListTest {
 			while(ncl != null){
 				
 				Random r = new Random();
-				int i = r.nextInt(scope);
+				int i = r.nextInt(literals);
 				
 				count++;
 				if(i<ncl.size()) {

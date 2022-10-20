@@ -25,64 +25,18 @@ function run_many() {
     done
 }
 
-
 projects="1_java-util"
-cases="java2.util2.linkedlist.LinkedList"
-
-# cases="java2.util2.treeset.TreeSet java2.util2.treeset.TreeMap java2.util2.hashmap.HashMap java2.util2.linkedlist.LinkedList"
-# techniques="randoop evosuite"
-# budgets="60 120 180 300 600"
-budgets="10"
+cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
+# cases="java2.util2.hashmap.HashMap"
+scopes="10 30 60 120 180 300 600"
 run_many
-# methods="all"
-#run_many
 
-# techniques="be"
-# budgets="3 4 5"
-# #run_many
+projects="3_builders"
+cases="builders.Schedule"
+scopes="10 30 60 120 180 300 600"
+run_many
 
-# techniques="be-all"
-# budgets="3 4"
-# #run_many
-
-
-# projects="3_java-util-HashMap"
-# cases="java2.util2.HashMap"
-# techniques="randoop evosuite"
-# budgets="180 600"
-# methods="all"
-# # run_many
-
-# techniques="be"
-# budgets="3 4"
-# # run_many
-
-# techniques="be-all"
-# budgets="3 4"
-# # run_many
-
-
-# projects="4_java-util-TreeMap"
-# cases="java2.util2.TreeMap"
-# techniques="randoop evosuite"
-# budgets="180 600"
-# methods="all"
-# # run_many
-
-# techniques="be"
-# budgets="3 4"
-# # run_many
-
-
-# projects="6_paper-builders"
-# cases="builders.Lits"
-# techniques="randoop"
-# budgets="600"
-# methods="all"
-# run_many
-
-# techniques="be-all"
-# budgets="3 4"
-# run_many
-
-
+cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
+projects="2_apache"
+scopes="10 30 60 120 180 300 600"
+run_many

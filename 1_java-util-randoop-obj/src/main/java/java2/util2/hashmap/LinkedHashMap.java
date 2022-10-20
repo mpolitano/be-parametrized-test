@@ -264,7 +264,7 @@ public class LinkedHashMap extends HashMap {
    * @return the value to which this map maps the specified key.
    * @param key key whose associated value is to be returned.
    */
-  public Object get(Object key) {
+  public Object get(Integer key) {
     Entry e = (Entry) getEntry(key);
     if (e == null) return null;
     e.recordAccess(this);
@@ -286,8 +286,8 @@ public class LinkedHashMap extends HashMap {
     // These fields comprise the doubly linked list used for iteration.
     Entry before, after;
 
-    Entry(int hash, Object key, Object value, HashMap.Entry next) {
-      super(hash, key, value, next);
+    Entry(int hash, Integer key, Integer value, HashMap.Entry next) {
+      super(hash, (Integer)key, (Integer)value, next);
     }
 
     /**
@@ -398,7 +398,7 @@ public class LinkedHashMap extends HashMap {
    * allocated entry to get inserted at the end of the linked list and
    * removes the eldest entry if appropriate.
    */
-  void addEntry(int hash, Object key, Object value, int bucketIndex) {
+  void addEntry(int hash, Integer key, Integer value, int bucketIndex) {
     createEntry(hash, key, value, bucketIndex);
 
     // Remove eldest entry if instructed, else grow capacity if appropriate
@@ -414,7 +414,7 @@ public class LinkedHashMap extends HashMap {
    * This override differs from addEntry in that it doesn't resize the
    * table or remove the eldest entry.
    */
-  void createEntry(int hash, Object key, Object value, int bucketIndex) {
+  void createEntry(int hash, Integer key, Integer value, int bucketIndex) {
     Entry e = new Entry(hash, key, value, table[bucketIndex]);
     table[bucketIndex] = e;
     e.addBefore(header);

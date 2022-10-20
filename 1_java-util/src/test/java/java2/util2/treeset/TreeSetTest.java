@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
@@ -76,13 +77,15 @@ public class TreeSetTest {
 					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
 	
 					int oldSize = tset.size();
-					boolean b = tset.contains(0);
+					boolean b = tset.contains(i);
 					
 					tset.add(i);
 					
 					assertTrue((!b && tset.size() == oldSize+1) ||(b && tset.size() == oldSize));
 					assertTrue(tset.repOK());
 					assertTrue(tset.contains(i));
+					assertTrue(tset.size()>oldSize);
+
 					tset = (TreeSet)nextObject(ois);
 
 				}
@@ -180,6 +183,7 @@ public class TreeSetTest {
 
 	 }
 
+	@Test
 	public void first_Test() {
 		FileInputStream fileTestUnit;
 	  	ObjectInputStream ois;
@@ -189,10 +193,12 @@ public class TreeSetTest {
 			TreeSet tset = (TreeSet)nextObject(ois);
 			while(tset != null){
 
-				if(tset.size()>0) {
-					count++;
-					Object k = (Object) tset.first();
+				try {
+				count++;
+				Object k = (Object) tset.first();
+				}catch(NoSuchElementException e) {
 			    	assertTrue(tset.repOK());
+
 				}
 		    	
 				tset = (TreeSet)nextObject(ois);
@@ -277,8 +283,14 @@ public class TreeSetTest {
 				if(tset.size()>0) {
 					count++;
 
-			    	Object k = (Object) tset.last();
-			    	assertTrue(tset.repOK());
+					try {
+						count++;
+						Object k = (Object) tset.last();
+						}catch(NoSuchElementException e) {
+					    	assertTrue(tset.repOK());
+
+						}
+
 				}
 				tset = (TreeSet)nextObject(ois);
 

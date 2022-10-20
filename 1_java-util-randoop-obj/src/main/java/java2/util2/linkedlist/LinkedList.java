@@ -151,7 +151,7 @@ public class LinkedList extends AbstractSequentialList
    *
    * @param o the element to be inserted at the beginning of this list.
    */
-  public void addFirst(Object o) {
+  public void addFirst(Integer o) {
     addBefore(o, header.next);
   }
 
@@ -161,7 +161,7 @@ public class LinkedList extends AbstractSequentialList
    *
    * @param o the element to be inserted at the end of this list.
    */
-  public void addLast(Object o) {
+  public void addLast(Integer o) {
     addBefore(o, header);
   }
 
@@ -194,7 +194,7 @@ public class LinkedList extends AbstractSequentialList
    * @return <tt>true</tt> (as per the general contract of
    * <tt>Collection.add</tt>).
    */
-  public boolean add(Object o) {
+  public boolean add(Integer o) {
     addBefore(o, header);
     return true;
   }
@@ -314,7 +314,7 @@ public class LinkedList extends AbstractSequentialList
    * @throws IndexOutOfBoundsException if the specified index is out of
    *		  range (<tt>index &lt; 0 || index &gt;= size()</tt>).
    */
-  public Object set(int index, Object element) {
+  public Object set(int index, Integer element) {
     Entry e = entry(index);
     Object oldVal = e.element;
     e.element = element;
@@ -332,7 +332,7 @@ public class LinkedList extends AbstractSequentialList
    * @throws IndexOutOfBoundsException if the specified index is out of
    *		  range (<tt>index &lt; 0 || index &gt; size()</tt>).
    */
-  public void add(int index, Object element) {
+  public void add(int index, Integer element) {
     addBefore(element, (index == size ? header : entry(index)));
   }
 
@@ -524,13 +524,13 @@ public class LinkedList extends AbstractSequentialList
       expectedModCount++;
     }
 
-    public void set(Object o) {
+    public void set(Integer o) {
       if (lastReturned == header) throw new IllegalStateException();
       checkForComodification();
       lastReturned.element = o;
     }
 
-    public void add(Object o) {
+    public void add(Integer o) {
       checkForComodification();
       lastReturned = header;
       addBefore(o, next);
@@ -541,21 +541,33 @@ public class LinkedList extends AbstractSequentialList
     final void checkForComodification() {
       if (modCount != expectedModCount) throw new ConcurrentModificationException();
     }
+
+	@Override
+	public void set(Object o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void add(Object o) {
+		// TODO Auto-generated method stub
+		
+	}
   }
 
   private static class Entry implements java.io.Serializable{
-    Object element;
+    Integer element;
     Entry next;
     Entry previous;
 
-    Entry(Object element, Entry next, Entry previous) {
+    Entry(Integer element, Entry next, Entry previous) {
       this.element = element;
       this.next = next;
       this.previous = previous;
     }
   }
 
-  private Entry addBefore(Object o, Entry e) {
+  private Entry addBefore(Integer o, Entry e) {
     Entry newEntry = new Entry(o, e, e.previous);
     newEntry.previous.next = newEntry;
     newEntry.next.previous = newEntry;

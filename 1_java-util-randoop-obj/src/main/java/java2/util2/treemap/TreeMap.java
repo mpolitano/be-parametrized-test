@@ -468,7 +468,7 @@ public class TreeMap  implements java.io.Serializable {
    *         natural order, or its comparator does not tolerate
    *         <tt>null</tt> keys.
    */
-  public Object put(Object key, Object value) {
+  public Object put(Integer key, Integer value) {
     Entry t = root;
 
     if (t == null) {
@@ -1198,8 +1198,8 @@ public class TreeMap  implements java.io.Serializable {
   static class Entry implements Map.Entry, java.io.Serializable {
 	  private static final long serialVersionUID = 1L;
 
-	  Object key;
-	  Object value;
+	  Integer key;
+	  Integer value;
     Entry left = null;
     Entry right = null;
     Entry parent;
@@ -1209,7 +1209,7 @@ public class TreeMap  implements java.io.Serializable {
      * Make a new cell with given key, value, and parent, and with
      * <tt>null</tt> child links, and BLACK color.
      */
-    Entry(Object key, Object value, Entry parent) {
+    Entry(Integer key, Integer value, Entry parent) {
       this.key = key;
       this.value = value;
       this.parent = parent;
@@ -1240,7 +1240,7 @@ public class TreeMap  implements java.io.Serializable {
      * @return the value associated with the key before this method was
      *           called.
      */
-    public Object setValue(Object value) {
+    public Object setValue(Integer value) {
       Object oldValue = this.value;
       this.value = value;
       return oldValue;
@@ -1262,6 +1262,12 @@ public class TreeMap  implements java.io.Serializable {
     public String toString() {
       return key + "=" + value;
     }
+
+	@Override
+	public Object setValue(Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
   }
 
   /**

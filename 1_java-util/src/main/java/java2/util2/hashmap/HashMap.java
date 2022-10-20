@@ -129,7 +129,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-   transient Entry[] table;
+  public Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
@@ -329,7 +329,8 @@ DEFAULT_INITIAL_CAPACITY];
     Entry e = table[i];
     while (true) {
       if (e == null) return e;
-      if (e.hash == hash && eq(k, e.key)) return e.value;
+      if (e.hash == hash)
+    	  if( eq(k, e.key)) return e.value;
       e = e.next;
     }
   }
@@ -740,7 +741,11 @@ DEFAULT_INITIAL_CAPACITY];
   }
 
   private abstract class HashIterator implements Iterator,java.io.Serializable{
-    Entry next; // next entry to return
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Entry next; // next entry to return
     int expectedModCount; // For fast-fail
     int index; // current slot
     Entry current; // current entry

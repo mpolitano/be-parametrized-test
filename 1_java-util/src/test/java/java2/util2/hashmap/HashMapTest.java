@@ -25,6 +25,8 @@ public class HashMapTest {
 	
 	//Change with sedl 
 		public static int scope;
+		public static int literals;
+
 		public static String pathFile;
 		private static int count = 0;
 
@@ -32,6 +34,7 @@ public class HashMapTest {
 	    static void initAll() {
 	    	Config.readEnvironmentVariables();
 	    	scope = Config.scope;
+	    	literals = Config.literals;
 	    	pathFile = "serialize/java2.util2.hashmap.HashMap/"+Config.scope+"/objects.ser";
 	    }
 		
@@ -84,11 +87,15 @@ public class HashMapTest {
 	    
 	    @Test
 		public void constructor_Test() {
+	    	for (int i = -1; i<literals-1;i++) {
+		    	for (int j = -1; j<literals-1;j++) {
+
+	    		
+	  
 			HashMap h = null;
 
 	    	try {
-				int i = ThreadLocalRandom.current().nextInt(-3, scope + 1);
-				int j = ThreadLocalRandom.current().nextInt(-3, scope + 1);
+
 
 	    		h = new HashMap(i,j);
 			}catch(IllegalArgumentException e) {
@@ -96,8 +103,26 @@ public class HashMapTest {
 			}
 	    	if(h!=null)
 				assertTrue(h.repOK());
-
+		      	}
+	    	}
 		 }
+	    
+	    @Test
+		public void contains_key_null_Test() {
+	    		HashMap hmap = new HashMap();
+					count++;	
+					try {
+
+						hmap.containsKey(null);
+						hmap.eq(null, null);
+					}catch(ArrayIndexOutOfBoundsException e){
+				    	assertTrue(hmap.repOK());
+
+					}
+			    	assertTrue(hmap.repOK());
+//					hmap = (HashMap)nextObject(ois);
+				}
+	    
 	    
 	    @Test
 		public void keyset_Test() {
@@ -170,7 +195,7 @@ public class HashMapTest {
 		public void constructor2_Test() {
 	    		HashMap h = null;
 	    	try {
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				h = new HashMap(i);
 			}catch(IllegalArgumentException e) {
 			}
@@ -219,7 +244,7 @@ public class HashMapTest {
 					count++;	
 					System.out.println(count);
 
-					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 					hmap.containsKey(i);
 			    	assertTrue(hmap.repOK());
 					hmap = (HashMap)nextObject(ois);
@@ -244,7 +269,7 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
-					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int i = ThreadLocalRandom.current().nextInt(-1, literals );
 				  	hmap.containsValue(i);
 			    	assertTrue(hmap.repOK());
 			    	
@@ -296,7 +321,7 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
-					int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			    	Integer v =  (Integer)hmap.get(key);
 			    	assertTrue(hmap.repOK());
 			    	
@@ -365,8 +390,8 @@ public class HashMapTest {
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
 					int oldSize = hmap.size();
-					int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
-					int value = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int key = ThreadLocalRandom.current().nextInt(-1, literals );
+					int value = ThreadLocalRandom.current().nextInt(-1, literals );
 
 					boolean b = hmap.containsKey(key);
 					
@@ -398,7 +423,7 @@ public class HashMapTest {
 				ois = new ObjectInputStream(fileTestUnit);
 				HashMap hmap = (HashMap)nextObject(ois);
 				while(hmap != null){
-					int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 					hmap.remove(key);
 			    	

@@ -33,12 +33,14 @@ public class LinkedListTest {
 	public static int scope;
 	public static String pathFile;
 	private static int count = 0;
+	private static int literals;
 
 	@BeforeAll
     static void initAll() {
     	Config.readEnvironmentVariables();
     	scope = Config.scope;
     	pathFile = "serialize/java2.util2.linkedlist.LinkedList/"+Config.scope+"/randoop.ser";
+    	literals = Config.literals;
     }
 	
 	@AfterAll
@@ -70,7 +72,7 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				int oldSize = list.size();
 				list.add(i);
 				assertTrue(list.size() == oldSize+1);
@@ -99,7 +101,7 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			try {	
 				list.listIterator(i);
 			} catch (IndexOutOfBoundsException e) {
@@ -128,8 +130,8 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(-1, scope + 1);
-				int j = ThreadLocalRandom.current().nextInt(-1, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(-1, literals + 1);
+				int j = ThreadLocalRandom.current().nextInt(-1, literals + 1);
 
 				int oldSize = 0;
 				try {
@@ -164,7 +166,7 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				count++;
 
 		    	assumeTrue(i<list.size());
@@ -198,7 +200,7 @@ public class LinkedListTest {
 			while(list != null){
 				count++;
 
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				list.lastIndexOf(i);
 				assertTrue(list.repOK());
 				list = (LinkedList)nextObject(ois);
@@ -226,7 +228,7 @@ public class LinkedListTest {
 			while(list != null){
 				count++;
 
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				list.lastIndexOf(i);
 				assertTrue(list.repOK());
 				list = (LinkedList)nextObject(ois);
@@ -309,7 +311,7 @@ public class LinkedListTest {
 			while(list != null){
 				count++;
 
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				list.contains(i);
 		    	assertTrue(list.repOK());
 		    	list = (LinkedList)nextObject(ois);
@@ -374,7 +376,7 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 					try {
 						count++;
 
@@ -470,7 +472,7 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				count++;
 
 				list.addFirst(i);;
@@ -498,7 +500,7 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				count++;
 
 				list.addLast(i);;
@@ -527,7 +529,7 @@ public class LinkedListTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			LinkedList list = (LinkedList)nextObject(ois);
 			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				count++;
 
 		    	list.indexOf(i);
@@ -593,7 +595,7 @@ public class LinkedListTest {
 				try {
 					count++;
 
-					Integer i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+					Integer i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 					list.remove(i);
 				} catch (IndexOutOfBoundsException e){
 			    	assertTrue(list.repOK());
@@ -684,7 +686,7 @@ public class LinkedListTest {
 			while(list != null){
 				count++;
 
-						int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+						int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 						if(i<list.size()){
 							list.set(i,0);
 					    	assertTrue(list.repOK());

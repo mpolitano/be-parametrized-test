@@ -129,7 +129,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-  public Entry[] table;
+  public transient Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
@@ -241,19 +241,19 @@ DEFAULT_INITIAL_CAPACITY];
   /**
    * Value representing null keys inside tables.
    */
-  static final Object NULL_KEY = new Object();
+  static final Integer NULL_KEY = new Integer(-10);
 
   /**
    * Returns internal representation for key. Use NULL_KEY if key is null.
    */
-  static Object maskNull(Object key) {
+  static Integer maskNull(Integer key) {
     return (key == null ? NULL_KEY : key);
   }
 
   /**
    * Returns key represented by specified internal representation.
    */
-  static Object unmaskNull(Object key) {
+  static Integer unmaskNull(Integer key) {
     return (key == NULL_KEY ? null : key);
   }
 
@@ -280,7 +280,7 @@ DEFAULT_INITIAL_CAPACITY];
   /**
    * Check for equality of non-null reference x and possibly-null y.
    */
-  static boolean eq(Object x, Object y) {
+  static boolean eq(Integer x, Integer y) {
     return x == y || x.equals(y);
   }
 
@@ -322,8 +322,8 @@ DEFAULT_INITIAL_CAPACITY];
    *          <tt>null</tt> if the map contains no mapping for this key.
    * @see #put(Object, Object)
    */
-  public Object get(Object key) {
-    Object k = maskNull(key);
+  public Object get(Integer key) {
+	  Integer k = maskNull(key);
     int hash = hash(k);
     int i = indexFor(hash, table.length);
     Entry e = table[i];
@@ -342,8 +342,8 @@ DEFAULT_INITIAL_CAPACITY];
    * @return <tt>true</tt> if this map contains a mapping for the specified
    * key.
    */
-  public boolean containsKey(Object key) {
-    Object k = maskNull(key);
+  public boolean containsKey(Integer key) {
+	  Integer k = maskNull(key);
     int hash = hash(k);
     int i = indexFor(hash, table.length);
     Entry e = table[i];
@@ -359,8 +359,8 @@ DEFAULT_INITIAL_CAPACITY];
    * HashMap.  Returns null if the HashMap contains no mapping
    * for this key.
    */
-  Entry getEntry(Object key) {
-    Object k = maskNull(key);
+  Entry getEntry(Integer key) {
+	  Integer k = maskNull(key);
     int hash = hash(k);
     int i = indexFor(hash, table.length);
     Entry e = table[i];
@@ -380,14 +380,14 @@ DEFAULT_INITIAL_CAPACITY];
    *	       also indicate that the HashMap previously associated
    *	       <tt>null</tt> with the specified key.
    */
-  public Object put(Object key, Object value) {
-    Object k = maskNull(key);
+  public Integer put(Integer key, Integer value) {
+	  Integer k = maskNull(key);
     int hash = hash(k);
     int i = indexFor(hash, table.length);
 
     for (Entry e = table[i]; e != null; e = e.next) {
       if (e.hash == hash && eq(k, e.key)) {
-        Object oldValue = e.value;
+    	  Integer oldValue = e.value;
         e.value = value;
         // e.recordAccess(this);
         return oldValue;
@@ -395,7 +395,7 @@ DEFAULT_INITIAL_CAPACITY];
     }
 
     modCount++;
-    addEntry(hash, k, value, i);
+    addEntry(hash, (Integer)k, (Integer)value, i);
     return null;
   }
 
@@ -405,8 +405,8 @@ DEFAULT_INITIAL_CAPACITY];
    * check for comodification, etc.  It calls createEntry rather than
    * addEntry.
    */
-  private void putForCreate(Object key, Object value) {
-    Object k = maskNull(key);
+  private void putForCreate(Integer key, Integer value) {
+	  Integer k = maskNull(key);
     int hash = hash(k);
     int i = indexFor(hash, table.length);
 
@@ -422,13 +422,13 @@ DEFAULT_INITIAL_CAPACITY];
       }
     }
 
-    createEntry(hash, k, value, i);
+    createEntry(hash, (Integer)k, (Integer)value, i);
   }
 
   void putAllForCreate(Map m) {
     for (Iterator i = m.entrySet().iterator(); i.hasNext(); ) {
       Map.Entry e = (Map.Entry) i.next();
-      putForCreate(e.getKey(), e.getValue());
+      putForCreate((Integer)e.getKey(), (Integer)e.getValue());
     }
   }
 
@@ -527,7 +527,7 @@ DEFAULT_INITIAL_CAPACITY];
    *	       also indicate that the map previously associated <tt>null</tt>
    *	       with the specified key.
    */
-  public Object remove(Object key) {
+  public Object remove(Integer key) {
     Entry e = removeEntryForKey(key);
     return (e == null ? e : e.value);
   }
@@ -537,8 +537,8 @@ DEFAULT_INITIAL_CAPACITY];
    * in the HashMap.  Returns null if the HashMap contains no mapping
    * for this key.
    */
-  Entry removeEntryForKey(Object key) {
-    Object k = maskNull(key);
+  Entry removeEntryForKey(Integer key) {
+	  Integer k = maskNull(key);
     int hash = hash(k);
     int i = indexFor(hash, table.length);
     Entry prev = table[i];
@@ -570,7 +570,7 @@ DEFAULT_INITIAL_CAPACITY];
     }
 
     Map.Entry entry = (Map.Entry) o;
-    Object k = maskNull(entry.getKey());
+    Integer k = maskNull((Integer)entry.getKey());
     int hash = hash(k);
     int i = indexFor(hash, table.length);
     Entry prev = table[i];
@@ -662,15 +662,15 @@ DEFAULT_INITIAL_CAPACITY];
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public final Object key;
-    public Object value;
+	public final Integer key;
+    public Integer value;
     public int hash;
     Entry next;
 
     /**
      * Create new entry.
      */
-    Entry(int h, Object k, Object v, Entry n) {
+    Entry(int h, Integer k, Integer v, Entry n) {
       value = v;
       next = n;
       key = k;
@@ -685,7 +685,7 @@ DEFAULT_INITIAL_CAPACITY];
       return value;
     }
 
-    public Object setValue(Object newValue) {
+    public Object setValue(Integer newValue) {
       Object oldValue = value;
       value = newValue;
       return oldValue;
@@ -712,6 +712,12 @@ DEFAULT_INITIAL_CAPACITY];
       return getKey() + "=" + getValue();
     }
 
+	@Override
+	public Object setValue(Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
   }
 
   /**
@@ -721,7 +727,7 @@ DEFAULT_INITIAL_CAPACITY];
    *
    * Subclass overrides this to alter the behavior of put method.
    */
-  void addEntry(int hash, Object key, Object value, int bucketIndex) {
+  void addEntry(int hash, Integer key, Integer value, int bucketIndex) {
     table[bucketIndex] = new Entry(hash, key, value, table[bucketIndex]);
     if (size++ >= threshold) resize(2 * table.length);
   }
@@ -734,7 +740,7 @@ DEFAULT_INITIAL_CAPACITY];
    * Subclass overrides this to alter the behavior of HashMap(Map),
    * clone, and readObject.
    */
-  void createEntry(int hash, Object key, Object value, int bucketIndex) {
+  void createEntry(int hash, Integer key, Integer value, int bucketIndex) {
     table[bucketIndex] = new Entry(hash, key, value, table[bucketIndex]);
     size++;
   }
@@ -784,7 +790,7 @@ DEFAULT_INITIAL_CAPACITY];
     public void remove() {
       if (current == null) throw new IllegalStateException();
       if (modCount != expectedModCount) throw new ConcurrentModificationException();
-      Object k = current.key;
+      Integer k = current.key;
       current = null;
       HashMap.this.removeEntryForKey(k);
       expectedModCount = modCount;
@@ -871,11 +877,11 @@ DEFAULT_INITIAL_CAPACITY];
       return size;
     }
 
-    public boolean contains(Object o) {
+    public boolean contains(Integer o) {
       return containsKey(o);
     }
 
-    public boolean remove(Object o) {
+    public boolean remove(Integer o) {
       return HashMap.this.removeEntryForKey(o) != null;
     }
 
@@ -951,14 +957,14 @@ DEFAULT_INITIAL_CAPACITY];
       return newEntryIterator();
     }
 
-    public boolean contains(Object o) {
-      if (!(o instanceof Map.Entry)) return false;
-      Map.Entry e = (Map.Entry) o;
-      Entry candidate = getEntry(e.getKey());
-      return candidate != null && candidate.equals(e);
-    }
+//    public boolean contains(Integer o) {
+//      if (!(o instanceof Map.Entry)) return false;
+//      Map.Entry e = (Map.Entry) o;
+//      Entry candidate = getEntry(e.getKey());
+//      return candidate != null && candidate.equals(e);
+//    }
 
-    public boolean remove(Object o) {
+    public boolean remove(Integer o) {
       return removeMapping(o) != null;
     }
 
@@ -1002,7 +1008,7 @@ DEFAULT_INITIAL_CAPACITY];
     }
   }
 
-  private static final long serialVersionUID = 362498820763181265L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
@@ -1023,8 +1029,8 @@ DEFAULT_INITIAL_CAPACITY];
 
     // Read the keys and values, and put the mappings in the HashMap
     for (int i = 0; i < size; i++) {
-      Object key = s.readObject();
-      Object value = s.readObject();
+    	Integer key = (Integer)s.readObject();
+    	Integer value = (Integer) s.readObject();
       putForCreate(key, value);
     }
   }

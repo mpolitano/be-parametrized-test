@@ -78,7 +78,7 @@ public class TreeSet implements java.io.Serializable  {
 //  private Set keySet; // The keySet view of the backing Map
 
   // Dummy value to associate with an Object in the backing Map
-  private static final Object PRESENT = new Object();
+  private static final Integer PRESENT = new Integer(-10);
 
   /**
    * Constructs a set backed by the specified sorted map.
@@ -210,7 +210,7 @@ public class TreeSet implements java.io.Serializable  {
    * @throws ClassCastException if the specified object cannot be compared
    * 		  with the elements currently in the set.
    */
-  public boolean add(Object o) {
+  public boolean add(Integer o) {
     return m.put(o, PRESENT) == null;
   }
 

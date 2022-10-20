@@ -26,6 +26,8 @@ public class TreeMapTest {
 	
 	//Change with sedl 
 	public static int scope;
+	public static int literals;
+
 	public static String pathFile;
 	private static int count = 0;
 	
@@ -34,6 +36,7 @@ public class TreeMapTest {
     	Config.readEnvironmentVariables();
     	scope = Config.scope;
     	pathFile = "serialize/java2.util2.treemap.TreeMap/"+Config.scope+"/objects.ser";
+    	literals = Config.literals
     }
 
 	@AfterAll
@@ -160,7 +163,7 @@ public class TreeMapTest {
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			  	tmap.containsKey(i);
 		    	assertTrue(tmap.repOK());
 				tmap = (TreeMap)nextObject(ois);
@@ -185,7 +188,7 @@ public class TreeMapTest {
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
 				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			  	tmap.containsValue(i);
 		    	assertTrue(tmap.repOK());
 				tmap = (TreeMap)nextObject(ois);
@@ -350,7 +353,7 @@ public class TreeMapTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
-				int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 				count++;
 				int oldSize = tmap.size();
@@ -387,7 +390,7 @@ public class TreeMapTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
-				int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 				count++;
 				tmap.remove(key);
@@ -418,7 +421,7 @@ public class TreeMapTest {
 			ois = new ObjectInputStream(fileTestUnit);
 			TreeMap tmap = (TreeMap)nextObject(ois);
 			while(tmap != null){
-				int key = ThreadLocalRandom.current().nextInt(0, scope + 1);
+				int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
 		    	int s = tmap.size();
 		       	assertTrue(tmap.repOK());
