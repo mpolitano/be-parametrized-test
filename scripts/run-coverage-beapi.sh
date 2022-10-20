@@ -34,14 +34,17 @@ function run_many() {
                         echo "$cmd"
                         bash -c "$cmd"
                         pushd $projectsdir/$project > /dev/null
-                        cmd="./gradlew clean test --tests ${packganme}${classname}Test jacocoTestReport -Dorg.gradle.jvmargs="-Xss4m""
+                        SECONDS=0
+                        start_time=$SECONDS
+                        cmd="timeout 3600 ./gradlew clean test --tests ${packganme}${classname}Test jacocoTestReport -Dorg.gradle.jvmargs="-Xss4m""
                         echo "$cmd"
                         bash -c "$cmd"
+                        elapsed=$(( SECONDS - start_time ))
                         # ./gradlew clean test "$project" "$casestudy" "$budget"
                         popd > /dev/null
                         dirOutput="reportBEAPI/$casestudy/$scope"
                         touch $dirOutput/time.txt
-                        echo $SECONDS > $dirOutput/time.txt
+                        echo $elapsed > $dirOutput/time.txt
                         [ -d $dirOutput ] || mkdir -p $dirOutput
                         cp -r $jacocoDirReport/* $dirOutput
                     # done
@@ -53,17 +56,18 @@ function run_many() {
 
 
 projects="1_java-util"
-cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-# cases="java2.util2.hashmap.HashMap"
-scopes="3 4 5 6 7 8"
+# cases="java2.util2.linkedlist.LinkedList java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
+cases="java2.util2.treemap.TreeMap"
+# scopes="3 4 5 6 7 8"
+scopes="3"
 run_many
 
-projects="3_builders"
-cases="builders.Schedule"
-scopes="3 4 5 6 7 8"
-run_many
+# projects="3_builders"
+# cases="builders.Schedule"
+# scopes="3 4 5 6 7 8"
+# run_many
 
-cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
-projects="2_apache"
-scopes="3 4 5 6 7 8"
-run_many
+# cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
+# projects="2_apache"
+# scopes="3 4 5 6 7 8"
+# run_many

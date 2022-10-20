@@ -34,14 +34,17 @@ function run_many() {
                         bash -c "$cmd"
                         pushd $projectsdir/$project > /dev/null
                         SECONDS=0
-                        cmd="./gradlew test --tests ${packganme}${classname}Test jacocoTestReport -Dorg.gradle.jvmargs="-Xss4m""
+                        start_time=$SECONDS
+                        cmd="timeout 3600 ./gradlew test --tests ${packganme}${classname}Test jacocoTestReport -Dorg.gradle.jvmargs="-Xss4m""
                         echo "$cmd"
                         bash -c "$cmd"
+                        elapsed=$(( SECONDS - start_time ))
+
                         # ./gradlew clean test "$project" "$casestudy" "$budget"
                         popd > /dev/null
                         dirOutput="reportRandoopObj/$casestudy/$scope"
                         touch $dirOutput/time.txt
-                        echo $SECONDS > $dirOutput/time.txt
+                        echo $elapsed > $dirOutput/time.txt
                         [ -d $dirOutput ] || mkdir -p $dirOutput
                         cp -r $jacocoDirReport/* $dirOutput
                     # done
@@ -53,18 +56,19 @@ function run_many() {
 
 
 projects="1_java-util-randoop-obj"
-cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-# cases="java2.util2.linkedlist.LinkedList"
-# scopes="10"
+cases="java2.util2.linkedlist.LinkedList java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
+# cases="java2.util2.treemap.TreeMap"
 scopes="10 30 60 120 180 300 600"
 run_many
 
 projects="3_builders-randoop-obj"
 cases="builders.Schedule"
-scopes="6"
-# run_many
+scopes="10 30 60 120 180 300 600"
+run_many
 
 cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
 projects="2_apache-randoop-obj"
+scopes="10 30 60 120 180 300 600"
+
 run_many
 
