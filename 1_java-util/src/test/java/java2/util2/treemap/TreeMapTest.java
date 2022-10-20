@@ -36,7 +36,7 @@ public class TreeMapTest {
     	Config.readEnvironmentVariables();
     	scope = Config.scope;
     	pathFile = "serialize/java2.util2.treemap.TreeMap/"+Config.scope+"/objects.ser";
-    	literals = Config.literals
+    	literals = Config.literals;
     }
 
 	@AfterAll
