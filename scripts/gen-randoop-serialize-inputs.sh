@@ -43,11 +43,12 @@ randoop.main.Main gentests \
 --disable-contracts $omitmethods \
 --junit-package-name=$packagename \
 --only-test-public-members \
---omitmethods=\".*All\(\.*|toString\(\)|fin$classname|repOK\" \
 --serialize-objects="$serializeDir/randoop.ser" \
 --forbid-null=true \
 --dont-output-tests=true \
---null-ratio=0
+--null-ratio=0 \
+--dont-output-tests=true \
+$omitmethods
 "
 # --literals-file=$literals \
 #--literals-level=ALL \

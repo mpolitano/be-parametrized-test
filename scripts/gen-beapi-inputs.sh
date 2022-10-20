@@ -83,11 +83,11 @@ set_config_options
 cp=./build/classes:./lib/*.jar:../lib/korat/korat.jar
 outdir=./beapi-tests
 
-#omitfile=$scriptsdir/config/$project/omitmethods/$class
-#if [[ -f "$omitfile" ]]; then
-#    file_to_string $omitfile "|"
-#    omitmethods="--omitmethods=\"$strres\""
-#fi
+omitfile=$scriptsdir/config/$project/omitmethods/$class
+if [[ -f "$omitfile" ]]; then
+   file_to_string $omitfile "|"
+   omitmethods="--omitmethods=\"$strres\""
+fi
 
 echo "deps: $deps"
 depsparam=""
@@ -117,7 +117,8 @@ cmd="java -Xmx$maxheap -ea -cp $bejar:$cp randoop.main.Main gentests \
 --efficient-extensions \
 --only-test-public-members $beopts \
 --ignore-public-fields \
---omitmethods=\".*All\(\.*|fin$classname\"" 
+--dont-output-tests=true \
+$omitmethods" 
 #--id-triples-extensions \
 #--output_computed_extensions=computedExt.txt \
 #--output_gen_seqs_objs=seqObj.txt
