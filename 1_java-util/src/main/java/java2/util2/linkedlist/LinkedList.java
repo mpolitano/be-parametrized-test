@@ -71,8 +71,8 @@ import java.util.HashSet;
  */
 public class LinkedList extends AbstractSequentialList
     implements List, Cloneable, java.io.Serializable {
-  private transient Entry header = new Entry(null, null, null);
-  private transient int size = 0;
+  private Entry header = new Entry(null, null, null);
+  private int size = 0;
 
   /**
    * Constructs an empty list.
@@ -454,7 +454,10 @@ public class LinkedList extends AbstractSequentialList
   }
 
   private class ListItr implements ListIterator, java.io.Serializable {
-    private Entry lastReturned = header;
+    /**
+	 * 
+	 */
+	private Entry lastReturned = header;
     private Entry next;
     private int nextIndex;
     private int expectedModCount = modCount;
@@ -544,7 +547,11 @@ public class LinkedList extends AbstractSequentialList
   }
 
   private static class Entry implements java.io.Serializable{
-    Object element;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Object element;
     Entry next;
     Entry previous;
 
@@ -655,7 +662,7 @@ public class LinkedList extends AbstractSequentialList
 //    return a;
 //  }
 
-  private static final long serialVersionUID = 876323262645176354L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * Save the state of this <tt>LinkedList</tt> instance to a stream (that
@@ -666,7 +673,7 @@ public class LinkedList extends AbstractSequentialList
    * elements (each an Object) in the proper order.
    */
   private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-    // Write out any hidden serialization magic
+	  // Write out any hidden serialization magic
     s.defaultWriteObject();
 
     // Write out size

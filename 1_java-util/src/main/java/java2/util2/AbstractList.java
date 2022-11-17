@@ -53,6 +53,11 @@ package java2.util2;
  */
 public abstract class AbstractList extends AbstractCollection implements List {
   /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+/**
    * Sole constructor.  (For invocation by subclass constructors, typically
    * implicit.)
    */

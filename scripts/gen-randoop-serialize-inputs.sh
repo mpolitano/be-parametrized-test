@@ -25,9 +25,6 @@ if [[ -f "$omitfile" ]]; then
     omitmethods="--omit-methods=\"$strres\""
 fi
 
-# literals="$scriptsdir/literals/literals${scope}.txt"
-
-
 echo ""
 echo "> Executing Randoop"
 serializeDir=serialize/$class/$budget/
@@ -43,11 +40,13 @@ randoop.main.Main gentests \
 --disable-contracts \
 --junit-package-name=$packagename \
 --only-test-public-members \
---serialize-objects="$serializeDir/randoop.ser" \
 --forbid-null=true \
 --dont-output-tests=true \
 --null-ratio=0 \
 --dont-output-tests=true \
+--select-builder-prob=1 \
+--builders=\"java2.util2.linkedlist.LinkedList()|java2.util2.linkedlist.LinkedList.addFirst(java.lang.Object)|java2.util2.linkedlist.LinkedList.get(java.lang.Object)\" \
+--serialize-objects="$serializeDir/randoop.ser" \
 $omitmethods
 "
 # --literals-file=$literals \

@@ -12,7 +12,7 @@ function run_many() {
             # for technique in $techniques 
             # do
                 methodsfile=$scriptsdir/config/$project/methods/$casestudy
-                for budget in $budgets
+                for budget in $scopes
                 do
                     # methodnum=1
                     # for method in $methods
@@ -26,17 +26,17 @@ function run_many() {
 }
 
 projects="1_java-util"
-cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-# cases="java2.util2.hashmap.HashMap"
-scopes="10 30 60 120 180 300 600"
+# cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
+cases="java2.util2.linkedlist.LinkedList"
+scopes="60 300 600"
 run_many
 
 projects="3_builders"
 cases="builders.Schedule"
 scopes="10 30 60 120 180 300 600"
-run_many
+# run_many
 
 cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
 projects="2_apache"
 scopes="10 30 60 120 180 300 600"
-run_many
+# run_many

@@ -64,12 +64,14 @@ check.dependsOn jacocoTestCoverageVerification
 */
 
 pitest {
-    targetClasses = ['java2.util2.treemap*']
+    targetClasses = ['java2.util2.linkedlist*']
     //by default "${project.group}.*"
 //    pitestVersion = '1.4.1' //not needed when a default PIT version should be used
     threads = 4
-    outputFormats = ['XML', 'HTML']
+    outputFormats = ['XML', 'HTML' ,'CSV']
     timestampedReports = false
     junit5PluginVersion = "0.15"
+        excludedTestClasses = ['*.*IT']
+    
     
 }

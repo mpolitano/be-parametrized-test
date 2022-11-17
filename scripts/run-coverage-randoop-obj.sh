@@ -55,20 +55,20 @@ function run_many() {
 }
 
 
-projects="1_java-util-randoop-obj"
-cases="java2.util2.linkedlist.LinkedList java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-# cases="java2.util2.treemap.TreeMap"
-scopes="10 30 60 120 180 300 600"
+projects="1_java-util"
+# cases="java2.util2.linkedlist.LinkedList java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
+cases="java2.util2.linkedlist.LinkedList"
+scopes="10 60 300"
 run_many
 
 projects="3_builders-randoop-obj"
 cases="builders.Schedule"
 scopes="10 30 60 120 180 300 600"
-run_many
+# run_many
 
 cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
 projects="2_apache-randoop-obj"
 scopes="10 30 60 120 180 300 600"
 
-run_many
+# run_many
 

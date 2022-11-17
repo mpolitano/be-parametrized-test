@@ -1,27 +1,18 @@
 package java2.util2.linkedlist;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import utils.Config;
+import utils.ObjectsIterator;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedWriter;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+
 import java2.util2.NoSuchElementException;
 import java2.util2.hashmap.HashMap;
+import java2.util2.linkedlist.LinkedList;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
@@ -30,765 +21,516 @@ import java.util.stream.Stream;
 public class LinkedListTest { 
     
 	//Change with sedl 
-	public static int scope;
 	public static int literals;
-	public static String pathFile;
 	private static int count = 0;
+	private static ObjectsIterator objIterator;
+//	private static clazz = "java2.util2.linkedlist.LinkedList";
 
-	@BeforeAll
-    static void initAll() {
-    	Config.readEnvironmentVariables();
-    	scope = Config.scope;
-    	literals = Config.literals;
-    	pathFile = "serialize/java2.util2.linkedlist.LinkedList/"+Config.scope+"/objects.ser";
-    }
+
 	
-	@AfterAll
-    static void afterAll() {
-		File dir = new File("../scripts/reportBEAPI/java2.util2.linkedlist.LinkedList/"+Config.scope);
-		 if (! dir.exists()){
-		        dir.mkdir();            
-		 }
-        	File file = new File(dir + "/tests.txt");
-            try{
-                FileWriter fw = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(String.valueOf(count) );
-                bw.close();
-            }
-            catch (IOException e){
-                e.printStackTrace();
-                System.exit(-1);
-            }
+	@BeforeEach
+	public void init() {
+		objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
+		literals = objIterator.getLiterals();
 	}
 	
+//	Aft
+//	public void end() {
+//		objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
+//	}
+//	
+	@AfterAll
+    static void afterAll() {
+		objIterator.end("java2.util2.linkedlist.LinkedList");
+	}
+//	
 	@Test
-	public void addTest() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				int oldSize = list.size();
-				list.add(i);
-				assertTrue(list.size() == oldSize+1);
-				assertTrue(list.repOK());
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-		
+	public void addTest() {			
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			int oldSize = list.size();
+			boolean result=list.add(i);
 
-	 }
+			assertTrue(list.size() == oldSize+1 && result || list.size() == oldSize && !result);
+			oldSize = list.size();
+
+			result=list.add(0);
+			assertTrue(list.size() == oldSize+1 && result || list.size() == oldSize && !result);
+			oldSize = list.size();
+			
+			LinkedList list1 = new LinkedList();
+			try {
+			result=list1.add(-1);
+		} catch (IndexOutOfBoundsException e) {
+            org.junit.Assert.fail("Expected exception of type java2.util2.IndexOutOfBoundsException; message: null");
+		}
+			assertTrue(list1.size() == 1 && result || list1.size() == 0 && !result);
+			
+			assertTrue(list.repOK());
+
+			list = (LinkedList)objIterator.next();
+		}
+	}
 
 	@Test
 	public void iterTest() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+		LinkedList list = (LinkedList)objIterator.next(); 
+		java2.util2.ListIterator result1 =null;
+		java2.util2.ListIterator result=null;
+		while(list != null){
+			objIterator.addCountTest();
+			int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 			try {	
-				list.listIterator(i);
+				result =list.listIterator(i);
+				result1 =list.listIterator();
+
 			} catch (IndexOutOfBoundsException e) {
-				assertTrue(list.repOK());
 			}
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-		
+			assertTrue(list.repOK());
+			assertTrue(result!=null||!list.contains(i));
+			assertTrue(result1!=null||!list.contains(i));
+;
+//			org.junit.Assert.assertNotNull(result1);
 
+			list = (LinkedList)objIterator.next();
+
+		}
 	 }
-
+//
 	@Test
 	public void addTest1() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(-1, literals + 1);
-				int j = ThreadLocalRandom.current().nextInt(-1, literals + 1);
+		LinkedList list = (LinkedList)objIterator.next(); 
+		Object last = null;
+		while(list != null){
+			int i = ThreadLocalRandom.current().nextInt(-2, literals);
+			int j = ThreadLocalRandom.current().nextInt(-2, literals);
+			int oldSize = 0;
+			try {
+				objIterator.addCountTest();
+				oldSize = list.size();
 
-				int oldSize = 0;
-				try {
-					count++;
-					oldSize = list.size();
-					list.add(i,j);
-				} catch (IndexOutOfBoundsException e) {
-					assertTrue(list.repOK());
-				}
-//				assertTrue(list.size() == oldSize+1);
-				assertTrue(list.repOK());
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				list.add(i,j);
+				last = list.getLast();
+			} catch (IndexOutOfBoundsException e) {
+//				if(oldSize!=i)
+//					last = list.get(oldSize);
+
+//				assertTrue(list.size() == oldSize);
+			}			
+			assertTrue((list.size() == oldSize+1 && list.contains(j)|| (list.size() == oldSize)));
+//			assertTrue((oldSize != 0 && last.equals(j))|| ((oldSize !=i && last.equals(j))));
+
+			assertTrue(list.repOK());
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
+	}
 		
-
-	 }
 	
 	@Test
 	public void add_first_Test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				count++;
-
-		    	assumeTrue(i<list.size());
-				int oldSize = list.size();
-				list.add(i);
-				assertTrue(list.size() == oldSize+1);
-				assertTrue(list.repOK());
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			objIterator.addCountTest();
+//	    	if(i<list.size()) {
+//	    		
+//	    	}
+			int oldSize = list.size();
+			list.addFirst(i);
+			assertTrue(list.size() == oldSize+1);
+			assertTrue(list.repOK());
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
-
 	 }
 	
 	@Test
 	public void indexOf_Test() {
-		
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null) {
+			objIterator.addCountTest();
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+	    	boolean containsPrevRemove = list.contains(i);
 
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				list.lastIndexOf(i);
-				assertTrue(list.repOK());
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			int result=list.lastIndexOf(i);
+			int result1=list.indexOf(i);
+
+			assertTrue(list.repOK());
+			assertTrue((list.indexOf(i)!= -1 && result!= -1) || (list.indexOf(i)== -1 && result== -1) );
+			assertTrue((result!=-1 && containsPrevRemove ) || result==-1 && !containsPrevRemove ) ;
+
+
+			assertTrue((result1!=-1 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
+
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
-
 	 }
 	
 	@Test
 	public void add_last_Test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
-
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				list.lastIndexOf(i);
-				assertTrue(list.repOK());
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			list.addLast(i);
+			assertTrue(list.repOK());
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
-
 	 }
-	
+//	
 	@Test
 	public void clear_Test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
-
-				list.clear();
-				assertTrue(list.size() == 0);
-				assertTrue(list.repOK());
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+			list.clear();
+			assertTrue(list.size() == 0);
+			assertTrue(list.repOK());
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
 	 }
-	
+//	
 	@Test
 	public void clone_Test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
-
-				LinkedList list1 = (LinkedList) list.clone();
-				assertTrue(list1.repOK());
-				assertTrue(list.repOK());
-//				assertTrue(list.equals(list1));
-				list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+			LinkedList list1 = (LinkedList) list.clone();
+			assertTrue(list1.repOK());
+			assertTrue(list.repOK());
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-
 	 }
 	
 	@Test
 	public void contains_Test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
 
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			boolean result=list.contains(i);
+	    	assertTrue(list.repOK());
+	    	assertTrue(result && list.indexOf(i) != -1|| !result && list.indexOf(i) == -1);
+	    	list = (LinkedList)objIterator.next();
+		}
+		}
+	
+	@Test
+   	public void equals_test() {
+		ObjectsIterator objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
+		ObjectsIterator objIterator1 = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
+		LinkedList list = (LinkedList)objIterator.next(); 
+		LinkedList list1 = (LinkedList)objIterator1.next(); 
+		while(list != null){
+			while(list1 != null){
+				objIterator.addCountTest();
 				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				list.contains(i);
+				list.equals(list1);
 		    	assertTrue(list.repOK());
-		    	list = (LinkedList)nextObject(ois);
+		    	assertTrue(list1.repOK());
+				list = (LinkedList)objIterator.next(); 
+				list1 = (LinkedList)objIterator1.next(); 
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
+	}
 
-	  
-	 }
-	
-//	@Test
-//   	public void equals_test() {
-//		FileInputStream fileTestUnit;
-//	  	ObjectInputStream ois;
-//		FileInputStream fileTestUnit1;
-//	  	ObjectInputStream ois1;
-//		try {
-//			fileTestUnit= new FileInputStream(pathFile);
-//			ois = new ObjectInputStream(fileTestUnit);
-//			fileTestUnit1= new FileInputStream(pathFile);
-//			ois1 = new ObjectInputStream(fileTestUnit);
-//			LinkedList list = (LinkedList)nextObject(ois);
-//			LinkedList list1 = (LinkedList)nextObject(ois);
-//
-//			while(list != null){
-//				while(list1 != null){
-//					count++;
-//
-//					int i = ThreadLocalRandom.current().nextInt(0, scope + 1);
-//					list.equals(list1);
-//			    	assertTrue(list.repOK());
-//			    	assertTrue(list1.repOK());
-//			    	list = (LinkedList)nextObject(ois);
-//			    	list1 = (LinkedList)nextObject(ois1);
-//				}
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		 catch (ClassNotFoundException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//		}
-
-
-	
-//    }
-	
 	@Test
    	public void get_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-					int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-					try {
-						count++;
-
-						list.get(i);
-					}catch(IndexOutOfBoundsException e) {
-				    	assertTrue(list.repOK());
-					}
-			    	assertTrue(list.repOK());
-				
-		    	list = (LinkedList)nextObject(ois);
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			int i = ThreadLocalRandom.current().nextInt(-1, literals + 1);
+			try {
+				objIterator.addCountTest();
+				list.get(i);
+			}catch(IndexOutOfBoundsException e) {
+		    	assertTrue(list.repOK());
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
+	    	assertTrue(list.repOK());
 		
-
+			list = (LinkedList)objIterator.next(); 
+		}
     }
-	
+
 	@Test
    	public void getFirst_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				try {
-					count++;
-
-					list.getFirst();
-				}catch(NoSuchElementException e) {
-			    	assertTrue(list.repOK());
+		LinkedList list = (LinkedList)objIterator.next(); 
+		int index = 0;
+		Object obj = null;
+		int size;
+		while(list != null){		
+			objIterator.addCountTest();
+				if(list.size()>0) {
+					try {
+						size = list.size();
+						index = list.indexOf(size-1);
+						obj=list.getFirst();
+				    	assertTrue(list.contains(obj));
+					}catch(NoSuchElementException e) {
+			            org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
+					}
 				}
-		    	assertTrue(list.repOK());
-		    
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				else {
+					try {
+						obj=list.getFirst();
+				    	assertTrue(list.repOK());
+					}catch(NoSuchElementException e) {
+					}
+				}
+		list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
-		
-//    	assertTrue(obj.equals(list.get(0)));
     }
-	
+//	
    	@Test
    	public void getLast_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				try {
-					count++;
-
-					Object obj=list.getLast();
-				}catch(NoSuchElementException e) {
-			    	assertTrue(list.repOK());
+		LinkedList list = (LinkedList)objIterator.next(); 
+		int index = 0;
+		Object obj = null;
+		int size;
+		while(list != null){		
+			objIterator.addCountTest();
+				if(list.size()>0) {
+					try {
+						size = list.size();
+						index = list.indexOf(size-1);
+						obj=list.getLast();
+				    	assertTrue(list.contains(obj));
+					}catch(NoSuchElementException e) {
+		            org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
+					}
 				}
-		    	assertTrue(list.repOK());
-		    
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				else {
+					try {
+						obj=list.getLast();
+				    	assertTrue(list.repOK());
+					}catch(NoSuchElementException e) {
+					}
+
+				}
+		list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
-//    	assertTrue(obj.equals(list.get(list.size()-1)));    
     }
-	
+//	
    	@Test
    	public void addFirst_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				count++;
-
-				list.addFirst(i);;
-		    	assertTrue(list.repOK());
-				assumeTrue(list.contains(i));
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			objIterator.addCountTest();
+			list.addFirst(i);
+	    	assertTrue(list.repOK());
+			assumeTrue(list.contains(i));
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
-
     }
-	
+//	
    	@Test
    	public void addLast_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				count++;
-
-				list.addLast(i);;
-		    	assertTrue(list.repOK());
-				assumeTrue(list.contains(i));
-		    
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			objIterator.addCountTest();
+			list.addLast(i);;
+	    	assertTrue(list.repOK());
+			assumeTrue(list.contains(i));
+	    
+			list = (LinkedList)objIterator.next(); 
+		}	
 	}
-		
-	
+//		
+//	
    	@Test
    	public void index_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
+		LinkedList list = (LinkedList)objIterator.next(); 
 			while(list != null){
 				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				count++;
+				objIterator.addCountTest();
 
 		    	list.indexOf(i);
+		    	list.indexOf(-1);
+
 		    	assertTrue(list.repOK());
 		    
-		    	list = (LinkedList)nextObject(ois);
+				list = (LinkedList)objIterator.next(); 
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
-
     }
-	
+//	
    	@Test
    	public void empty_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+	    	boolean result=list.isEmpty();
+	    	assertTrue(list.repOK());
+	    	assertTrue((result && list.size()==0)||(!result && list.size()>0));
 
-		    	list.isEmpty();
-		    	assertTrue(list.repOK());
-		    
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
 
     }
-	
+//	
    	@Test
    	public void const_test() {
-		count++;
+		objIterator.addCountTest();
 
     	LinkedList list1 = new LinkedList();
     	assertTrue(list1.repOK());
     }
-	
+//	
    	@Test
    	public void remove_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				try {
-					count++;
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			boolean result = false;
+			int size = -1;
+			boolean result1= false; 
+			LinkedList list1 = null;
+			boolean containsPrevRemove = false;
+			try {
+				objIterator.addCountTest();
+				size = list.size();
+				Integer i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+				int indexToRemove = list.indexOf(i);
+				System.out.println(list);
+		    	containsPrevRemove = list.contains(i);
 
-					Integer i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-					list.remove(i);
-				} catch (IndexOutOfBoundsException e){
-			    	assertTrue(list.repOK());
-				}
-		    	assertTrue(list.repOK());
-		    	
-		    	list = (LinkedList)nextObject(ois);
+				result = list.remove(i);
+//				list1= new LinkedList();
+//				result1 = list1.remove(i);
+
+//				System.out.println(list.get(indexToRemove).equals(i));
+				
+				
+
+//		        org.junit.Assert.assertTrue(indexToRemove != -1 && list.get(indexToRemove) != null? !list.get(indexToRemove).equals(i) : true );
+
+		        java2.util2.linkedlist.LinkedList linkedList0 = new java2.util2.linkedlist.LinkedList();
+		        boolean boolean2 = linkedList0.contains((java.lang.Object) (-1.0d));
+		        boolean boolean4 = linkedList0.add((java.lang.Object) (short) 100);
+		        java.lang.Object obj6 = linkedList0.remove(0);
+		        boolean boolean7 = linkedList0.isEmpty();
+		        org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
+		        org.junit.Assert.assertEquals("'" + obj6 + "' != '" + (short) 100 + "'", obj6, (short) 100);
+		        org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
+
+			} catch (IndexOutOfBoundsException e){
+	            org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	    	assertTrue(list.repOK());
+			assertTrue((result && containsPrevRemove ) || !result && !containsPrevRemove ) ;
+
+	    	assertTrue(size-1 == list.size() && result || size == list.size() && !result );
+
+			list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
 	
     }
-	
+//	
    	@Test
    	public void remove_first_test() {
-		
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
+		LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+	    	if(list.size()>0) {
+	    		Object first = list.get(0);
+	    		int size = list.size();
+	        	Object obj=list.removeFirst();
+	        	assertTrue(list.repOK());
+	        	assertTrue(size != list.size());
 
-			    	if(list.size()>0) {
-			    		Object first = list.get(0);
-			        	Object obj=list.removeFirst();
-			        	assertTrue(list.repOK());
-			        	assertTrue(first.equals(obj));
-			    	}
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	        	assertTrue(first.equals(obj));
+	    	}
+	    	list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}		
 	}
-	
+//	
    	@Test
    	public void removeLast_test() {
-		
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-			    	if(list.size()>0) {
-			    		Object last = list.get(list.size()-1);
-			        	Object obj=list.removeLast();
-			        	assertTrue(list.repOK());
-			        	assertTrue(last.equals(obj));
-			    	}
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}	
-		
-		
-    }
-	
-	@Test
-   	public void set_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
+    	LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+		    	if(list.size()>0) {
+					objIterator.addCountTest();
+					int size = list.size();
+		    		Object last = list.get(list.size()-1);
+		        	Object obj=list.removeLast();
+		        	assertTrue(list.repOK());
+		        	assertTrue(last.equals(obj));
+		        	assertTrue(list.size() == size-1);
 
-						int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-						if(i<list.size()){
-							list.set(i,0);
-					    	assertTrue(list.repOK());
-				    		Object last = list.get(list.size()-1);
-				        	Object obj=list.removeLast();
-				        	assertTrue(list.repOK());
-				        	assertTrue(last.equals(obj));
-						}
-				    	
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    	}
+	    	list = (LinkedList)objIterator.next(); 
 		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		 }
 		
 		
     }
-	
-	@Test
-   	public void size_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
-
-				list.size();
-		    	assertTrue(list.repOK());
-		    	list = (LinkedList)nextObject(ois);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		 }
-    	
-    }
-	
-//	@ParameterizedTest
-//	@MethodSource("provide_List_Int_Int_Parameters")
-//   	public void sublist_test(LinkedList list,Integer i, Integer j) {
-//    	assumeTrue(i>0 && j<list.size() && i<list.size());
-//    	list.subList(i,j);
-//    	assertTrue(list.repOK());
-//    }
 //	
 	@Test
-   	public void toarray_test() {
-		FileInputStream fileTestUnit;
-	  	ObjectInputStream ois;
-		try {
-			fileTestUnit= new FileInputStream(pathFile);
-			ois = new ObjectInputStream(fileTestUnit);
-			LinkedList list = (LinkedList)nextObject(ois);
-			while(list != null){
-				count++;
+   	public void set_test() {
+    	LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
 
-		    	Object[] lArray = list.toArray();
+			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			if(i<list.size()){
+				Integer j = 0;
+				Object oldValue = list.get(i);
+				Object result=list.set(i,j);
 		    	assertTrue(list.repOK());
-		    	list = (LinkedList)nextObject(ois);
+	        	assertTrue(result == oldValue);
+
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		 }
+	    	
+    	list = (LinkedList)objIterator.next(); 
 
-//    	assertTrue(lArray[0].equals(list.getFirst()));
-
+		 }	
     }
-	
-	
-	
-	/*
-	 * Providers..
-	 */
-	
+//	
+	@Test
+   	public void size_test() {
+    	LinkedList list = (LinkedList)objIterator.next(); 
+		while(list != null){
+			objIterator.addCountTest();
+			list.size();
+	    	assertTrue(list.repOK());
+	    	list = (LinkedList)objIterator.next(); 
+		}
+    	
+    }
 
-	public static Object nextObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-			try {
-				return ois.readObject();
-			} catch (EOFException eof) {
-				return null;
-			} catch (ClassNotFoundException e) {
-				throw e;
-			} catch (IOException e) {
-				throw e;
-			}
-		}    
+	@Test
+   	public void toarray_test() {
+    	LinkedList list = (LinkedList)objIterator.next(); 
+
+		while(list != null){
+			objIterator.addCountTest();
+
+	    	Object[] lArray = list.toArray();
+	    	assertTrue(list.repOK());
+	        org.junit.Assert.assertNotNull(lArray);
+
+	    	list = (LinkedList)objIterator.next(); 
+		}
+		
+    }
+//	
+//	
+//	
+//	/*
+//	 * Providers..
+//	 */
+//	
+//
+//	public static Object nextObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+//			try {
+//				return ois.readObject();
+//			} catch (EOFException eof) {
+//				return null;
+//			} catch (ClassNotFoundException e) {
+//				throw e;
+//			} catch (IOException e) {
+//				throw e;
+//			}
+//		}    
     
 }
