@@ -38,7 +38,9 @@ function run_many() {
                     # methodnum=1
                     # for method in $methods
                     # do
-                        ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "$technique"
+
+                      time=$((3600+budget))
+                      timeout $time ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "$technique"
                     # done
                 done
             done
