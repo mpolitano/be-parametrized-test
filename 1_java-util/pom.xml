@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>be-benchmark-mutation</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>be-benchmark-mutation</name>
+    <packaging>jar</packaging>
+<groupId>codemining</groupId>
+
+<properties>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+       <junit-jupiter.version>5.1.0</junit-jupiter.version>
+        <!-- optional : if we want to use a junit4 specific version -->
+        <junit.version>4.12</junit.version>
+</properties>
+    <dependencies>
+
+<dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+        </dependency>
+        <!-- Optional : override the JUnit 4 API version provided by junit-vintage-engine -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+<build>
+
+	<plugins>
+		<plugin>
+		    <artifactId>maven-surefire-plugin</artifactId>
+		    <version>2.22.0</version>
+		</plugin>
+		<plugin>
+		    <groupId>org.jacoco</groupId>
+		    <artifactId>jacoco-maven-plugin</artifactId>
+		    <version>0.7.7.201606060606</version>
+		    <executions>
+		        <execution>
+		            <goals>
+		                <goal>prepare-agent</goal>
+		            </goals>
+		        </execution>
+		        <execution>
+		            <id>report</id>
+		            <phase>prepare-package</phase>
+		            <goals>
+		                <goal>report</goal>
+		                <goal> jacoco:report</goal>
+					</goals>
+		        </execution>
+				<execution>
+				    <id>jacoco-site</id>
+				    <phase>verify</phase>
+				    <goals>
+				        <goal>report</goal>
+				    </goals>
+				</execution>
+		    </executions>
+		</plugin>
+
+		<plugin>
+		        <groupId>org.pitest</groupId>
+		        <artifactId>pitest-maven</artifactId>
+		        <version>1.4.10</version>
+
+		        <!--attach execution to maven's test phase-->
+		        <executions>
+		            <execution>
+		                <id>pit-report</id>
+		                <phase>test</phase>
+		                <goals>
+		                    <goal>mutationCoverage</goal>
+		                </goals>
+		            </execution>
+		        </executions>
+
+		        <!--allows to work with JUnit 5-->
+		        <dependencies>
+		            <dependency>
+		                <groupId>org.pitest</groupId>
+		                <artifactId>pitest-junit5-plugin</artifactId>
+		                <version>0.9</version>
+		            </dependency>
+		        </dependencies>
+
+		        <!--optional-->
+		        <configuration>
+			        <targetTests>                   
+		    			<param>${package}.*</param>
+					</targetTests>
+			       <targetClasses>
+				    	<param>${package}.*</param>
+					</targetClasses>
+		            <outputFormats>
+		                <param>CSV</param>
+		                <param>HTML</param>
+
+		            </outputFormats>
+		            <avoidCallsTo>
+		                <param>readObjects</param>
+		                <param>writeObjects</param>
+		                <param>repOK</param>
+		            </avoidCallsTo>
+		        </configuration>
+
+		    </plugin>
+	</plugins>
+</build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!-- select non-aggregate reports -->
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+</project>
