@@ -71,7 +71,7 @@ pitest {
     outputFormats = ['XML', 'HTML' ,'CSV']
     timestampedReports = false
     junit5PluginVersion = "0.15"
-        excludedTestClasses = ['*.*IT']
+    
     
     
 }

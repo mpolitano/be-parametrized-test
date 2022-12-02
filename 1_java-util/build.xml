@@ -1,4 +1,4 @@
-<project xmlns:jacoco="antlib:org.jacoco.ant" name="java2.util2" default="compile" basedir=".">
+<project xmlns:jacoco="antlib:org.jacoco.ant" name="java2.util2.linkedlist" default="compile" basedir=".">
 
 
   <property name="max.heap"                value="8g"/>
@@ -9,16 +9,16 @@
   <property name="build.jacoco.instr.be"   value="${build.home}/jacoco-instrument-be"/>
   <property name="build.tests"             value="${build.home}/tests"/>
   <property name="build.evosuite"          value="${build.home}/evosuite"/>
-  <property name="build.randoop"           value="${build.home}/randoop"/>
+  <property name="build.randoop"           value="${build.home}/randoop-tests"/>
   <property name="build.be"                value="${build.home}/be"/>
-	  <property name="build.beapi"                value="${build.home}/beapi"/>
+	<property name="build.beapi"             value="${build.home}/src/test/java/"/>
 
   <!-- Javac -->
   <property name="compile.debug"           value="true"/>
   <property name="compile.deprecation"     value="true"/>
   <property name="compile.optimize"        value="false"/>
-  <property name="compile.source"          value="1.7"/>
-  <property name="compile.target"          value="1.7"/>
+  <property name="compile.source"          value="1.8"/>
+  <property name="compile.target"          value="1.8"/>
   <property name="compile.encoding"        value="iso-8859-1"/>
   
 	
@@ -31,10 +31,11 @@
   <property name="evosuite.java"           value="evosuite-tests"/>
   <property name="randoop.java"            value="randoop-tests"/>
   <property name="be.java"                 value="be-tests"/>
-  	<property name="beapi.java"                 value="beapi-tests"/>
+  	<property name="beapi.java"                 value="src/test/java/"/>
 
 
   <property name="lib.dir"                 value="../lib/"/>
+<property name="testreports" location="testreports" />
 
   <path id="jacoco.lib">
       <pathelement location="${lib.dir}/jacocoant.jar" />
@@ -47,6 +48,8 @@
       <pathelement location="${lib.dir}/pitest-entry-1.5.2.jar" />
       <pathelement location="${lib.dir}/pitest-ant-1.5.2.jar" />
       <pathelement location="${lib.dir}/junit-4.12.jar" />
+      <pathelement location="${lib.dir}/junit-5.9.1.jar" />
+
       <pathelement location="${lib.dir}/hamcrest-core-1.3.jar" />
   </path>
   <path id="pitest.evosuite.lib">
@@ -82,7 +85,9 @@
       <fileset dir="test-lib">
          <include name="**/*.jar"/>
       </fileset>
-      <pathelement location="${lib.dir}/junit-4.12.jar" />
+      <!-- <pathelement location="${lib.dir}/junit-4.12.jar" /> -->
+      <pathelement location="${lib.dir}/junit-5.9.1.jar" />
+      <pathelement location="${lib.dir}/apiguardian.jar" />
       <pathelement location="${lib.dir}/hamcrest-core-1.3.jar" />
   </path>
 
@@ -487,21 +492,29 @@
 
 	  <target name="beapi-test" depends="compile-beapi"
 	          description="Run BE generated tests">
-	     <junit printsummary="yes" haltonfailure="no" fork="yes"
-	          showoutput="yes">
-	        <formatter type="brief" usefile="true" />
-	        <classpath>
-	           <pathelement path="${build.classes}"/>
-	           <pathelement path="${build.beapi}"/>
-	           <path refid="source.lib" />
-	           <path refid="test.lib" />
-	        </classpath>
-	        <batchtest fork="yes" todir="${test.report.dir}">
-	        	<!-- <fileset dir="${beapi.java}"> -->
-	           	<!--    <include name="**/RegressionTest.java"/> -->
-	        	<!-- </fileset> -->
-	        </batchtest>
-	     </junit>
+                  <mkdir dir="${test.report.dir}"/>
+
+	     <junitlauncher haltOnFailure="false" printsummary="true">
+<!-- 	        <formatter type="brief" usefile="true" />
+ -->	       
+  <!-- <classpath> -->
+	           <classpath path="${build.classes}"/>
+	           <classpath path="${build.beapi}"/>
+	           <classpath refid="source.lib" />
+	           <classpath refid="test.lib" />
+	        <!-- </classpath> -->
+<testclasses outputDir="${testreports}">
+
+	        <!-- <batchtest fork="yes" todir="${test.report.dir}"> -->
+	        	<fileset dir="${build.beapi}">
+	           	   <include name="java2.util2.linkedlist.LinkedListTest"/>
+	        	</fileset>
+                          <listener type="legacy-brief" sendSysOut="true"/>
+              <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+	        <!-- </batchtest> -->
+        </testclasses>
+	     </junitlauncher>
+
 	  </target> 
 
 	  
@@ -509,12 +522,10 @@
 	      <path id="mutation.path">
 	          <path refid="pitest.lib"/>
 	          <pathelement path="${build.classes}"/>
-	          <pathelement path="${build.baapi}"/>
+	          <pathelement path="${build.beapi}"/>
 	      </path>
-	      <pitest pitClasspath="pitest.lib" threads="${pitest.threads}" classPath="mutation.path" targetTests="${ant.project.name}.LinkedListTest" targetClasses="${pitest.classes}" reportDir="${build.home}/pitReports" sourceDir="${source.java}" jvmArgs="-Xmx${max.heap}" outputFormats="CSV,HTML" timestampedReports="false"/>
+	      <pitest pitClasspath="pitest.lib" threads="${pitest.threads}" classPath="mutation.path" targetTests="${ant.project.name}.LinkedListTest" targetClasses="${pitest.classes}" reportDir="${build.home}/pitReports" sourceDir="${source.java}" jvmArgs="-Xmx${max.heap}" outputFormats="CSV,HTML"  excludedClasses="${ant.project.name}.RegressionTest*" timestampedReports="false"/>
 	  </target>
-
-	
 </project>
 
 

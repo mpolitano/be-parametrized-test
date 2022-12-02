@@ -77,7 +77,7 @@ import java2.util2.*;
  * @see Collections#synchronizedMap(Map)
  * @since 1.2
  */
-public class TreeMap  implements java.io.Serializable {
+public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable {
   /**
    * The Comparator used to maintain order in this TreeMap, or
    * null if this TreeMap uses its elements natural ordering.
@@ -212,7 +212,7 @@ public class TreeMap  implements java.io.Serializable {
    * Returns <tt>true</tt> if this map contains a mapping for the specified
    * key.
    *
-   * @param key key whose presence in this map is to be tested.
+   * @param o key whose presence in this map is to be tested.
    *
    * @return <tt>true</tt> if this map contains a mapping for the
    *            specified key.
@@ -222,8 +222,8 @@ public class TreeMap  implements java.io.Serializable {
    *                  natural ordering, or its comparator does not tolerate
    *            <tt>null</tt> keys.
    */
-  public boolean containsKey(Object key) {
-    return getEntry(key) != null;
+  public boolean containsKey(Object o) {
+    return getEntry(o) != null;
   }
 
   /**
@@ -589,35 +589,35 @@ public class TreeMap  implements java.io.Serializable {
    *
    * @return a set view of the keys contained in this TreeMap.
    */
-//  public Set keySet() {
-//    if (keySet == null) {
-//      keySet =
-//          new AbstractSet() {
-//            public Iterator iterator() {
-//              return new KeyIterator();
-//            }
+// public Set keySet() {
+//   if (keySet == null) {
+//     keySet =
+//         new AbstractSet() {
+//           public Iterator iterator() {
+//             return new KeyIterator();
+//           }
 //
-//            public int size() {
-//              return TreeMap.this.size();
-//            }
+//           public int size() {
+//             return TreeMap.this.size();
+//           }
 //
-//            public boolean contains(Object o) {
-//              return containsKey(o);
-//            }
+//           public boolean contains(Object o) {
+//             return containsKey(o);
+//           }
 //
-//            public boolean remove(Object o) {
-//              int oldSize = size;
-//              TreeMap.this.remove(o);
-//              return size != oldSize;
-//            }
+//           public boolean remove(Object o) {
+//             int oldSize = size;
+//             TreeMap.this.remove(o);
+//             return size != oldSize;
+//           }
 //
-//            public void clear() {
-//              TreeMap.this.clear();
-//            }
-//          };
-//    }
-//    return keySet;
-//  }
+//           public void clear() {
+//             TreeMap.this.clear();
+//           }
+//         };
+//   }
+//   return keySet;
+// }
 
   /**
    * Returns a collection view of the values contained in this map.  The

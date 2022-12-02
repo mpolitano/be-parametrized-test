@@ -53,9 +53,7 @@ randoop.main.Main gentests \
 --dont-output-tests=true \
 --select-builder-prob=1 \
 --serialize-objects="$serializeDir/randoop.ser" \
-$omitmethods \
-$builders
-"
+$omitmethods "
 # --literals-file=$literals \
 #--literals-level=ALL \
 

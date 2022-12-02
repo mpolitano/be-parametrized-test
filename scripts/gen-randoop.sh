@@ -4,7 +4,6 @@ projectsdir=$BE_EXP_SRC
 scriptsdir=$projectsdir/scripts
 
 source $scriptsdir/common.sh
-
 maxheap=8g
 project=$1
 class=$2
@@ -15,6 +14,8 @@ cp=./build/classes:./lib/*.jar
 outdir=randoop-tests
 
 pushd $projectsdir/$1 > /dev/null
+rm -r randoop-tests/java2/util2/treemap/*.java
+
 echo $BE_EXP_SRC
 echo $projectsdir/$1
 
@@ -49,5 +50,8 @@ bash -c "$cmd"
 
 echo ""
 echo "> Randoop finished!"
-
+# rm -r src/test/java/java2/util2/treemap/*
+# mv randoop-tests/java2/util2/treemap/*.java src/test/java/java2/util2/treemap/
+# ./$scriptsdir/run-pit-beapi.sh 1_java-util java2.util2.treemap.TreeMap $budget
+# python3 readMutation.py
 popd > /dev/null

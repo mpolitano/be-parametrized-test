@@ -57,9 +57,10 @@ function run_many() {
 
 projects="1_java-util"
 # cases="java2.util2.linkedlist.LinkedList java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-cases="java2.util2.treemap.TreeMap"
+#cases="java2.util2.treemap.TreeMap"
+cases="java2.util2.linkedlist.LinkedList"
 # scopes="3 4 5 6 7 8"
-scopes="3"
+scopes="30"
 run_many
 
 # projects="3_builders"

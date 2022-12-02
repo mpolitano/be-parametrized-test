@@ -55,5 +55,5 @@ function run_many() {
 #to run a single case
 budgets="3"
 projects="1_java-util"
-cases="java2.util2.treemap.TreeMap"
+cases="java2.util2.linkedlist.LinkedList"
 run_many

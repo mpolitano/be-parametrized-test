@@ -1,4 +1,5 @@
 #!/bin/bash 
+#!/usr/bin/env python3
 
 source $BE_EXP_SRC/scripts/common.sh
 
@@ -33,48 +34,52 @@ function process_results() {
                     # Process tests number and tests runtime
                     testsnum=""
                     runtime=""
-                    testreport=$(ls $currdir/test-report/*.txt 2> /dev/null)
-                    if [[ $testreport != "" ]]; then
-                        testline=$(cat $testreport | grep "Tests run:") 
-                        testsnum=$(echo $testline | cut -d',' -f1 | cut -d' ' -f3)
-                        runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
-                    fi
+                    if [[ $technique == "randoop" ]]; then
 
+                        testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
+                        if [[ $testreport != "" ]]; then
+                            testline=$(cat $testreport | grep "Tests run:") 
+                            testsnum=$(echo $testline | cut -d',' -f1 | cut -d' ' -f3)
+                            runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
+                        fi
+                    else
+                        testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
+                        if [[ $testreport != "" ]]; then
+                            testline=$(cat $testreport | grep "Tests run:") 
+
+                            testsnum=$(cat $currdir/tests.txt) 
+                            runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
+                        fi
+
+                    fi
                     # Process coverage
                     linesmiss=""                   
                     linescov=""
                     branchesmiss=""
                     branchescov=""
-                    covreport=$currdir/jacoco/site/jacoco/report.csv
+                    covreport=$currdir/jacoco.csv
                     if [[ -f $covreport ]]; then
                         covline=$(cat $covreport | grep ",$classname,")
-                        linesmiss=$(echo $covline | cut -d',' -f9)
-                        linescov=$(echo $covline | cut -d',' -f5)
+                        linesmiss=$(echo $covline | cut -d',' -f8)
+                        linescov=$(echo $covline | cut -d',' -f9)
                         branchesmiss=$(echo $covline | cut -d',' -f6)
                         branchescov=$(echo $covline | cut -d',' -f7)
                     fi
 
                     # Process mutation
-                    #pitinstrcov=""
-                    #pittotalinstr=""
-                    #mutantskilled=""
-                    #totalmutants=""
-                    #pitreport=$(ls $currdir/pitReports/*/*/index.html 2> /dev/null)
-                    #if [[ $pitreport != "" ]]; then
-                    #    caselinenum=$(grep -n ">$classname.java<" $pitreport | cut -d':' -f1)
-                    #    instrline=$(sed -n $(($caselinenum+1))p $pitreport)
-                    #    mutationline=$(sed -n $(($caselinenum+2))p $pitreport)
-                    #    pitinstrcov=$(echo $instrline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f1) 
-                    #    pittotalinstr=$(echo $instrline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f2) 
-                    #    mutantskilled=$(echo $mutationline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f1) 
-                    #    totalmutants=$(echo $mutationline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f2) 
-                    #fi
-
-                    measure_mutation $basedir $casestudy
-
+                    pitinstrcov=""
+                    pittotalinstr=""
+                    pitreport=$(ls $currdir/pit-reports/*/mutations.csv 2> /dev/null)
+                    if [[ $pitreport != "" ]]; then
+                        echo $pitreport
+                        python3 readMutation.py $pitreport >aux.txt
+                        file="readMutation.py"
+                        mutantskilled=$(python3 $file $pitreport)
+                    fi
+#
                     #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
                     #echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesmiss,$branchescov,$branchesmiss,$pitinstrcov,$pittotalinstr,$mutantskilled,$totalmutants" >> $tmpfile
-                    echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$branchescov,$mutantskilled,$totalmutants" >> $tmpfile
+                    echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$branchescov,$mutantskilled" >> $tmpfile
 
                 done
             done
@@ -83,9 +88,9 @@ function process_results() {
 }
 
 
-echo "Project,Class,Technique,Budget,Tests,Testing time,Instr cov,Branches cov,Mutants killed,Mutants total"
+echo "Project,Class,Technique,Budget,Tests,Testing time,Line cov,Branches cov,Mutants killed,Mutants total"
 
-techniques="randoop"
+techniques="randoop randoop-serialize-builders"
 process_results
 
 cat $tmpfile | sort -V
