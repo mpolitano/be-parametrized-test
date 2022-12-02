@@ -4,7 +4,7 @@ projectsdir=$BE_EXP_SRC
 scriptsdir=$projectsdir/scripts
 source $scriptsdir/common.sh
 
-function run_many() {
+function run_randoop() {
     for project in $projects
     do
         for casestudy in $cases 
@@ -17,7 +17,7 @@ function run_many() {
                     # methodnum=1
                     # for method in $methods
                     # do
-                        ./run-coverage-randoop.sh "$project" "$casestudy" "$budget"
+                        ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "randoop"
                     # done
                 done
             # done
@@ -25,10 +25,35 @@ function run_many() {
     done
 }
 
+function run_many() {
+    for project in $projects
+    do
+        for casestudy in $cases 
+        do
+            for technique in $techniques 
+            do
+                methodsfile=$scriptsdir/config/$project/methods/$casestudy
+                for budget in $scopes
+                do
+                    # methodnum=1
+                    # for method in $methods
+                    # do
+                        ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "$technique"
+                    # done
+                done
+            done
+        done
+    done
+}
+
+
 projects="1_java-util"
 # cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
 cases="java2.util2.linkedlist.LinkedList"
-scopes="60 300 600"
+#scopes="60 300 600"
+techniques="randoop randoop-serialize-builders"
+# techniques="randoop-serialize-builders randoop-serialize randoop"
+scopes="10 30 60 300"
 run_many
 
 projects="3_builders"
