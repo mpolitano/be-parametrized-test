@@ -83,7 +83,6 @@
 		        <executions>
 		            <execution>
 		                <id>pit-report</id>
-		                <phase>test</phase>
 		                <goals>
 		                    <goal>mutationCoverage</goal>
 		                </goals>
@@ -101,12 +100,14 @@
 
 		        <!--optional-->
 		        <configuration>
-			        <targetTests>                   
+		        	            <timeout>10</timeout>
+			      <!--   <targetTests>                   
 		    			<param>${package}.*</param>
 					</targetTests>
+
 			       <targetClasses>
 				    	<param>${package}.*</param>
-					</targetClasses>
+					</targetClasses> -->
 		            <outputFormats>
 		                <param>CSV</param>
 		                <param>HTML</param>

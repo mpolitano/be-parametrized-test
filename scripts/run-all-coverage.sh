@@ -38,9 +38,7 @@ function run_many() {
                     # methodnum=1
                     # for method in $methods
                     # do
-
-                      time=$((3600+budget))
-                      timeout $time ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "$technique"
+                        ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "$technique"
                     # done
                 done
             done
@@ -55,7 +53,7 @@ cases="java2.util2.linkedlist.LinkedList"
 #scopes="60 300 600"
 techniques="randoop randoop-serialize-builders"
 # techniques="randoop-serialize-builders randoop-serialize randoop"
-scopes="10 30 60 300"
+scopes="10"
 run_many
 
 projects="3_builders"

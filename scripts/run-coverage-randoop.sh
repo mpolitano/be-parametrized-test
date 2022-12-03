@@ -62,8 +62,8 @@ fi
 	echo ""
 	echo "> Running jacoco $cmd"
 	bash -c "$cmd"
-
-cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
+	
+	cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
 echo ""
 echo "> Saving tests: $cmd"
 bash -c "$cmd" 
@@ -71,6 +71,13 @@ cmd="cp -r $projectdir/target/site/*/* $resultsdir"
 echo ""
 echo "> Saving jacoco: $cmd"
 bash -c "$cmd" 
+
+	cmd="timeout 3600 mvn org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
+	echo ""
+	echo "> Running pit $cmd"
+	bash -c "$cmd"
+
+
 cmd="cp -r $projectdir/target/pit-reports $resultsdir"
 echo ""
 echo "> Saving pit: $cmd"
