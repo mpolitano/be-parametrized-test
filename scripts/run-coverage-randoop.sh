@@ -47,6 +47,8 @@ echo "> Generating tests: $cmd"
 bash -c "$cmd" 
 	cmd="cp -r $projectdir/$tool-tests/* $testSource"
 else
+	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
+
 	cmd="cp -r $projectdir/testParametrized/* $testSource"
 fi
 	echo ""
@@ -140,6 +142,7 @@ bash -c "$cmd"
 # Save results
 # cp -r build/pitReports $resultsdir
 
+rm -r $projectdir/target/*
 popd > /dev/null
 
 echo ""
