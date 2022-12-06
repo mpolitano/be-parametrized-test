@@ -37,7 +37,7 @@ public class ObjectsIterator  implements Iterator<Object>{
 	}
 	
 	public void end(String clazz) {
-		File dir = new File("../scripts/results/1_java-util/java2.util2.linkedlist.LinkedList/"+Config.tool+"/"+Config.scope);
+		File dir = new File("../scripts/results/1_java-util/"+Config.clazz+"/"+Config.tool+"/"+Config.scope);
 		 if (! dir.exists()){
 		        dir.mkdir();            
 		 }

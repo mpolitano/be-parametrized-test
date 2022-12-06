@@ -47,7 +47,7 @@ function process_results() {
                         if [[ $testreport != "" ]]; then
                             testline=$(cat $testreport | grep "Tests run:") 
 
-                            testsnum=$(cat $currdir/tests.txt) 
+                            testsnum=$(cat $currdir/testsCount.txt) 
                             runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
                         fi
 
@@ -71,8 +71,7 @@ function process_results() {
                     pittotalinstr=""
                     pitreport=$(ls $currdir/pit-reports/*/mutations.csv 2> /dev/null)
                     if [[ $pitreport != "" ]]; then
-                        echo $pitreport
-                        python3 readMutation.py $pitreport >aux.txt
+                        python3 readMutation.py $pitreport $casestudy >aux.txt
                         file="readMutation.py"
                         mutantskilled=$(python3 $file $pitreport)
                     fi

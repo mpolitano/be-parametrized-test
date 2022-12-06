@@ -129,7 +129,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-  public Entry[] table;
+  public transient Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
@@ -147,7 +147,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
    *
    * @serial
    */
-  final float loadFactor;
+  final transient float loadFactor;
 
   /**
    * The number of times this HashMap has been structurally modified
@@ -1003,7 +1003,7 @@ DEFAULT_INITIAL_CAPACITY];
     }
   }
 
-  private static final long serialVersionUID = 362498820763181265L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,

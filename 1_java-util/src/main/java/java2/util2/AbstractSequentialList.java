@@ -52,7 +52,6 @@ public abstract class AbstractSequentialList extends AbstractList {
   /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 
 /**
    * Sole constructor.  (For invocation by subclass constructors, typically
