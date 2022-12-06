@@ -26,7 +26,7 @@ public class ObjectsIterator  implements Iterator<Object>{
 	public void init(String clazz) {
 	  	Config.readEnvironmentVariables();
 		literals = Config.literals;
-		pathFile = "serialize/"+clazz+"/"+Config.scope+"/randoop.ser";
+		pathFile = "serialize/"+clazz+"/"+Config.scope+"/"+Config.tool+"/randoop.ser";
 		try {
 			fileTestUnit= new FileInputStream(pathFile);
 			ois = new ObjectInputStream(fileTestUnit);
@@ -37,7 +37,7 @@ public class ObjectsIterator  implements Iterator<Object>{
 	}
 	
 	public void end(String clazz) {
-		File dir = new File("../scripts/results/1_java-util/java2.util2.linkedlist.LinkedList/randoop-serialize-builders/"+Config.scope);
+		File dir = new File("../scripts/results/1_java-util/java2.util2.linkedlist.LinkedList/"+Config.tool+"/"+Config.scope);
 		 if (! dir.exists()){
 		        dir.mkdir();            
 		 }

@@ -34,7 +34,7 @@ fi
 
 echo ""
 echo "> Executing Randoop"
-serializeDir=serialize/$class/$budget/
+serializeDir=serialize/$class/$budget/randoop-serialize
 mkdir -p $serializeDir
 
 randoop_jar=../lib/randoop-serialize.jar
@@ -52,7 +52,7 @@ randoop.main.Main gentests \
 --null-ratio=0 \
 --dont-output-tests=true \
 --select-builder-prob=1 \
---serialize-objects="$serializeDir/randoop.ser" \
+--serialize-objects=$serializeDir/randoop.ser \
 $omitmethods "
 # --literals-file=$literals \
 #--literals-level=ALL \

@@ -38,6 +38,7 @@ function run_many() {
                     # methodnum=1
                     # for method in $methods
                     # do
+
                         ./run-coverage-randoop.sh "$project" "$casestudy" "$budget" "$technique"
                     # done
                 done
@@ -51,9 +52,12 @@ projects="1_java-util"
 # cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
 cases="java2.util2.linkedlist.LinkedList"
 #scopes="60 300 600"
-techniques="randoop randoop-serialize-builders"
-# techniques="randoop-serialize-builders randoop-serialize randoop"
-scopes="10"
+# techniques="randoop randoop-serialize-builders randoop-serialize"
+# techniques="randoop-serialize-builders "
+
+techniques="randoop-serialize-builders randoop-serialize randoop"
+scopes="5"
+# scopes="10 30 60 120 180 300 600"
 run_many
 
 projects="3_builders"

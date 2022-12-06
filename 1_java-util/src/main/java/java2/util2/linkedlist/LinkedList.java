@@ -457,6 +457,10 @@ public class LinkedList extends AbstractSequentialList
     /**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private Entry lastReturned = header;
     private Entry next;
     private int nextIndex;

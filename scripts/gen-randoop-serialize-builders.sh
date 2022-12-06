@@ -34,7 +34,7 @@ fi
 
 echo ""
 echo "> Executing Randoop"
-serializeDir=serialize/$class/$budget/
+serializeDir=serialize/$class/$budget/randoop-serialize-builders
 mkdir -p $serializeDir
 
 randoop_jar=../lib/randoop-serialize.jar

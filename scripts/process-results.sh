@@ -90,7 +90,7 @@ function process_results() {
 
 echo "Project,Class,Technique,Budget,Tests,Testing time,Line cov,Branches cov,Mutants killed,Mutants total"
 
-techniques="randoop randoop-serialize-builders"
+techniques="randoop randoop-serialize-builders randoop-serialize"
 process_results
 
 cat $tmpfile | sort -V

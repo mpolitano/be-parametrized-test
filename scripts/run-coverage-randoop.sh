@@ -25,8 +25,6 @@ explog=$resultsdir/log.txt
 
 pushd $projectdir > /dev/null
 
-[[ $tool == "be-all" ]] && tool="be"
-
 echo ""
 echo "> Starting experiment: $@"
 
@@ -39,16 +37,25 @@ testSource=$projectdir/src/test/java/
 rm -r $testSource
 mkdir $testSource
 #Need generate serialize
+cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
+echo ""
+echo "> Generating/serialize tests: $cmd"
+bash -c "$cmd" 
+
 if [[ $tool == "randoop" ]]; then 
 	# cmd="cp -r $projectdir/$tool-tests $resultsdir"
-	cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
-echo ""
-echo "> Generating tests: $cmd"
-bash -c "$cmd" 
 	cmd="cp -r $projectdir/$tool-tests/* $testSource"
-else
-	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
+fi
 
+if [[ $tool == "randoop-serialize-builders" ]]; then 
+	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
+	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
+	cmd="cp -r $projectdir/testParametrized/* $testSource"
+fi
+if [[ $tool == "randoop-serialize" ]]; then 
+	echo "Serialize"
+	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
+	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
 	cmd="cp -r $projectdir/testParametrized/* $testSource"
 fi
 	echo ""
@@ -60,30 +67,44 @@ fi
 	# echo "> Running tests, Coverage and Mutation: $cmd"
 	# bash -c "$cmd"
 
-	cmd="mvn clean test jacoco:report -Dpackage=${packagename} >> $explog"
+	cmd="mvn clean test-compile test  >> $explog"
+	echo ""
+	echo "> Running test $cmd"
+	bash -c "$cmd"
+	
+	cmd="cp -r $resultsdir/tests.txt $resultsdir/testsCount.txt"
+	echo ""
+	echo "> Save Test count $cmd"
+	bash -c "$cmd"
+
+	cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
+	echo ""
+	echo "> Save Test runner $cmd"
+	bash -c "$cmd"
+
+
+	cmd="mvn test jacoco:report -Dpackage=${packagename} >> $explog"
 	echo ""
 	echo "> Running jacoco $cmd"
 	bash -c "$cmd"
 	
-	cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
-echo ""
-echo "> Saving tests: $cmd"
-bash -c "$cmd" 
-cmd="cp -r $projectdir/target/site/*/* $resultsdir"
-echo ""
-echo "> Saving jacoco: $cmd"
-bash -c "$cmd" 
 
-	cmd="timeout 3600 mvn org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
+	echo ""
+	echo "> Saving Jacoco: $cmd"
+	cmd="cp -r $projectdir/target/site/*/* $resultsdir"
+	bash -c "$cmd" 
+
+
+	cmd="timeout 3600 mvn clean test-compile org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
 	echo ""
 	echo "> Running pit $cmd"
 	bash -c "$cmd"
 
 
-cmd="cp -r $projectdir/target/pit-reports $resultsdir"
-echo ""
-echo "> Saving pit: $cmd"
-bash -c "$cmd" 
+	cmd="cp -r $projectdir/target/pit-reports $resultsdir"
+	echo ""
+	echo "> Saving pit: $cmd"
+	bash -c "$cmd" 
 
 
 
