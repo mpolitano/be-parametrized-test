@@ -43,7 +43,7 @@ if [[ $tool == "randoop" ]]; then
 else #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
-	sed -i'' -e "s/clazz=.*/clazz=$clazz/g" config.properties
+	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
 	
 	mkdir -p $testSource/${dirPackage}/
 	cmd="cp -r $projectdir/testParametrized/${dirPackage}/* $testSource/${dirPackage}/"
