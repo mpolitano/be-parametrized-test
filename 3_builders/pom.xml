@@ -11,8 +11,11 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
        <junit-jupiter.version>5.1.0</junit-jupiter.version>
-        <!-- optional : if we want to use a junit4 specific version -->
+        <!-- optional : if we want to use a junit4 sp
+        ecific version -->
         <junit.version>4.12</junit.version>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
 </properties>
     <dependencies>
 

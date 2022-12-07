@@ -126,7 +126,7 @@ public class NodeCachingLinkedListTest {
 			int i = r.nextInt(literals);	
 			//assumeTrue(i<ncl.size());
 			if(i<ncl.size()) {
-				Object o = (Object)ncl.get(i);
+				Integer o = (Integer)ncl.get(i);
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.contains(o));
 
@@ -227,7 +227,7 @@ public class NodeCachingLinkedListTest {
 		while(ncl != null){
 			objIterator.addCountTest();
 			if(ncl.size()>0) {
-				Object b = ncl.getFirst();
+				Integer b = ncl.getFirst();
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.contains(b));
 			}
@@ -244,7 +244,7 @@ public class NodeCachingLinkedListTest {
 		while(ncl != null){
 			objIterator.addCountTest();
 			if(ncl.size()>0) {
-				Object b = ncl.getLast();
+				Integer b = ncl.getLast();
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.contains(b));
 			}
@@ -369,7 +369,7 @@ public class NodeCachingLinkedListTest {
 			objIterator.addCountTest();
 			if(index > 0 && index < ncl.size()) {
 				int oldSize = ncl.size();
-				Object b = ncl.remove(index);
+				Integer b = ncl.remove(index);
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.size() == oldSize-1);
 
@@ -415,7 +415,7 @@ public class NodeCachingLinkedListTest {
 
 			if(ncl.size() > 0) {
 				int oldSize = ncl.size();
-				Object b = ncl.removeFirst();
+				Integer b = ncl.removeFirst();
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.size() == oldSize-1);
 			}
@@ -440,7 +440,7 @@ public class NodeCachingLinkedListTest {
 
 			if(ncl.size() > 0) {
 				int oldSize = ncl.size();
-				Object b = ncl.removeLast();
+				Integer b = ncl.removeLast();
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.size() == oldSize-1);
 			}
@@ -552,7 +552,7 @@ public class NodeCachingLinkedListTest {
 		while(ncl != null){
 			objIterator.addCountTest();
 			int size = ncl.size();
-			Object [] a = ncl.toArray();
+			Integer [] a = ncl.toArray();
 			assertTrue(ncl.repOK());
 			assertTrue(a.length == size);
 			
@@ -572,7 +572,7 @@ public class NodeCachingLinkedListTest {
 		while(ncl != null){
 			objIterator.addCountTest();
 			int size = ncl.size();
-			Object [] a = new Object[ncl.size()];
+			Integer [] a = new Integer[ncl.size()];
 			a = ncl.toArray(a);
 			assertTrue(ncl.repOK());
 			assertTrue(a.length == size);
