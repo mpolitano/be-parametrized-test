@@ -67,7 +67,7 @@ fi
 # echo "> Running tests, Coverage and Mutation: $cmd"
 # bash -c "$cmd"
 
-cmd="mvn clean test-compile test  >> $explog"
+cmd="mvn -B clean test-compile test  >> $explog"
 echo ""
 echo "> Running test $cmd"
 bash -c "$cmd"
@@ -83,7 +83,7 @@ echo "> Save Test runner $cmd"
 bash -c "$cmd"
 
 
-cmd="mvn test jacoco:report -Dpackage=${packagename} >> $explog"
+cmd="mvn -B test jacoco:report -Dpackage=${packagename} >> $explog"
 echo ""
 echo "> Running jacoco $cmd"
 bash -c "$cmd"
@@ -95,7 +95,7 @@ cmd="cp -r $projectdir/target/site/*/* $resultsdir"
 bash -c "$cmd" 
 
 
-cmd="timeout 3600 mvn clean test-compile org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
+cmd="timeout 3600 mvn -B clean test-compile org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
 echo ""
 echo "> Running pit $cmd"
 bash -c "$cmd"
