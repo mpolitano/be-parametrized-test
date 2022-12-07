@@ -627,7 +627,7 @@ public class NodeCachingLinkedListTest {
 	
 		while(ncl != null){
 			objIterator.addCountTest();
-			java.util.ListIterator i = ncl.listIterator();
+			org.apache.commons.collections4.ListIterator i = ncl.listIterator();
 			assertTrue(ncl.repOK());
 
 			ncl = (NodeCachingLinkedList)objIterator.next();
@@ -649,7 +649,7 @@ public class NodeCachingLinkedListTest {
 			
 			objIterator.addCountTest();
 			if(i<ncl.size()) {
-				java.util.ListIterator listIter = ncl.listIterator(i);
+				org.apache.commons.collections4.ListIterator listIter = ncl.listIterator(i);
 				assertTrue(ncl.repOK());
 			}
 			ncl = (NodeCachingLinkedList)objIterator.next();
