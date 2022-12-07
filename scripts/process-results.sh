@@ -1,5 +1,4 @@
 #!/bin/bash 
-#!/usr/bin/env python3
 
 source $BE_EXP_SRC/scripts/common.sh
 
@@ -71,9 +70,9 @@ function process_results() {
                     pittotalinstr=""
                     pitreport=$(ls $currdir/pit-reports/*/mutations.csv 2> /dev/null)
                     if [[ $pitreport != "" ]]; then
-                        python3 readMutation.py $pitreport $casestudy >aux.txt
+                        # python3 readMutation.py $pitreport $casestudy > aux.txt
                         file="readMutation.py"
-                        mutantskilled=$(python3 $file $pitreport)
+                        mutantskilled=$(python3 $file $pitreport  $casestudy)
                     fi
 #
                     #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
