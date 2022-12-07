@@ -29,6 +29,7 @@ def parser( file, clazz, suffix =".csv"):
 	return mutations
 
 if __name__ == '__main__':
+	
 	file = sys.argv[1]
 	clazz = sys.argv[2]
 

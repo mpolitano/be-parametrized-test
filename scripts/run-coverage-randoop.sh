@@ -40,6 +40,10 @@ bash -c "$cmd"
 if [[ $tool == "randoop" ]]; then 
 	# cmd="cp -r $projectdir/$tool-tests $resultsdir"
 	cmd="cp -r $projectdir/$tool-tests/* $testSource"
+	echo ""
+	echo "> Copy tests: $cmd"
+	bash -c "$cmd" 
+
 else #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties

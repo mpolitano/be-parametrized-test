@@ -19,16 +19,18 @@ package org.apache.commons.collections4.list;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.AbstractList;
-import java.util.Collection;
+//import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+//import java.util.List;
+//import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.collections4.Collection;
+import org.apache.commons.collections4.List;
+import org.apache.commons.collections4.ListIterator;
 import org.apache.commons.collections4.OrderedIterator;
 
 /**
@@ -42,7 +44,7 @@ import org.apache.commons.collections4.OrderedIterator;
  * @since 3.0
  * @version $Id: AbstractLinkedList.java 1494296 2013-06-18 20:54:29Z tn $
  */
-public abstract class AbstractLinkedList implements List, Serializable  {
+public abstract class AbstractLinkedList implements org.apache.commons.collections4.List {
 
     /*
      * Implementation notes:
@@ -56,11 +58,6 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      */
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
      * A {@link Node} which indicates the start and end of the list and does not
      * hold a value. The value of <code>next</code> is the first item in the
      * list. The value of of <code>previous</code> is the last item in the list.
@@ -88,11 +85,11 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      *
      * @param coll  the collection to copy
      */
-    protected AbstractLinkedList(final Collection coll) {
-        super();
-        init();
-        addAll(coll);
-    }
+//    protected AbstractLinkedList(final java.util.Collection coll) {
+//        super();
+//        init();
+//        addAll(coll);
+//    }
 
     /**
      * The equivalent of a default constructor, broken out so it can be called
@@ -114,7 +111,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         return size() == 0;
     }
 
-    public Object get(final int index) {
+    public Integer get(final int index) {
         final Node node = getNode(index, false);
         return node.getValue();
     }
@@ -135,7 +132,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
 
     //-----------------------------------------------------------------------
 
-    public int indexOf(final Object value) {
+    public int indexOf(final Integer value) {
         int i = 0;
         for (Node node = header.next; node != header; node = node.next) {
             if (isEqualValue(node.getValue(), value)) {
@@ -146,7 +143,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         return -1;
     }
 
-    public int lastIndexOf(final Object value) {
+    public int lastIndexOf(final Integer value) {
         int i = size - 1;
         for (Node node = header.previous; node != header; node = node.previous) {
             if (isEqualValue(node.getValue(), value)) {
@@ -157,31 +154,33 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         return -1;
     }
 
-    public boolean contains(final Object value) {
+    public boolean contains(final Integer value) {
         return indexOf(value) != -1;
     }
 
-    public boolean containsAll(final Collection coll) {
-        for (final Object o : coll) {
-            if (!contains(o)) {
-                return false;
-            }
-        }
-        return true;
+    public boolean containsAll(final java.util.Collection coll) {
+		return false;
     }
+//        for (final Object o : coll) {
+//            if (!contains((Integer)o)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     //-----------------------------------------------------------------------
 
-    public Object[] toArray() {
-        return toArray(new Object[size]);
+    public Integer[] toArray() {
+        return toArray(new Integer[size]);
     }
 
     @SuppressWarnings("unchecked")
-    public  Object[] toArray(Object[] array) {
+    public  Integer[] toArray(Integer[] array) {
         // Extend the array if needed
         if (array.length < size) {
             final Class<?> componentType = array.getClass().getComponentType();
-            array = (Object[]) Array.newInstance(componentType, size);
+            array = (Integer[]) Array.newInstance(componentType, size);
         }
         // Copy the values into the array
         int i = 0;
@@ -202,44 +201,45 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * @param toIndexExclusive  the index to end at
      * @return the new sublist
      */
-    public List subList(final int fromIndexInclusive, final int toIndexExclusive) {
+    public org.apache.commons.collections4.List subList(final int fromIndexInclusive, final int toIndexExclusive) {
         return new LinkedSubList(this, fromIndexInclusive, toIndexExclusive);
     }
 
     //-----------------------------------------------------------------------
 
-    public boolean add(final Object value) {
+    public boolean add(final Integer value) {
         addLast(value);
         return true;
     }
 
-    public void add(final int index, final Object value) {
+    public void add(final int index, final Integer value) {
         final Node node = getNode(index, true);
         addNodeBefore(node, value);
     }
 
-    public boolean addAll(final Collection coll) {
+    public boolean addAll(final java.util.Collection coll) {
         return addAll(size, coll);
     }
 
-    public boolean addAll(final int index, final Collection coll) {
+    public boolean addAll(final int index, final java.util.Collection coll) {
         final Node node = getNode(index, true);
         for (final Object e : coll) {
-            addNodeBefore(node, e);
+            addNodeBefore(node, (Integer)e);
         }
         return true;
     }
-
+   
+    
     //-----------------------------------------------------------------------
 
-    public Object remove(final int index) {
+    public Integer remove(final int index) {
         final Node node = getNode(index, false);
-        final Object oldValue = node.getValue();
+        final Integer oldValue = node.getValue();
         removeNode(node);
         return oldValue;
     }
 
-    public boolean remove(final Object value) {
+    public boolean remove(final Integer value) {
         for (Node node = header.next; node != header; node = node.next) {
             if (isEqualValue(node.getValue(), value)) {
                 removeNode(node);
@@ -258,11 +258,11 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * <code>coll</code> that provides a fast (e.g. O(1)) implementation of
      * {@link Collection#contains(Object)}.
      */
-    public boolean removeAll(final Collection coll) {
+    public boolean removeAll(final java.util.Collection coll) {
         boolean modified = false;
         final Iterator it = iterator();
         while (it.hasNext()) {
-            if (coll.contains(it.next())) {
+            if (coll.contains((Integer)it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -281,11 +281,11 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * <code>coll</code> that provides a fast (e.g. O(1)) implementation of
      * {@link Collection#contains(Object)}.
      */
-    public boolean retainAll(final Collection coll) {
+    public boolean retainAll(final java.util.Collection coll) {
         boolean modified = false;
         final Iterator it = iterator();
         while (it.hasNext()) {
-            if (coll.contains(it.next()) == false) {
+            if (coll.contains((Integer)it.next()) == false) {
                 it.remove();
                 modified = true;
             }
@@ -293,9 +293,9 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         return modified;
     }
 
-    public Object set(final int index, final Object value) {
+    public Integer set(final int index, final Integer value) {
         final Node node = getNode(index, false);
-        final Object oldValue = node.getValue();
+        final Integer oldValue = node.getValue();
         updateNode(node, value);
         return oldValue;
     }
@@ -306,7 +306,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
 
     //-----------------------------------------------------------------------
 
-    public Object getFirst() {
+    public Integer getFirst() {
         final Node node = header.next;
         if (node == header) {
             throw new NoSuchElementException();
@@ -314,7 +314,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         return node.getValue();
     }
 
-    public Object getLast() {
+    public Integer getLast() {
         final Node node = header.previous;
         if (node == header) {
             throw new NoSuchElementException();
@@ -322,38 +322,38 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         return node.getValue();
     }
 
-    public boolean addFirst(final Object o) {
+    public boolean addFirst(final Integer o) {
         addNodeAfter(header, o);
         return true;
     }
 
-    public boolean addLast(final Object o) {
+    public boolean addLast(final Integer o) {
         addNodeBefore(header, o);
         return true;
     }
 
-    public Object removeFirst() {
+    public Integer removeFirst() {
         final Node node = header.next;
         if (node == header) {
             throw new NoSuchElementException();
         }
-        final Object oldValue = node.getValue();
+        final Integer oldValue = node.getValue();
         removeNode(node);
         return oldValue;
     }
 
-    public Object removeLast() {
+    public Integer removeLast() {
         final Node node = header.previous;
         if (node == header) {
             throw new NoSuchElementException();
         }
-        final Object oldValue = node.getValue();
+        final Integer oldValue = node.getValue();
         removeNode(node);
         return oldValue;
     }
 
     //-----------------------------------------------------------------------
-    @Override
+  /*  @Override
     public boolean equals(final Object obj) {
         if (obj == this) {
             return true;
@@ -361,12 +361,12 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         if (obj instanceof List == false) {
             return false;
         }
-        final List<?> other = (List<?>) obj;
+        final List other = (List) obj;
         if (other.size() != size()) {
             return false;
         }
-        final ListIterator<?> it1 = listIterator();
-        final ListIterator<?> it2 = other.listIterator();
+        final ListIterator it1 = listIterator();
+        final ListIterator it2 = other.listIterator();
         while (it1.hasNext() && it2.hasNext()) {
             final Object o1 = it1.next();
             final Object o2 = it2.next();
@@ -376,37 +376,37 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         }
         return !(it1.hasNext() || it2.hasNext());
     }
+*/
+    //@Override
+    //public int hashCode() {
+      //  int hashCode = 1;
+        //for (final Object e : this) {
+          //  hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
+        //}
+        //return hashCode;
+    //}
 
-    @Override
-    public int hashCode() {
-        int hashCode = 1;
-        for (final Object e : this) {
-            hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
-        }
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        if (size() == 0) {
-            return "[]";
-        }
-        final StringBuilder buf = new StringBuilder(16 * size());
-        buf.append('[');
-
-        final Iterator it = iterator();
-        boolean hasNext = it.hasNext();
-        while (hasNext) {
-            final Object value = it.next();
-            buf.append(value == this ? "(this Collection)" : value);
-            hasNext = it.hasNext();
-            if (hasNext) {
-                buf.append(", ");
-            }
-        }
-        buf.append(']');
-        return buf.toString();
-    }
+//    @Override
+//    public String toString() {
+//        if (size() == 0) {
+//            return "[]";
+//        }
+//        final StringBuilder buf = new StringBuilder(16 * size());
+//        buf.append('[');
+//
+//        final Iterator it = iterator();
+//        boolean hasNext = it.hasNext();
+//        while (hasNext) {
+//            final Object value = it.next();
+//            buf.append(value == this ? "(this Collection)" : value);
+//            hasNext = it.hasNext();
+//            if (hasNext) {
+//                buf.append(", ");
+//            }
+//        }
+//        buf.append(']');
+//        return buf.toString();
+//    }
 
     //-----------------------------------------------------------------------
     /**
@@ -418,7 +418,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * @param value2  the second value to compare, may be null
      * @return true if equal
      */
-    protected boolean isEqualValue(final Object value1, final Object value2) {
+    protected boolean isEqualValue(final Integer value1, final Integer value2) {
         return value1 == value2 || (value1 == null ? false : value1.equals(value2));
     }
 
@@ -430,7 +430,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * @param node  node to update
      * @param value  new value of the node
      */
-    protected void updateNode(final Node node, final Object value) {
+    protected void updateNode(final Node node, final Integer value) {
         node.setValue(value);
     }
 
@@ -453,7 +453,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * @param value  value of the new node
      * @return a new node containing the value
      */
-    protected Node createNode(final Object value) {
+    protected Node createNode(final Integer value) {
         return new Node(value);
     }
 
@@ -468,7 +468,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * @param value  value of the newly added node
      * @throws NullPointerException if <code>node</code> is null
      */
-    protected void addNodeBefore(final Node node, final Object value) {
+    protected void addNodeBefore(final Node node, final Integer value) {
         final Node newNode = createNode(value);
         addNode(newNode, node);
     }
@@ -484,7 +484,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * @param value  value of the newly added node
      * @throws NullPointerException if <code>node</code> is null
      */
-    protected void addNodeAfter(final Node node, final Object value) {
+    protected void addNodeAfter(final Node node, final Integer value) {
         final Node newNode = createNode(value);
         addNode(newNode, node.next);
     }
@@ -607,8 +607,10 @@ public abstract class AbstractLinkedList implements List, Serializable  {
     protected void doWriteObject(final ObjectOutputStream outputStream) throws IOException {
         // Write the size so we know how many nodes to read back
         outputStream.writeInt(size());
-        for (final Object e : this) {
-            outputStream.writeObject(e);
+        for (Node node = header.next; node != header; node = node.next) {
+
+        //for (final Object e : this) {
+            outputStream.writeObject(node.value);
         }
     }
 
@@ -627,7 +629,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         init();
         final int size = inputStream.readInt();
         for (int i = 0; i < size; i++) {
-            add( inputStream.readObject());
+            add((Integer) inputStream.readObject());
         }
     }
 
@@ -638,7 +640,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
      * From Commons Collections 3.1, all access to the <code>value</code> property
      * is via the methods on this class.
      */
-    protected static class Node implements Serializable{
+    protected static class Node  implements java.io.Serializable{
 
         /**
 		 * 
@@ -649,7 +651,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         /** A pointer to the node after this node */
         protected Node next;
         /** The object contained within this node */
-        protected Object value;
+        protected Integer value;
 
         /**
          * Constructs a new header node.
@@ -665,7 +667,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
          *
          * @param value  the value to store
          */
-        protected Node(final Object value) {
+        protected Node(final Integer value) {
             super();
             this.value = value;
         }
@@ -677,7 +679,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
          * @param next  the next node in the list
          * @param value  the value to store
          */
-        protected Node(final Node previous, final Node next, final Object value) {
+        protected Node(final Node previous, final Node next, final Integer value) {
             super();
             this.previous = previous;
             this.next = next;
@@ -690,7 +692,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
          * @return the value
          * @since 3.1
          */
-        protected Object getValue() {
+        protected Integer getValue() {
             return value;
         }
 
@@ -700,7 +702,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
          * @param value  the value
          * @since 3.1
          */
-        protected void setValue(final Object value) {
+        protected void setValue(final Integer value) {
             this.value = value;
         }
 
@@ -749,14 +751,10 @@ public abstract class AbstractLinkedList implements List, Serializable  {
     /**
      * A list iterator over the linked list.
      */
-    protected static class LinkedListIterator implements ListIterator, OrderedIterator, Serializable {
+    
+    protected static class LinkedListIterator implements org.apache.commons.collections4.ListIterator, OrderedIterator {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		/** The parent list */
+        /** The parent list */
         protected final AbstractLinkedList parent;
 
         /**
@@ -887,12 +885,12 @@ public abstract class AbstractLinkedList implements List, Serializable  {
             expectedModCount++;
         }
 
-        public void set(final Object obj) {
+        public void set(final Integer obj) {
             checkModCount();
             getLastNodeReturned().setValue(obj);
         }
 
-        public void add(final Object obj) {
+        public void add(final Integer obj) {
             checkModCount();
             parent.addNodeBefore(next, obj);
             current = null;
@@ -906,13 +904,9 @@ public abstract class AbstractLinkedList implements List, Serializable  {
     /**
      * A list iterator over the linked sub list.
      */
-    protected static class LinkedSubListIterator extends LinkedListIterator implements Serializable {
+    protected static class LinkedSubListIterator extends LinkedListIterator {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		/** The parent list */
+        /** The parent list */
         protected final LinkedSubList sub;
 
         protected LinkedSubListIterator(final LinkedSubList sub, final int startIndex) {
@@ -936,7 +930,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         }
 
         @Override
-        public void add(final Object obj) {
+        public void add(final Integer obj) {
             super.add(obj);
             sub.expectedModCount = parent.modCount;
             sub.size++;
@@ -954,12 +948,8 @@ public abstract class AbstractLinkedList implements List, Serializable  {
     /**
      * The sublist implementation for AbstractLinkedList.
      */
-    protected static class LinkedSubList extends AbstractList implements Serializable {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		/** The main list */
+    protected static class LinkedSubList extends org.apache.commons.collections4.AbstractList {
+        /** The main list */
         AbstractLinkedList parent;
         /** Offset from the main list */
         int offset;
@@ -991,14 +981,14 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         }
 
         @Override
-        public Object get(final int index) {
+        public Integer get(final int index) {
             rangeCheck(index, size);
             checkModCount();
             return parent.get(index + offset);
         }
 
         @Override
-        public void add(final int index, final Object obj) {
+        public void add(final int index, final Integer obj) {
             rangeCheck(index, size + 1);
             checkModCount();
             parent.add(index + offset, obj);
@@ -1008,10 +998,10 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         }
 
         @Override
-        public Object remove(final int index) {
+        public Integer remove(final int index) {
             rangeCheck(index, size);
             checkModCount();
-            final Object result = parent.remove(index + offset);
+            final Integer result = parent.remove(index + offset);
             expectedModCount = parent.modCount;
             size--;
             LinkedSubList.this.modCount++;
@@ -1019,12 +1009,12 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         }
 
         @Override
-        public boolean addAll(final Collection coll) {
+        public boolean addAll(final java.util.Collection coll) {
             return addAll(size, coll);
         }
 
         @Override
-        public boolean addAll(final int index, final Collection coll) {
+        public boolean addAll(final int index, final java.util.Collection coll) {
             rangeCheck(index, size + 1);
             final int cSize = coll.size();
             if (cSize == 0) {
@@ -1040,7 +1030,7 @@ public abstract class AbstractLinkedList implements List, Serializable  {
         }
 
         @Override
-        public Object set(final int index, final Object obj) {
+        public Integer set(final int index, final Integer obj) {
             rangeCheck(index, size);
             checkModCount();
             return parent.set(index + offset, obj);
@@ -1069,10 +1059,10 @@ public abstract class AbstractLinkedList implements List, Serializable  {
             return parent.createSubListListIterator(this, index);
         }
 
-        @Override
-        public List subList(final int fromIndexInclusive, final int toIndexExclusive) {
-            return new LinkedSubList(parent, fromIndexInclusive + offset, toIndexExclusive + offset);
-        }
+        //@Override
+       // public List subList(final int fromIndexInclusive, final int toIndexExclusive) {
+        //    return new LinkedSubList(parent, fromIndexInclusive + offset, toIndexExclusive + offset);
+        //}
 
         protected void rangeCheck(final int index, final int beyond) {
             if (index < 0 || index >= beyond) {
@@ -1085,6 +1075,36 @@ public abstract class AbstractLinkedList implements List, Serializable  {
                 throw new ConcurrentModificationException();
             }
         }
+
+		@Override
+		public Integer[] toArray(Integer[] a) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean containsAll(java.util.Collection c) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean removeAll(java.util.Collection c) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean retainAll(java.util.Collection c) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public List subList(int fromIndex, int toIndex) {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
 
 }
