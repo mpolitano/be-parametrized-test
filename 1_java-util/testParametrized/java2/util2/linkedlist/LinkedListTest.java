@@ -171,6 +171,7 @@ public class LinkedListTest {
 			assertTrue((result1>=0 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
 		}
 	 }
+	}
 	
 	@Test
 	public void add_last_Test() {
