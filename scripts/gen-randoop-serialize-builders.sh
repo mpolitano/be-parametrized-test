@@ -52,7 +52,7 @@ randoop.main.Main gentests \
 --null-ratio=0 \
 --dont-output-tests=true \
 --select-builder-prob=1 \
---serialize-objects="$serializeDir/randoop.ser" \
+--serialize-xstream-file=$serializeDir/randoop.xml \
 $omitmethods \
 $builders
 "

@@ -37,22 +37,20 @@ echo "> Executing Randoop"
 serializeDir=serialize/$class/$budget/randoop-serialize
 mkdir -p $serializeDir
 
-randoop_jar=../lib/randoop-serialize.jar
+randoop_jar=../lib/randoop-xstream.jar
 
 cmd="java -Xmx$maxheap -ea -cp $randoop_jar:$cp \
 randoop.main.Main gentests \
 --testclass=$class \
 --junit-output-dir=$outdir \
 --time-limit=$budget \
---disable-contracts \
 --junit-package-name=$packagename \
 --only-test-public-members \
 --forbid-null=true \
 --dont-output-tests=true \
 --null-ratio=0 \
 --dont-output-tests=true \
---select-builder-prob=1 \
---serialize-objects=$serializeDir/randoop.ser \
+--serialize-xstream-file=$serializeDir/randoop.xml \
 $omitmethods "
 # --literals-file=$literals \
 #--literals-level=ALL \
