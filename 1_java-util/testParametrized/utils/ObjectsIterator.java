@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections4.list.NodeCachingLinkedList;
 
 import com.thoughtworks.xstream.XStream;
 
