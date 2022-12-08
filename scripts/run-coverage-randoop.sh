@@ -39,7 +39,7 @@ bash -c "$cmd"
 
 if [[ $tool == "randoop" ]]; then 
 	# cmd="cp -r $projectdir/$tool-tests $resultsdir"
-	cmd="cp -r $projectdir/$tool-tests/* $testSource"
+	cmd="cp -r $projectdir/$tool-tests/Regression* $testSource"
 	echo ""
 	echo "> Copy tests: $cmd"
 	bash -c "$cmd" 
