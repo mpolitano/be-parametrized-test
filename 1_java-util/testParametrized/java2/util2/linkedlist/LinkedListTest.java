@@ -163,15 +163,15 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			while(list != null) {
-			objIterator.addCountTest();
-			int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
-	    	boolean containsPrevRemove = list.contains(i);
-			int result1=list.lastIndexOf(i);
+			if(list != null) {
+				objIterator.addCountTest();
+				int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
+		    	boolean containsPrevRemove = list.contains(i);
+				int result1=list.lastIndexOf(i);
 
-			assertTrue(list.repOK());
-			assertTrue((result1>=0 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
-		}
+				assertTrue(list.repOK());
+				assertTrue((result1>=0 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
+			}
 	 }
 	}
 	
