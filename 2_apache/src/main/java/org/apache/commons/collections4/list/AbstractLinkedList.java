@@ -111,7 +111,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         return size() == 0;
     }
 
-    public Integer get(final int index) {
+    public Object get(final int index) {
         final Node node = getNode(index, false);
         return node.getValue();
     }
@@ -132,7 +132,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
 
     //-----------------------------------------------------------------------
 
-    public int indexOf(final Integer value) {
+    public int indexOf(final Object value) {
         int i = 0;
         for (Node node = header.next; node != header; node = node.next) {
             if (isEqualValue(node.getValue(), value)) {
@@ -143,7 +143,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         return -1;
     }
 
-    public int lastIndexOf(final Integer value) {
+    public int lastIndexOf(final Object value) {
         int i = size - 1;
         for (Node node = header.previous; node != header; node = node.previous) {
             if (isEqualValue(node.getValue(), value)) {
@@ -154,7 +154,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         return -1;
     }
 
-    public boolean contains(final Integer value) {
+    public boolean contains(final Object value) {
         return indexOf(value) != -1;
     }
 
@@ -171,16 +171,16 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
 
     //-----------------------------------------------------------------------
 
-    public Integer[] toArray() {
-        return toArray(new Integer[size]);
+    public Object[] toArray() {
+        return toArray(new Object[size]);
     }
 
     @SuppressWarnings("unchecked")
-    public  Integer[] toArray(Integer[] array) {
+    public  Object[] toArray(Object[] array) {
         // Extend the array if needed
         if (array.length < size) {
             final Class<?> componentType = array.getClass().getComponentType();
-            array = (Integer[]) Array.newInstance(componentType, size);
+            array = (Object[]) Array.newInstance(componentType, size);
         }
         // Copy the values into the array
         int i = 0;
@@ -207,12 +207,12 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
 
     //-----------------------------------------------------------------------
 
-    public boolean add(final Integer value) {
+    public boolean add(final Object value) {
         addLast(value);
         return true;
     }
 
-    public void add(final int index, final Integer value) {
+    public void add(final int index, final Object value) {
         final Node node = getNode(index, true);
         addNodeBefore(node, value);
     }
@@ -224,7 +224,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     public boolean addAll(final int index, final java.util.Collection coll) {
         final Node node = getNode(index, true);
         for (final Object e : coll) {
-            addNodeBefore(node, (Integer)e);
+            addNodeBefore(node, (Object)e);
         }
         return true;
     }
@@ -232,14 +232,14 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     
     //-----------------------------------------------------------------------
 
-    public Integer remove(final int index) {
+    public Object remove(final int index) {
         final Node node = getNode(index, false);
-        final Integer oldValue = node.getValue();
+        final Object oldValue = node.getValue();
         removeNode(node);
         return oldValue;
     }
 
-    public boolean remove(final Integer value) {
+    public boolean remove(final Object value) {
         for (Node node = header.next; node != header; node = node.next) {
             if (isEqualValue(node.getValue(), value)) {
                 removeNode(node);
@@ -262,7 +262,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         boolean modified = false;
         final Iterator it = iterator();
         while (it.hasNext()) {
-            if (coll.contains((Integer)it.next())) {
+            if (coll.contains((Object)it.next())) {
                 it.remove();
                 modified = true;
             }
@@ -285,7 +285,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         boolean modified = false;
         final Iterator it = iterator();
         while (it.hasNext()) {
-            if (coll.contains((Integer)it.next()) == false) {
+            if (coll.contains((Object)it.next()) == false) {
                 it.remove();
                 modified = true;
             }
@@ -293,9 +293,9 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         return modified;
     }
 
-    public Integer set(final int index, final Integer value) {
+    public Object set(final int index, final Object value) {
         final Node node = getNode(index, false);
-        final Integer oldValue = node.getValue();
+        final Object oldValue = node.getValue();
         updateNode(node, value);
         return oldValue;
     }
@@ -306,7 +306,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
 
     //-----------------------------------------------------------------------
 
-    public Integer getFirst() {
+    public Object getFirst() {
         final Node node = header.next;
         if (node == header) {
             throw new NoSuchElementException();
@@ -314,7 +314,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         return node.getValue();
     }
 
-    public Integer getLast() {
+    public Object getLast() {
         final Node node = header.previous;
         if (node == header) {
             throw new NoSuchElementException();
@@ -322,32 +322,32 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         return node.getValue();
     }
 
-    public boolean addFirst(final Integer o) {
+    public boolean addFirst(final Object o) {
         addNodeAfter(header, o);
         return true;
     }
 
-    public boolean addLast(final Integer o) {
+    public boolean addLast(final Object o) {
         addNodeBefore(header, o);
         return true;
     }
 
-    public Integer removeFirst() {
+    public Object removeFirst() {
         final Node node = header.next;
         if (node == header) {
             throw new NoSuchElementException();
         }
-        final Integer oldValue = node.getValue();
+        final Object oldValue = node.getValue();
         removeNode(node);
         return oldValue;
     }
 
-    public Integer removeLast() {
+    public Object removeLast() {
         final Node node = header.previous;
         if (node == header) {
             throw new NoSuchElementException();
         }
-        final Integer oldValue = node.getValue();
+        final Object oldValue = node.getValue();
         removeNode(node);
         return oldValue;
     }
@@ -418,7 +418,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      * @param value2  the second value to compare, may be null
      * @return true if equal
      */
-    protected boolean isEqualValue(final Integer value1, final Integer value2) {
+    protected boolean isEqualValue(final Object value1, final Object value2) {
         return value1 == value2 || (value1 == null ? false : value1.equals(value2));
     }
 
@@ -430,7 +430,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      * @param node  node to update
      * @param value  new value of the node
      */
-    protected void updateNode(final Node node, final Integer value) {
+    protected void updateNode(final Node node, final Object value) {
         node.setValue(value);
     }
 
@@ -453,7 +453,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      * @param value  value of the new node
      * @return a new node containing the value
      */
-    protected Node createNode(final Integer value) {
+    protected Node createNode(final Object value) {
         return new Node(value);
     }
 
@@ -468,7 +468,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      * @param value  value of the newly added node
      * @throws NullPointerException if <code>node</code> is null
      */
-    protected void addNodeBefore(final Node node, final Integer value) {
+    protected void addNodeBefore(final Node node, final Object value) {
         final Node newNode = createNode(value);
         addNode(newNode, node);
     }
@@ -484,7 +484,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
      * @param value  value of the newly added node
      * @throws NullPointerException if <code>node</code> is null
      */
-    protected void addNodeAfter(final Node node, final Integer value) {
+    protected void addNodeAfter(final Node node, final Object value) {
         final Node newNode = createNode(value);
         addNode(newNode, node.next);
     }
@@ -629,7 +629,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         init();
         final int size = inputStream.readInt();
         for (int i = 0; i < size; i++) {
-            add((Integer) inputStream.readObject());
+            add((Object) inputStream.readObject());
         }
     }
 
@@ -651,7 +651,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         /** A pointer to the node after this node */
         protected Node next;
         /** The object contained within this node */
-        protected Integer value;
+        protected Object value;
 
         /**
          * Constructs a new header node.
@@ -667,7 +667,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
          *
          * @param value  the value to store
          */
-        protected Node(final Integer value) {
+        protected Node(final Object value) {
             super();
             this.value = value;
         }
@@ -679,7 +679,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
          * @param next  the next node in the list
          * @param value  the value to store
          */
-        protected Node(final Node previous, final Node next, final Integer value) {
+        protected Node(final Node previous, final Node next, final Object value) {
             super();
             this.previous = previous;
             this.next = next;
@@ -692,7 +692,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
          * @return the value
          * @since 3.1
          */
-        protected Integer getValue() {
+        protected Object getValue() {
             return value;
         }
 
@@ -702,7 +702,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
          * @param value  the value
          * @since 3.1
          */
-        protected void setValue(final Integer value) {
+        protected void setValue(final Object value) {
             this.value = value;
         }
 
@@ -885,12 +885,12 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
             expectedModCount++;
         }
 
-        public void set(final Integer obj) {
+        public void set(final Object obj) {
             checkModCount();
             getLastNodeReturned().setValue(obj);
         }
 
-        public void add(final Integer obj) {
+        public void add(final Object obj) {
             checkModCount();
             parent.addNodeBefore(next, obj);
             current = null;
@@ -930,7 +930,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
 
         @Override
-        public void add(final Integer obj) {
+        public void add(final Object obj) {
             super.add(obj);
             sub.expectedModCount = parent.modCount;
             sub.size++;
@@ -981,14 +981,14 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
 
         @Override
-        public Integer get(final int index) {
+        public Object get(final int index) {
             rangeCheck(index, size);
             checkModCount();
             return parent.get(index + offset);
         }
 
         @Override
-        public void add(final int index, final Integer obj) {
+        public void add(final int index, final Object obj) {
             rangeCheck(index, size + 1);
             checkModCount();
             parent.add(index + offset, obj);
@@ -998,10 +998,10 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
 
         @Override
-        public Integer remove(final int index) {
+        public Object remove(final int index) {
             rangeCheck(index, size);
             checkModCount();
-            final Integer result = parent.remove(index + offset);
+            final Object result = parent.remove(index + offset);
             expectedModCount = parent.modCount;
             size--;
             LinkedSubList.this.modCount++;
@@ -1030,7 +1030,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
 
         @Override
-        public Integer set(final int index, final Integer obj) {
+        public Object set(final int index, final Object obj) {
             rangeCheck(index, size);
             checkModCount();
             return parent.set(index + offset, obj);
@@ -1077,12 +1077,6 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
 
 		@Override
-		public Integer[] toArray(Integer[] a) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
 		public boolean containsAll(java.util.Collection c) {
 			// TODO Auto-generated method stub
 			return false;
@@ -1105,6 +1099,8 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+
     }
 
 }

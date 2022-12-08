@@ -114,10 +114,10 @@ public abstract class AbstractCollection implements Collection {
    *
    * @return an array containing all of the elements in this collection.
    */
-  public Integer[] toArray() {
-    Integer[] result = new Integer[size()];
+  public Object[] toArray() {
+	  Object[] result = new Object[size()];
     Iterator e = iterator();
-    for (int i = 0; e.hasNext(); i++) result[i] = (Integer)e.next();
+    for (int i = 0; e.hasNext(); i++) result[i] = (Object)e.next();
     return result;
   }
 
@@ -344,7 +344,7 @@ public abstract class AbstractCollection implements Collection {
     boolean modified = false;
     Iterator e = iterator();
     while (e.hasNext()) {
-      if (c.contains((Integer)e.next())) {
+      if (c.contains((Object)e.next())) {
         e.remove();
         modified = true;
       }

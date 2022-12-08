@@ -118,7 +118,7 @@ public interface List extends Collection {
    * @throws NullPointerException if the specified element is null and this
    *         list does not support null elements (optional).
    */
-  boolean contains(Integer o);
+  boolean contains(Object o);
 
   /**
    * Returns an iterator over the elements in this list in proper sequence.
@@ -136,7 +136,7 @@ public interface List extends Collection {
    *	       sequence.
    * @see Arrays#asList(Object[])
    */
-  Integer[] toArray();
+  Object[] toArray();
 
   /**
    * Returns an array containing all of the elements in this list in proper
@@ -154,7 +154,7 @@ public interface List extends Collection {
    * 		  this list.
    * @throws NullPointerException if the specified array is <tt>null</tt>.
    */
-  Integer[] toArray(Integer[] a);
+  Object[] toArray(Object[] a);
 
   // Modification Operations
 
@@ -182,7 +182,7 @@ public interface List extends Collection {
    * @throws IllegalArgumentException if some aspect of this element
    *            prevents it from being added to this list.
    */
-  boolean add(Integer o);
+  boolean add(Object o);
 
   /**
    * Removes the first occurrence in this list of the specified element
@@ -200,7 +200,7 @@ public interface List extends Collection {
    * @throws UnsupportedOperationException if the <tt>remove</tt> method is
    *		  not supported by this list.
    */
-  boolean remove(Integer o);
+  boolean remove(Object o);
 
   // Bulk Modification Operations
 
@@ -391,7 +391,7 @@ public interface List extends Collection {
    * @throws IndexOutOfBoundsException if the index is out of range (index
    * 		  &lt; 0 || index &gt;= size()).
    */
-  Integer get(int index);
+  Object get(int index);
 
   /**
    * Replaces the element at the specified position in this list with the
@@ -412,7 +412,7 @@ public interface List extends Collection {
    * @throws    IndexOutOfBoundsException if the index is out of range
    *		  (index &lt; 0 || index &gt;= size()).
    */
-  Integer set(int index, Integer element);
+  Object set(int index, Object element);
 
   /**
    * Inserts the specified element at the specified position in this list
@@ -434,7 +434,7 @@ public interface List extends Collection {
    * @throws    IndexOutOfBoundsException if the index is out of range
    *		  (index &lt; 0 || index &gt; size()).
    */
-  void add(int index, Integer element);
+  void add(int index, Object element);
 
   /**
    * Removes the element at the specified position in this list (optional
@@ -450,7 +450,7 @@ public interface List extends Collection {
    * @throws IndexOutOfBoundsException if the index is out of range (index
    *            &lt; 0 || index &gt;= size()).
    */
-  Integer remove(int index);
+  Object remove(int index);
 
   // Search Operations
 
@@ -469,7 +469,7 @@ public interface List extends Collection {
    * @throws NullPointerException if the specified element is null and this
    *         list does not support null elements (optional).
    */
-  int indexOf(Integer o);
+  int indexOf(Object o);
 
   /**
    * Returns the index in this list of the last occurrence of the specified
@@ -486,7 +486,7 @@ public interface List extends Collection {
    * @throws NullPointerException if the specified element is null and this
    *         list does not support null elements (optional).
    */
-  int lastIndexOf(Integer o);
+  int lastIndexOf(Object o);
 
   // List Iterators
 

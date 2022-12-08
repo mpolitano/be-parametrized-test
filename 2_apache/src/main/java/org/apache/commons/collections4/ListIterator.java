@@ -155,7 +155,7 @@ public interface ListIterator extends java.util.Iterator {
    *		  <tt>add</tt> have been called after the last call to
    * 		  <tt>next</tt> or <tt>previous</tt>.
    */
-  void set(Integer o);
+  void set(Object o);
 
   /**
    * Inserts the specified element into the list (optional operation).  The
@@ -179,5 +179,5 @@ public interface ListIterator extends java.util.Iterator {
    * @exception IllegalArgumentException if some aspect of this element
    *            prevents it from being added to this list.
    */
-  void add(Integer o);
+  void add(Object o);
 }

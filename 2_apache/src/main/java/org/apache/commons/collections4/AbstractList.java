@@ -86,7 +86,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @throws IllegalArgumentException some aspect of this element prevents
    *            it from being added to this collection.
    */
-  public boolean add(Integer o) {
+  public boolean add(Object o) {
     add(size(), o);
     return true;
   }
@@ -100,7 +100,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @throws IndexOutOfBoundsException if the given index is out of range
    * 		  (<tt>index &lt; 0 || index &gt;= size()</tt>).
    */
-  abstract public Integer get(int index);
+  abstract public Object get(int index);
 
   /**
    * Replaces the element at the specified position in this list with the
@@ -123,7 +123,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @throws IndexOutOfBoundsException if the specified index is out of
    *            range (<tt>index &lt; 0 || index &gt;= size()</tt>).
    */
-  public Integer set(int index, Integer element) {
+  public Object set(int index, Object element) {
     throw new UnsupportedOperationException();
   }
 
@@ -147,7 +147,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @throws IndexOutOfBoundsException index is out of range (<tt>index &lt;
    *		  0 || index &gt; size()</tt>).
    */
-  public void add(int index, Integer element) {
+  public void add(int index, Object element) {
     throw new UnsupportedOperationException();
   }
 
@@ -168,7 +168,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @throws IndexOutOfBoundsException if the specified index is out of
    * 		  range (<tt>index &lt; 0 || index &gt;= size()</tt>).
    */
-  public Integer remove(int index) {
+  public Object remove(int index) {
     throw new UnsupportedOperationException();
   }
 
@@ -190,7 +190,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @return the index in this List of the first occurence of the specified
    * 	       element, or -1 if the List does not contain this element.
    */
-  public int indexOf(Integer o) {
+  public int indexOf(Object o) {
     ListIterator e = listIterator();
     if (o == null) {
       while (e.hasNext()) if (e.next() == null) return e.previousIndex();
@@ -217,7 +217,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
    * @return the index in this list of the last occurence of the specified
    * 	       element, or -1 if the list does not contain this element.
    */
-  public int lastIndexOf(Integer o) {
+  public int lastIndexOf(Object o) {
     ListIterator e = listIterator(size());
     if (o == null) {
       while (e.hasPrevious()) if (e.previous() == null) return e.nextIndex();
@@ -293,7 +293,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
     boolean modified = false;
     java.util.Iterator e = c.iterator();
     while (e.hasNext()) {
-      add(index++, (Integer)e.next());
+      add(index++, (Object)e.next());
       modified = true;
     }
     return modified;
@@ -467,7 +467,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
       return cursor - 1;
     }
 
-    public void set(Integer o) {
+    public void set(Object o) {
       if (lastRet == -1) throw new IllegalStateException();
       checkForComodification();
 
@@ -479,7 +479,7 @@ public abstract class AbstractList extends AbstractCollection implements List {
       }
     }
 
-    public void add(Integer o) {
+    public void add(Object o) {
       checkForComodification();
 
       try {
@@ -832,13 +832,13 @@ public abstract class AbstractList extends AbstractCollection implements List {
   //}
 
 @Override
-public boolean contains(Integer o) {
+public boolean contains(Object o) {
 	// TODO Auto-generated method stub
 	return false;
 }
 
 @Override
-public boolean remove(Integer o) {
+public boolean remove(Object o) {
 	// TODO Auto-generated method stub
 	return false;
 }

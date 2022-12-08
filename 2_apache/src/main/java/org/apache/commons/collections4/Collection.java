@@ -111,7 +111,7 @@ public interface Collection {
    * @throws NullPointerException if the specified element is null and this
    *         collection does not support null elements (optional).
    */
-  boolean contains(Integer o);
+  boolean contains(Object o);
 
   /**
    * Returns an iterator over the elements in this collection.  There are no
@@ -139,7 +139,7 @@ public interface Collection {
    *
    * @return an array containing all of the elements in this collection
    */
-  Integer[] toArray();
+  Object[] toArray();
 
   /**
    * Returns an array containing all of the elements in this collection;
@@ -185,7 +185,7 @@ public interface Collection {
    *         collection.
    * @throws NullPointerException if the specified array is <tt>null</tt>.
    */
-  Integer[] toArray(Integer[] a);
+  Object[] toArray(Object[] a);
 
   // Modification Operations
 
@@ -221,7 +221,7 @@ public interface Collection {
    * @throws IllegalArgumentException some aspect of this element prevents
    *         it from being added to this collection.
    */
-  boolean add(Integer o);
+  boolean add(Object o);
 
   /**
    * Removes a single instance of the specified element from this
@@ -243,7 +243,7 @@ public interface Collection {
    * @throws UnsupportedOperationException remove is not supported by this
    *         collection.
    */
-  boolean remove(Integer o);
+  boolean remove(Object o);
 
   // Bulk Operations
 

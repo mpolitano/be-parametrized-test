@@ -43,25 +43,25 @@ import java.util.Collection;
 public class NodeCachingLinkedList extends AbstractLinkedList  implements Serializable {
 
     /** Serialization version */
-    private static final long serialVersionUID = 6897789178562232073L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The default value for {@link #maximumCacheSize}.
      */
-    private static final int DEFAULT_MAXIMUM_CACHE_SIZE = 3;
+    private static final int DEFAULT_MAXIMUM_CACHE_SIZE = 10;
 
     /**
      * The first cached node, or <code>null</code> if no nodes are cached.
      * Cached nodes are stored in a singly-linked list with
      * <code>next</code> pointing to the next element.
      */
-    private Node firstCachedNode;
+    private  Node firstCachedNode;
 
     /**
      * The size of the cache.
      */
-    private int cacheSize;
-
+    private  int cacheSize;
+ 
     /**
      * The maximum size of the cache.
      */
@@ -164,7 +164,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      *
      * @param node  the node to add to the cache
      */
-    public void addNodeToCache(final Node node, Integer value) {
+    public void addNodeToCache(final Node node, Object value) {
         if (isCacheFull()) {
             // don't cache the node.
             return;
@@ -188,7 +188,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      * @return the newly created node
      */
     @Override
-    public Node createNode(final Integer value) {
+    public Node createNode(final Object value) {
         final Node cachedNode = getNodeFromCache();
         if (cachedNode == null) {
             return super.createNode(value);
@@ -225,7 +225,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
         Node node = header.next;
         for (int currentIndex = 0; currentIndex < numberOfNodesToCache; currentIndex++) {
             final Node oldNode = node;
-            Integer value = node.getValue();
+            Object value = node.getValue();
             node = node.next;
             addNodeToCache(oldNode, value);
         }
