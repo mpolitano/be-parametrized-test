@@ -14,7 +14,7 @@ cp=./build/classes:./lib/*.jar
 outdir=randoop-tests
 
 pushd $projectsdir/$1 > /dev/null
-rm -r randoop-tests/java2/util2/treemap/*.java
+rm -r randoop-tests/*
 
 echo $BE_EXP_SRC
 echo $projectsdir/$1
