@@ -133,6 +133,9 @@
 		                <param>HTML</param>
 
 		            </outputFormats>
+		            <jvmArgs>
+					    <jvmArg>-Xmx8g</jvmArg>
+					</jvmArgs>
 		            <avoidCallsTo>
 		                <param>readObjects</param>
 		                <param>writeObjects</param>
