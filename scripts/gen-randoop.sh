@@ -36,7 +36,6 @@ randoop.main.Main gentests \
 --testclass=$class \
 --junit-output-dir=$outdir \
 --time-limit=$budget \
---disable-contracts $omitmethods \
 --junit-package-name=$packagename \
 --only-test-public-members \
 --forbid-null=true \
