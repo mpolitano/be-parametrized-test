@@ -72,7 +72,7 @@ function process_results() {
                     if [[ $pitreport != "" ]]; then
                         # python3 readMutation.py $pitreport $casestudy > aux.txt
                         file="readMutation.py"
-                        mutantskilled=$(python3 $file $pitreport  $casestudy)
+                        mutantskilled=$(python3 $file $pitreport $casestudy)
                     fi
 #
                     #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
