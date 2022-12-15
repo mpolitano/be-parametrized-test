@@ -58,6 +58,7 @@ function process_results() {
                     branchescov=""
                     covreport=$currdir/jacoco.csv
                     if [[ -f $covreport ]]; then
+                        packagename=${casestudy%\.*}
                         covline=$(cat $covreport | grep ",$classname,")
                         linesmiss=$(echo $covline | cut -d',' -f8)
                         linescov=$(echo $covline | cut -d',' -f9)
