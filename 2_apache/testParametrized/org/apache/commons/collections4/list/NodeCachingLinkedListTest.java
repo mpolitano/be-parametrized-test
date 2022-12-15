@@ -22,6 +22,8 @@ import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.NoSuchElementException;
 
 
 public class NodeCachingLinkedListTest { 
@@ -144,6 +146,31 @@ public class NodeCachingLinkedListTest {
 
 		}
 	}
+	
+	@Test
+	public void getExc_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			int i = ThreadLocalRandom.current().nextInt(-2,literals);	
+			//assumeTrue(i<ncl.size());
+			if(i<0 || ncl.size<i || i == ncl.size()) {
+			objIterator.addCountTest();
+
+			boolean result=false;
+
+			try{
+				Object o = (Object)ncl.get(i);
+			}catch(IndexOutOfBoundsException e) {
+					result = true;
+			}
+		
+			assertTrue(result);
+			}
+			}
+
+		}	
 
 
 
@@ -234,20 +261,61 @@ public class NodeCachingLinkedListTest {
 
 	@Test
 	public void getfirst_test() {
-
 		List<Object> nclList = objIterator.getObjects();
 		ListIterator it = nclList.listIterator();
 		while(it.hasNext()) {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
-			objIterator.addCountTest();
+			Object b = null;
 			if(ncl.size()>0) {
-				Object b = ncl.getFirst();
+				objIterator.addCountTest();
+				b = ncl.getFirst();
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.contains(b));
 			}
 		}
 	}
 
+	@Test
+	public void getfirstException_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		boolean result = false;
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			if(ncl.size()<=0) {
+				objIterator.addCountTest();
+				try{
+					ncl.getFirst();
+				}catch (NoSuchElementException e){
+					result = true;
+
+				}
+			}
+			assertTrue(result);
+		}
+	
+	}
+	
+	@Test
+	public void getLastException_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		boolean result = false;
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			if(ncl.size()<=0) {
+				objIterator.addCountTest();
+				try{
+					ncl.getLast();
+				}catch (NoSuchElementException e){
+					result = true;
+
+				}
+			}
+			assertTrue(result);
+		}
+	
+	}
 
 	//org.apache.commons.collections4.list.AbstractLinkedList.getLast()
 	@Test
@@ -256,14 +324,39 @@ public class NodeCachingLinkedListTest {
 		ListIterator it = nclList.listIterator();
 		while(it.hasNext()) {
 			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
-			objIterator.addCountTest();
+			Object b = null;
+
+			if(ncl.size()<=0) {
+				objIterator.addCountTest();
+
+				try{
+					b = ncl.getFirst();
+				}catch (NoSuchElementException e){
+					assertTrue(ncl.repOK());
+					assertTrue(!ncl.contains(b));
+
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void getlast1_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			System.out.println(ncl.toString());
 			if(ncl.size()>0) {
+				objIterator.addCountTest();
 				Object b = ncl.getLast();
 				assertTrue(ncl.repOK());
 				assertTrue(ncl.contains(b));
 			}
 		}
-	}
+		}
+	
 
 	//org.apache.commons.collections4.list.AbstractLinkedList.addFirst(java.lang.Integer)
 
@@ -428,6 +521,60 @@ public class NodeCachingLinkedListTest {
 			
 		}
 	}
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.removeFirst()
+		@Test
+		public void removeFirstException_test() {
+
+			List<Object> nclList = objIterator.getObjects();
+			ListIterator it = nclList.listIterator();
+			while(it.hasNext()) {
+				boolean result = false;
+				NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+				Random r = new Random();
+				int value = r.nextInt(literals);
+				
+				objIterator.addCountTest();
+
+				if(ncl.size() == 0) {
+				int oldSize = ncl.size();
+				try {
+				Object b = ncl.removeFirst();
+				}catch(NoSuchElementException e){
+					result = true;
+				}
+				assertTrue(result);
+				}
+			}
+				
+			}
+		
+		//org.apache.commons.collections4.list.AbstractLinkedList.removeFirst()
+				@Test
+				public void removeLastException_test() {
+
+					List<Object> nclList = objIterator.getObjects();
+					ListIterator it = nclList.listIterator();
+					while(it.hasNext()) {
+						boolean result = false;
+						NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+						Random r = new Random();
+						int value = r.nextInt(literals);
+						
+						objIterator.addCountTest();
+
+						if(ncl.size() == 0) {
+							int oldSize = ncl.size();
+							try {
+							Object b = ncl.removeLast();
+							}catch(NoSuchElementException e){
+								result = true;
+							}
+						assertTrue(result);
+						}
+					}
+						
+					}
 	
 	
 	
