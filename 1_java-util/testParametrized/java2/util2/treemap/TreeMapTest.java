@@ -54,7 +54,8 @@ public class TreeMapTest {
 	public void clear_Test() {
 		List<Object> treemap = objIterator.getObjects();
 		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
+		while(it.hasNext()) {					
+			objIterator.addCountTest();
 			TreeMap tmap = (TreeMap)it.next();
 				tmap.clear();
 				assertTrue(tmap.size() == 0);
