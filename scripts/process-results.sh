@@ -45,7 +45,6 @@ function process_results() {
                         testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
                         if [[ $testreport != "" ]]; then
                             testline=$(cat $testreport | grep "Tests run:") 
-
                             testsnum=$(cat $currdir/testsCount.txt) 
                             runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
                         fi
@@ -59,11 +58,13 @@ function process_results() {
                     covreport=$currdir/jacoco.csv
                     if [[ -f $covreport ]]; then
                         packagename=${casestudy%\.*}
-                        covline=$(cat $covreport | grep ",$classname,")
-                        linesmiss=$(echo $covline | cut -d',' -f8)
-                        linescov=$(echo $covline | cut -d',' -f9)
-                        branchesmiss=$(echo $covline | cut -d',' -f6)
-                        branchescov=$(echo $covline | cut -d',' -f7)
+                        linesmiss=$(cat $covreport | grep ",$packagename,"|cut -d',' -f8|awk '{ SUM += $1} END { print SUM }') 
+                        linescov=$(cat $covreport | grep ",$packagename,"|cut -d',' -f9|awk '{ SUM += $1} END { print SUM }') 
+                        linesTotal=$(($linescov + $linesmiss)) 
+
+                        branchesmiss=$(cat $covreport | grep ",$packagename,"|cut -d',' -f6|awk '{ SUM += $1} END { print SUM }') 
+                        branchescov=$(cat $covreport | grep ",$packagename,"|cut -d',' -f7|awk '{ SUM += $1} END { print SUM }') 
+                        branchesTotal=$(($branchesmiss + $branchescov))
                     fi
 
                     # Process mutation
@@ -73,12 +74,21 @@ function process_results() {
                     if [[ $pitreport != "" ]]; then
                         # python3 readMutation.py $pitreport $casestudy > aux.txt
                         file="readMutation.py"
-                        mutantskilled=$(python3 $file $pitreport $casestudy)
+
+                        mutants=$(python3 $file $pitreport $casestudy)
+                        arrMutants=(${mutants//,/ })
+                        mutantsKilled=${arrMutants[0]}
+                        mutantsNoKilled=${arrMutants[1]}
+                        mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
+
+                        mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
+                        mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
+                        mutationTime=$(($mutationSecond + $mutationMinutes*60))
                     fi
 #
                     #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
                     #echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesmiss,$branchescov,$branchesmiss,$pitinstrcov,$pittotalinstr,$mutantskilled,$totalmutants" >> $tmpfile
-                    echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$branchescov,$mutantskilled" >> $tmpfile
+                    echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime" >> $tmpfile
 
                 done
             done
@@ -87,7 +97,7 @@ function process_results() {
 }
 
 
-echo "Project,Class,Technique,Budget,Tests,Testing time,Line cov,Branches cov,Mutants killed,Mutants total"
+echo "Project,Class,Technique,Budget,Tests,Testing time,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation"
 
 techniques="randoop randoop-serialize-builders randoop-serialize"
 process_results

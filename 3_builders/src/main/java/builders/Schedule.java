@@ -224,7 +224,7 @@ public class Schedule  implements java.io.Serializable{
 		}
 	}
 
-	private List getPrioQueue(int prio) {
+	public List getPrioQueue(int prio) {
 		switch (prio) {
 		case 1:
 			return prio_1;

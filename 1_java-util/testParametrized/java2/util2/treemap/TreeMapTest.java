@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
@@ -29,14 +30,26 @@ public class TreeMapTest {
     
 	public static int literals;
 	private static ObjectsIterator objIterator;
+	private static List<Object> pool = null;
 //	private static clazz = "java2.util2.linkedlist.LinkedList";
 
+    public List<Object> getImput(ListIterator list) {
+	List<Object> pool = new ArrayList<Object>();
+	while (list.hasNext()) {
+		TreeMap t=(TreeMap)list.next();
+		list.set(t);// wrong
+		pool.add(t);
+	}
+	return pool;
+}
 
 	
 	@BeforeEach
 	public void init() {
 		objIterator = new ObjectsIterator("java2.util2.treemap.TreeMap");
 		literals = objIterator.getLiterals();
+		ListIterator treemap = objIterator.deserialize();
+		pool = getImput(treemap);
 	}
 	
 //	Aft
@@ -52,11 +65,10 @@ public class TreeMapTest {
 	
 	@Test
 	public void clear_Test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {					
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
-			TreeMap tmap = (TreeMap)it.next();
+			TreeMap tmap = (TreeMap)treemap.next();
 				tmap.clear();
 				assertTrue(tmap.size() == 0);
 				assertTrue(tmap.repOK());
@@ -74,10 +86,10 @@ public class TreeMapTest {
 	
 	@Test
 	public void comparator_Test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
+			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			objIterator.addCountTest();
 			Comparator c =  tmap.comparator();
 			assertTrue(tmap.repOK());
@@ -86,10 +98,10 @@ public class TreeMapTest {
 	
 	@Test
 	public void toString_Test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
+			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			objIterator.addCountTest();
 			tmap.toString();
 			assertTrue(tmap.repOK());
@@ -107,12 +119,10 @@ public class TreeMapTest {
 	
 	@Test
 	public void contains_key_Test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
-
+			TreeMap tmap = (TreeMap)treemap.next();
 			Object i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			try {
 				tmap.containsKey(i);
@@ -125,10 +135,10 @@ public class TreeMapTest {
 	
 	@Test
 	public void contains_value_Test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
+			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			objIterator.addCountTest();
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 		  	tmap.containsValue(i);
@@ -137,11 +147,10 @@ public class TreeMapTest {
 	 }
 	
 	public void entry_set_Test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 		  	Set s = tmap.entrySet();
 	    	assertTrue(tmap.repOK());
 		}
@@ -158,10 +167,10 @@ public class TreeMapTest {
 	
 	@Test
    	public void first_key_test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
+			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			if(tmap.size()>0) {
 				objIterator.addCountTest();
 		    	Object k = (Object) tmap.firstKey();
@@ -185,11 +194,10 @@ public class TreeMapTest {
 //	
 	@Test
    	public void empty_test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			boolean p = tmap.isEmpty();
 	    	assertTrue(tmap.repOK());
 	    	assertTrue((p ==true && tmap.size() ==0) || (p ==false && tmap.size() !=0));
@@ -209,11 +217,10 @@ public class TreeMapTest {
 	
 	@Test
    	public void last_key_test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			Object k =null;
 	    	if(tmap.size()>0) {
 		    	k = (Object) tmap.lastKey();
@@ -226,20 +233,17 @@ public class TreeMapTest {
 	
 	@Test
 	public void put_test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
-			int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
-			int value = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			TreeMap tmap = (TreeMap)treemap.next();
+			int value = ThreadLocalRandom.current().nextInt(0, 10);
+			Object key = pool.get(value);
+//			int value = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			int oldSize = tmap.size();
 			boolean b;
-			try {
-				 b = tmap.containsKey(key);
-			}catch (NullPointerException|ClassCastException e){
-				continue;
-			}
+			 b = tmap.containsKey(key);
+	
 			tmap.put(key,value);
 			
 			assertTrue((!b && tmap.size() == oldSize+1) ||(b && tmap.size() == oldSize));
@@ -247,24 +251,17 @@ public class TreeMapTest {
 //			assertTrue(tmap.containsKey(key) && tmap.containsValue(0));
 
 			}
-		
-		
-
-
 	 }
 	
 	@Test
    	public void remove_test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 			Object key = ThreadLocalRandom.current().nextInt(-1, literals + 1);
-			System.out.println(key);
-			System.out.println(tmap);
 			try {
-			tmap.remove(key);
+				tmap.remove(key);
 			}catch (NullPointerException|ClassCastException e){
 				continue;
 			}
@@ -272,16 +269,18 @@ public class TreeMapTest {
 //	    	assertTrue(!tmap.containsKey(key));
 		}
 		
-
     }
+
+	//Si el elemento pertence al map, el remove da true, otherwise false. Obtain objects from structure, randomly 
+	//Sino esta o si da excepcion, remove da false.
+	//Add parameterized with list with stream.
 	
 	@Test
    	public void size_test() {
-		List<Object> treemap = objIterator.getObjects();
-		ListIterator it = treemap.listIterator();
-		while(it.hasNext()) {
-			TreeMap tmap = (TreeMap)it.next();
+		ListIterator treemap = objIterator.deserialize();
+		while(treemap.hasNext()) {					
 			objIterator.addCountTest();
+			TreeMap tmap = (TreeMap)treemap.next();
 
 			int key = ThreadLocalRandom.current().nextInt(0, literals + 1);
 
@@ -293,6 +292,7 @@ public class TreeMapTest {
 
 
     }
-	
+
+
 	
 }

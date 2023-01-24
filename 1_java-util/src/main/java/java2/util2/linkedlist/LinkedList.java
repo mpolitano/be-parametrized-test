@@ -71,8 +71,8 @@ import java.util.HashSet;
  */
 public class LinkedList extends AbstractSequentialList
     implements List, Cloneable, java.io.Serializable {
-  private Entry header = new Entry(null, null, null);
-  private int size = 0;
+  private transient Entry header = new Entry(null, null, null);
+  private transient int size = 0;
 
   /**
    * Constructs an empty list.
@@ -89,10 +89,10 @@ public class LinkedList extends AbstractSequentialList
    * @param  c the collection whose elements are to be placed into this list.
    * @throws NullPointerException if the specified collection is null.
    */
-//  public LinkedList(Collection c) {
-//    this();
-//    addAll(c);
-//  }
+  public LinkedList(Collection c) {
+    this();
+    addAll(c);
+  }
 
   /**
    * Returns the first element in this list.
@@ -209,7 +209,6 @@ public class LinkedList extends AbstractSequentialList
    * @param o element to be removed from this list, if present.
    * @return <tt>true</tt> if the list contained the specified element.
    */
-  
   public boolean remove(Object o) {
     if (o == null) {
       for (Entry e = header.next; e != header; e = e.next) {
@@ -241,9 +240,9 @@ public class LinkedList extends AbstractSequentialList
    * @return <tt>true</tt> if this list changed as a result of the call.
    * @throws NullPointerException if the specified collection is null.
    */
-//  public boolean addAll(Collection c) {
-//    return addAll(size, c);
-//  }
+  public boolean addAll(Collection c) {
+    return addAll(size, c);
+  }
 
   /**
    * Inserts all of the elements in the specified collection into this
@@ -261,24 +260,24 @@ public class LinkedList extends AbstractSequentialList
    *            range (<tt>index &lt; 0 || index &gt; size()</tt>).
    * @throws NullPointerException if the specified collection is null.
    */
-//  public boolean addAll(int index, Collection c) {
-//    Object[] a = c.toArray();
-//    int numNew = a.length;
-//    if (numNew == 0) return false;
-//    modCount++;
-//
-//    Entry successor = (index == size ? header : entry(index));
-//    Entry predecessor = successor.previous;
-//    for (int i = 0; i < numNew; i++) {
-//      Entry e = new Entry(a[i], successor, predecessor);
-//      predecessor.next = e;
-//      predecessor = e;
-//    }
-//    successor.previous = predecessor;
-//
-//    size += numNew;
-//    return true;
-//  }
+  public boolean addAll(int index, Collection c) {
+    Object[] a = c.toArray();
+    int numNew = a.length;
+    if (numNew == 0) return false;
+    modCount++;
+
+    Entry successor = (index == size ? header : entry(index));
+    Entry predecessor = successor.previous;
+    for (int i = 0; i < numNew; i++) {
+      Entry e = new Entry(a[i], successor, predecessor);
+      predecessor.next = e;
+      predecessor = e;
+    }
+    successor.previous = predecessor;
+
+    size += numNew;
+    return true;
+  }
 
   /**
    * Removes all of the elements from this list.
@@ -347,11 +346,11 @@ public class LinkedList extends AbstractSequentialList
    * @throws IndexOutOfBoundsException if the specified index is out of
    * 		  range (<tt>index &lt; 0 || index &gt;= size()</tt>).
    */
-//  public Object remove(int index) {
-//    Entry e = entry(index);
-//    remove(e);
-//    return e.element;
-//  }
+  public Object remove(int index) {
+    Entry e = entry(index);
+    remove(e);
+    return e.element;
+  }
 
   /**
    * Return the indexed entry.
@@ -454,14 +453,7 @@ public class LinkedList extends AbstractSequentialList
   }
 
   private class ListItr implements ListIterator, java.io.Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
-	private Entry lastReturned = header;
+    private Entry lastReturned = header;
     private Entry next;
     private int nextIndex;
     private int expectedModCount = modCount;
@@ -551,11 +543,7 @@ public class LinkedList extends AbstractSequentialList
   }
 
   private static class Entry implements java.io.Serializable{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	Object element;
+    Object element;
     Entry next;
     Entry previous;
 
@@ -650,23 +638,23 @@ public class LinkedList extends AbstractSequentialList
    *         supertype of the runtime type of every element in this list.
    * @throws NullPointerException if the specified array is null.
    */
-//  public Object[] toArray(Object[] a) {
-//    if (a.length < size) {
-//      a = (Object[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
-//    }
-//    int i = 0;
-//    for (Entry e = header.next; e != header; e = e.next) {
-//      a[i++] = e.element;
-//    }
-//
-//    if (a.length > size) {
-//      a[size] = null;
-//    }
-//
-//    return a;
-//  }
+  public Object[] toArray(Object[] a) {
+    if (a.length < size) {
+      a = (Object[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+    }
+    int i = 0;
+    for (Entry e = header.next; e != header; e = e.next) {
+      a[i++] = e.element;
+    }
 
-  private static final long serialVersionUID = 1L;
+    if (a.length > size) {
+      a[size] = null;
+    }
+
+    return a;
+  }
+
+  private static final long serialVersionUID = 876323262645176354L;
 
   /**
    * Save the state of this <tt>LinkedList</tt> instance to a stream (that
@@ -677,7 +665,7 @@ public class LinkedList extends AbstractSequentialList
    * elements (each an Object) in the proper order.
    */
   private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-	  // Write out any hidden serialization magic
+    // Write out any hidden serialization magic
     s.defaultWriteObject();
 
     // Write out size

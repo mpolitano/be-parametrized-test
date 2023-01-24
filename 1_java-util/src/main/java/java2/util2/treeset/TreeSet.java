@@ -71,7 +71,7 @@ import java2.util2.*;
  * @see	    TreeMap
  * @since   1.2
  */
-public class TreeSet implements java.io.Serializable  {
+public class TreeSet implements java.io.Serializable, Comparable  {
 	  private static final long serialVersionUID = 1L;
 
   private TreeMap m; // The backing Map
@@ -497,6 +497,12 @@ public class TreeSet implements java.io.Serializable  {
           return false;
       return m.isBinTreeWithParentReferences();
   }
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	
 }

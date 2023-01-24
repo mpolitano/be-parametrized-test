@@ -10,7 +10,7 @@ scriptsdir=$projectsdir/scripts
 source $scriptsdir/common.sh
 
 projectdir=$projectsdir/$project
-resultsdir=$scriptsdir/results/$project/$class/$tool/$budget/
+resultsdir=$scriptsdir/results/$project/$class/$tool/$budget
 
 if [[ -d $resultsdir ]]; then
     rm -rf $resultsdir
@@ -72,17 +72,24 @@ cmd="mvn -B clean test-compile test  >> $explog"
 echo ""
 echo "> Running test $cmd"
 bash -c "$cmd"
-
-cmd="cp -r $resultsdir/tests.txt $resultsdir/testsCount.txt"
-echo ""
-echo "> Save Test count $cmd"
-bash -c "$cmd"
-
 cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
-echo ""
-echo "> Save Test runner $cmd"
-bash -c "$cmd"
+	echo "> Save Test runner $cmd"
+	bash -c "$cmd"
+	
+if [[ $tool == "randoop" ]]; then 
+	#change is only parametrized
+	# cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
+	echo ""
+	echo "> Save Test runner $cmd"
+	bash -c "$cmd"
+	
+else
 
+	cmd="mv $resultsdir/tests.txt $resultsdir/testsCount.txt"
+	echo ""
+	echo "> Save Test count $cmd"
+	bash -c "$cmd"
+fi
 
 cmd="mvn -B test jacoco:report -Dpackage=${packagename} >> $explog"
 echo ""

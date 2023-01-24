@@ -43,17 +43,21 @@ function run_many() {
     done
 }
 
+projects="1_java-util"
 
-projects="2_apache"
+# projects="2_apache"
 # cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
+cases="java2.util2.hashmap.HashMap"
+# cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
+
 #scopes="60 300 600"
 # techniques="randoop randoop-serialize-builders randoop-serialize"
 # techniques="randoop-serialize-builders "
+# techniques="randoop"
 
-techniques="randoop-serialize-builders randoop-serialize randoop"
+techniques="randoop-serialize-builders randoop-serialize"
 # scopes="5"
-scopes="10"
+scopes="10 30 60 120"
 run_many
 
 projects="3_builders"

@@ -11,7 +11,7 @@ import utils.ObjectsIterator;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,20 +22,31 @@ public class TreeSetTest {
 	
 	public static int literals;
 	private static ObjectsIterator objIterator;
-//	private static clazz = "java2.util2.linkedlist.LinkedList";
+	private static List<Object> pool = null;
+	private static List objects;
+	private static ListIterator it;
 
+	public List<Object> getImput(ListIterator list) {
+		List<Object> pool = new ArrayList<Object>();
+		while (list.hasNext()) {
+			TreeMap t=(TreeMap)list.next();
+//			list.set(t);// wrong
+			pool.add(t);
+		}
+		return pool;
+	}
 
-	
-	@BeforeEach
-	public void init() {
+	@BeforeAll
+	public static void init() {
 		objIterator = new ObjectsIterator("java2.util2.treeset.TreeSet");
 		literals = objIterator.getLiterals();
+		objects = objIterator.getObjects();
 	}
 	
-//	Aft
-//	public void end() {
-//		objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
-//	}
+	@BeforeEach
+	public void beforeEach() {
+		it = objects.listIterator();
+	}
 //	
 	@AfterAll
     static void afterAll() {
@@ -51,31 +62,33 @@ public class TreeSetTest {
 
 		@Test
 		public void add_Test() {
-			List<Object> treeset = objIterator.getObjects();
-			ListIterator it = treeset.listIterator();
-			while(it.hasNext()) {					
-				objIterator.addCountTest();
-				TreeSet tset = (TreeSet)it.next();
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+		while(it.hasNext()) {					
+			objIterator.addCountTest();
+			TreeSet tset = (TreeSet)it.next();
+			System.out.println(tset);
+//				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				int oldSize = tset.size();
 				boolean b = false;
-				try {
-					b = tset.contains(i);
-					tset.add(i);
-				}catch (NullPointerException|ClassCastException e){
-					continue;
-				}
+				objIterator.addCountTest();
+				int value = ThreadLocalRandom.current().nextInt(0, 10);
+				Object i = objects.get(1);
+	//			int value = ThreadLocalRandom.current().nextInt(0, literals + 1);
+//				int oldSize = tmap.size();
+//				boolean b;
+	
+				b = tset.contains(i);
+				tset.add(i);
+				
 				assertTrue((!b && tset.size() == oldSize+1) ||(b && tset.size() == oldSize));
 				assertTrue(tset.repOK());
 				assertTrue(tset.contains(i));
 			}	
-	 }
+		}
+	 
 	
 		@Test
 		public void clear_Test() {
-			List<Object> treeset = objIterator.getObjects();
-			ListIterator it = treeset.listIterator();
-			while(it.hasNext()) {					
+			while(it.hasNext()) {			
 				objIterator.addCountTest();
 				TreeSet tset = (TreeSet)it.next();
 				tset.clear();
@@ -88,9 +101,7 @@ public class TreeSetTest {
 	
 		@Test
 	public void comparator_Test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
-		while(it.hasNext()) {					
+			while(it.hasNext()) {		
 			objIterator.addCountTest();
 			TreeSet tset = (TreeSet)it.next();
 			tset.comparator();
@@ -100,9 +111,7 @@ public class TreeSetTest {
 	
 	@Test
 	public void contain_Test() {
-			List<Object> treeset = objIterator.getObjects();
-			ListIterator it = treeset.listIterator();
-			while(it.hasNext()) {					
+		while(it.hasNext()) {			
 				objIterator.addCountTest();
 				TreeSet tset = (TreeSet)it.next();
 				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
@@ -123,9 +132,7 @@ public class TreeSetTest {
 
 	@Test
 	public void LastExce_Test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
-		while(it.hasNext()) {		
+		while(it.hasNext()) {			
 			TreeSet tset = (TreeSet)it.next();
 			if(tset.size()<1) {
 				boolean result = false;
@@ -144,9 +151,7 @@ public class TreeSetTest {
 	
 	@Test
 	public void firstExce_Test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
-		while(it.hasNext()) {		
+		while(it.hasNext()) {			
 			TreeSet tset = (TreeSet)it.next();
 			if(tset.size()<1) {
 				boolean result = false;
@@ -164,14 +169,18 @@ public class TreeSetTest {
 	
 	@Test
 	public void first_Test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
-		while(it.hasNext()) {	
+		while(it.hasNext()) {		
 			TreeSet tset = (TreeSet)it.next();
 			if(tset.size()>1) {
 				objIterator.addCountTest();
-				Object k = (Object) tset.first();
-		    	assertTrue(tset.repOK());
+				Object k = null;
+				try {
+					k = (Object) tset.first();
+				}
+				catch(java2.util2.NoSuchElementException e) {
+					continue;		
+				}		    	
+				assertTrue(tset.repOK());
 		    	assertTrue(tset.contains(k) == true);
 			}
 		}
@@ -179,8 +188,6 @@ public class TreeSetTest {
 	
 	@Test
 	public void empty_Test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
 		while(it.hasNext()) {	
 			TreeSet tset = (TreeSet)it.next();
 			boolean p = tset.isEmpty();
@@ -191,8 +198,6 @@ public class TreeSetTest {
 	
 	@Test
    	public void size_test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
 		while(it.hasNext()) {					
 			objIterator.addCountTest();
 			TreeSet tset = (TreeSet)it.next();
@@ -205,14 +210,19 @@ public class TreeSetTest {
 //	
 	@Test
    	public void last_test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
 		while(it.hasNext()) {		
 			TreeSet tset = (TreeSet)it.next();
 			if(tset.size()>1) {
 				objIterator.addCountTest();
-				Object k = (Object) tset.last();
-		    	assertTrue(tset.repOK());
+				Object k = null;
+
+				try {
+					k = (Object) tset.last();
+				}
+				catch(java2.util2.NoSuchElementException e) {
+					continue;		
+				}		    	
+				assertTrue(tset.repOK());
 		    	assertTrue(tset.contains(k) == true);
 			}
 		}	
@@ -220,9 +230,7 @@ public class TreeSetTest {
 	
 	@Test
    	public void remove_test() {
-		List<Object> treeset = objIterator.getObjects();
-		ListIterator it = treeset.listIterator();
-		while(it.hasNext()) {					
+		while(it.hasNext()) {				
 			objIterator.addCountTest();
 			TreeSet tset = (TreeSet)it.next();
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);

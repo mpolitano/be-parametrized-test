@@ -129,25 +129,25 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-  public transient Entry[] table;
+  public Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
    */
-   int size;
+   public int size;
 
   /**
    * The next size value at which to resize (capacity * load factor).
    * @serial
    */
-   int threshold;
+   public int threshold;
 
   /**
    * The load factor for the hash table.
    *
    * @serial
    */
-  final transient float loadFactor;
+  final float loadFactor;
 
   /**
    * The number of times this HashMap has been structurally modified

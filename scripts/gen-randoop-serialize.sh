@@ -37,7 +37,7 @@ echo "> Executing Randoop"
 serializeDir=serialize/$class/$budget/randoop-serialize
 mkdir -p $serializeDir
 
-randoop_jar=../lib/randoop-xstream.jar
+randoop_jar=../lib/randoop-serialize.jar
 
 cmd="java -Xmx$maxheap -ea -cp $randoop_jar:$cp \
 randoop.main.Main gentests \
@@ -50,6 +50,7 @@ randoop.main.Main gentests \
 --dont-output-tests=true \
 --null-ratio=0 \
 --dont-output-tests=true \
+--count_objects \
 --serialize-xstream-file=$serializeDir/randoop.xml \
 $omitmethods "
 # --literals-file=$literals \

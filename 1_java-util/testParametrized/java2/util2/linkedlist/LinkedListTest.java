@@ -22,6 +22,8 @@ import java.util.stream.Stream;
 
 public class LinkedListTest { 
     
+
+	
 	//Change with sedl 
 	public static int literals;
 	private static ObjectsIterator objIterator;
