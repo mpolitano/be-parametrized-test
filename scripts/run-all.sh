@@ -47,7 +47,7 @@ projects="1_java-util"
 
 # projects="2_apache"
 # cases="java2.util2.linkedlist.LinkedList java2.util2.treeset.TreeMap java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap"
-cases="java2.util2.hashmap.HashMap"
+cases="java2.util2.linkedlist.LinkedList java2.util2.treemap.TreeMap"
 # cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
 
 #scopes="60 300 600"
@@ -57,7 +57,7 @@ cases="java2.util2.hashmap.HashMap"
 
 techniques="randoop-serialize-builders randoop-serialize"
 # scopes="5"
-scopes="10 30 60 120"
+scopes="10 30 60 120 180"
 run_many
 
 projects="3_builders"

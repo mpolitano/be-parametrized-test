@@ -46,7 +46,20 @@ public class LinkedListTest {
     static void afterAll() {
 		objIterator.end("java2.util2.linkedlist.LinkedList");
 	}
-//	
+
+
+	@Test
+	public void addAll() {			
+		List<Object> linkedlist = objIterator.getObjects();
+		ListIterator it = linkedlist.listIterator();
+		while(it.hasNext()) {
+			LinkedList list = (LinkedList)it.next(); 	
+			int oldSize = list.size();
+			boolean result=list.addAll(list);
+			assertTrue(list.size() != oldSize && result || list.size() == oldSize && !result);
+		}
+	}
+
 	@Test
 	public void addTest() {			
 		List<Object> linkedlist = objIterator.getObjects();
@@ -388,10 +401,21 @@ public class LinkedListTest {
     }
 //	
    	@Test
+   	public void const_test1() {
+		objIterator.addCountTest();
+
+    	LinkedList list1 = new LinkedList();
+    	   LinkedList list2 = new LinkedList(list1);
+
+    	assertTrue(list2.repOK());
+    }
+
+       	@Test
    	public void const_test() {
 		objIterator.addCountTest();
 
     	LinkedList list1 = new LinkedList();
+
     	assertTrue(list1.repOK());
     }
 //	
@@ -458,6 +482,13 @@ public class LinkedListTest {
 
 	        	assertTrue(first.equals(obj));
 	    	}
+	    	else{
+				try {
+					Object index = list.removeFirst();
+				}catch(NoSuchElementException e) {
+		            // org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
+				}
+			}
 		}
 	}
 //	
