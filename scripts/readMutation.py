@@ -32,10 +32,11 @@ def parser( file, suffix =".csv"):
 	# out.write(seed)
 	# out.write("-----------------")
 	# out.write("\n")
-	discard = ["readObject" "writeObject" "repOK"]
+	discard = ['readObject','writeObject','repOK']
 	for index, row in df.iterrows():	
 		if not "$" in row[1]:
-			if not row[3] in discard:
+			method=row[3]
+			if method not in discard:
   				# out.write(row[3])
   				# out.write("\n")
 				# print(", ".join(discard))
