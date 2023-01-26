@@ -7,7 +7,7 @@
 
 package java2.util2.treeset;
 import java2.util2.hashmap.HashSet;
-import java2.util2.*;
+import java2.util2.Comparator;
 /**
  * This class implements the <tt>Set</tt> interface, backed by a
  * <tt>TreeMap</tt> instance.  This class guarantees that the sorted set will
