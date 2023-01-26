@@ -44,28 +44,29 @@ public class ScheduleTest {
 		Schedule sch = new Schedule(1,1,1);
 		assertTrue(sch.repOK());
 	}
+
 	
-	   @Test
-		public void test_add() {
-	
-		   Schedule sch = (Schedule)objIterator.next(); 
+   @Test
+	public void test_add() {
 
-			while(sch != null){
-				objIterator.addCountTest();
-				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-				
-				try {
-					sch.addProcess(i);
-				} catch (java.lang.IllegalArgumentException e) {
-					assertTrue(sch.repOK());       
-				}
-				assertTrue(sch.repOK());
+	   Schedule sch = (Schedule)objIterator.next(); 
 
-				sch = (Schedule)objIterator.next();
-
+		while(sch != null){
+			objIterator.addCountTest();
+			int i = ThreadLocalRandom.current().nextInt(-1, literals + 1);
+			
+			try {
+				sch.addProcess(i);
+			} catch (java.lang.IllegalArgumentException e) {
+				assertTrue(sch.repOK());       
 			}
-	}
-	
+			assertTrue(sch.repOK());
+
+			sch = (Schedule)objIterator.next();
+
+		}
+}
+
 	   @Test
 	public void test_block() {
 		
@@ -73,7 +74,7 @@ public class ScheduleTest {
 
 		while(sch != null){
 			objIterator.addCountTest();
-			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
+			int i = ThreadLocalRandom.current().nextInt(-1, literals + 1);
 			
 			sch.blockProcess();
 			assertTrue(sch.repOK());
@@ -158,9 +159,14 @@ public class ScheduleTest {
 			Schedule sch = (Schedule)objIterator.next(); 
 				while(sch != null){
 					objIterator.addCountTest();
-						
+					if (sch.curProc != null){
+						int size =getPrioQueue(prio).size() 
+						prio = curProc.getPriority();
+					}
 					sch.quantumExpire();
 					assertTrue(sch.repOK());
+
+					assertTrue(currProc != null && 	getPrioQueue(prio).size() > size);
 					sch = (Schedule)objIterator.next();
 				}	
 		}

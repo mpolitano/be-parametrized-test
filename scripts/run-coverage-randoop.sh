@@ -91,10 +91,15 @@ else
 	bash -c "$cmd"
 fi
 
-cmd="mvn -B test jacoco:report -Dpackage=${packagename} >> $explog"
+cmd="timeout 3600 mvn -B test jacoco:report -Dpackage=${packagename} >> $explog"
 echo ""
 echo "> Running jacoco $cmd"
 bash -c "$cmd"
+CODE=$?
+    if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
+    then
+        echo "Jacoco take more than 3600 to run" >> $explog
+    fi    
 
 
 echo ""
@@ -107,6 +112,11 @@ cmd="timeout 3600 mvn -B clean test-compile org.pitest:pitest-maven:mutationCove
 echo ""
 echo "> Running pit $cmd"
 bash -c "$cmd"
+CODE=$?
+    if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
+    then
+        echo "Pitest take more than 3600 to run" >> $explog
+    fi    
 
 
 cmd="cp -r $projectdir/target/pit-reports $resultsdir"

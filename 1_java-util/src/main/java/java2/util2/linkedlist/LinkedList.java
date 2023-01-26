@@ -638,21 +638,21 @@ public class LinkedList extends AbstractSequentialList
    *         supertype of the runtime type of every element in this list.
    * @throws NullPointerException if the specified array is null.
    */
-  public Object[] toArray(Object[] a) {
-    if (a.length < size) {
-      a = (Object[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
-    }
-    int i = 0;
-    for (Entry e = header.next; e != header; e = e.next) {
-      a[i++] = e.element;
-    }
-
-    if (a.length > size) {
-      a[size] = null;
-    }
-
-    return a;
-  }
+//  public Object[] toArray(Object[] a) {
+//    if (a.length < size) {
+//      a = (Object[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+//    }
+//    int i = 0;
+//    for (Entry e = header.next; e != header; e = e.next) {
+//      a[i++] = e.element;
+//    }
+//
+//    if (a.length > size) {
+//      a[size] = null;
+//    }
+//
+//    return a;
+//  }
 
   private static final long serialVersionUID = 876323262645176354L;
 

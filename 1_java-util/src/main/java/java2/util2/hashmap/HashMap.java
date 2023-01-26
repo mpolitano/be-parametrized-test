@@ -109,8 +109,8 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
 /**
    * The default initial capacity - MUST be a power of two.
    */
-  static final int DEFAULT_INITIAL_CAPACITY = 0;
-  // static final int DEFAULT_INITIAL_CAPACITY = 16;
+//  static final int DEFAULT_INITIAL_CAPACITY = 0;
+   static final int DEFAULT_INITIAL_CAPACITY = 16;
 
   /**
    * The maximum capacity, used if a higher value is implicitly specified
@@ -241,7 +241,7 @@ DEFAULT_INITIAL_CAPACITY];
   /**
    * Value representing null keys inside tables.
    */
-  static final Object NULL_KEY = new Object();
+  private static final Object NULL_KEY = new Object();
 
   /**
    * Returns internal representation for key. Use NULL_KEY if key is null.
