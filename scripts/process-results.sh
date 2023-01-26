@@ -33,6 +33,18 @@ function process_results() {
                     # Process tests number and tests runtime
                     testsnum=""
                     runtime=""
+                    objects=0
+                    testsnum=0
+                    runtime=0
+                    linescov=0
+                    linesTotal=0
+                    branchescov=0
+                    branchesTotal=0
+                    mutantsKilled=0
+                    mutationTotal=0
+                    mutationTime=0
+
+
                     if [[ $technique == "randoop" ]]; then
 
                         testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
@@ -44,6 +56,8 @@ function process_results() {
                     else
                         testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
                         if [[ $testreport != "" ]]; then
+                            objects=0
+                            objects=$(cat $currdir/log.txt | grep "CountObjects=" | cut -d' ' -f3)
                             testline=$(cat $testreport | grep "Tests run:") 
                             testsnum=$(cat $currdir/testsCount.txt) 
                             runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
@@ -71,24 +85,27 @@ function process_results() {
                     pitinstrcov=""
                     pittotalinstr=""
                     pitreport=$(ls $currdir/pit-reports/*/mutations.csv 2> /dev/null)
+
                     if [[ $pitreport != "" ]]; then
                         # python3 readMutation.py $pitreport $casestudy > aux.txt
                         file="readMutation.py"
-
-                        mutants=$(python3 $file $pitreport $casestudy)
-                        arrMutants=(${mutants//,/ })
-                        mutantsKilled=${arrMutants[0]}
-                        mutantsNoKilled=${arrMutants[1]}
-                        mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
-
-                        mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
-                        mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
-                        mutationTime=$(($mutationSecond + $mutationMinutes*60))
+                        filesize=$(wc -c "$pitreport" | awk '{print $1}')
+                        if (( filesize > 1 )); then #problem with timeout
+                            mutants=$(python3 $file $pitreport $casestudy)
+                            arrMutants=(${mutants//,/ })
+                            mutantsKilled=${arrMutants[0]}
+                            mutantsNoKilled=${arrMutants[1]}
+                            mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
+                            
+                            mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
+                            mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
+                            mutationTime=$(($mutationSecond + $mutationMinutes*60))
+                        fi 
                     fi
 #
                     #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
                     #echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesmiss,$branchescov,$branchesmiss,$pitinstrcov,$pittotalinstr,$mutantskilled,$totalmutants" >> $tmpfile
-                    echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime" >> $tmpfile
+                    echo "$project,$casestudy,$technique,$budget,$objects,$testsnum,$runtime,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime" >> $tmpfile
 
                 done
             done
@@ -97,7 +114,7 @@ function process_results() {
 }
 
 
-echo "Project,Class,Technique,Budget,Tests,Testing time,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation"
+echo "Project,Class,Technique,Budget,Objects,Tests,Testing time,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation"
 
 techniques="randoop randoop-serialize-builders randoop-serialize"
 process_results
