@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+
 
 import com.thoughtworks.xstream.XStream;
 
@@ -20,8 +20,8 @@ public class ObjectsIterator  implements Iterator<Object>{
 	
 	FileInputStream fileTestUnit;
   	ObjectInputStream ois;
-  	static String pathFile;
-  	List objDeserializer;
+  	String pathFile;
+  	List<Object> objDeserializer;
   	int literals;
 	private static int count = 0;
 	
@@ -29,47 +29,54 @@ public class ObjectsIterator  implements Iterator<Object>{
 			init(clazz);		
 	}
 	
-	//Precondition, call in initBeforeAllTest
-	public void init(String clazz) {
-	  	Config.readEnvironmentVariables();
-		literals = Config.literals;
-	  	pathFile = "serialize/"+Config.clazz+"/"+Config.scope+"/"+Config.tool+"/randoop.xml";
-		objDeserializer = deserialize();
-	}
-	
-	//Precondition, call in initBeforeAllTest
-	public List getObjects() {
-	  	
-		return objDeserializer;
-	}
-	
-	  public static List deserialize() {
+	  public static List<Object> deserialize(String file) {
 		    XStream xstream = new XStream();
 		    xstream.allowTypesByRegExp(new String[] { ".*" });
 		    List<Object> objs = new ArrayList<>();
-			ListIterator result=objs.listIterator();
 		    try {
-		      ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(pathFile));
+		      ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file));
 		      Object o;
 		      try {
 		        while (true) {
 		          o = ois.readObject();
 		          objs.add(o);
-//		          result.add(o);
 		        }
 		      } catch (EOFException e) {
 		        /* The loop ends here */ }
 		      ois.close();
 		    } catch (IOException | ClassNotFoundException e) {
 		      e.printStackTrace();
-		      throw new RuntimeException("Cannot deserialize file: " + pathFile);
+		      throw new RuntimeException("Cannot deserialize file: " + file);
 		    }
+			//For amount objects
+		    File dir = new File("../scripts/results/1_java-util/"+Config.clazz+"/"+Config.tool+"/"+Config.scope);
+			if (! dir.exists()){
+		        dir.mkdir();            
+			}
+		   	String fileName = dir + "/objects.txt";
+		       try{
+		           File file1 = new File(fileName);
+		           file1.getParentFile().mkdirs();
+		           FileWriter fw = new FileWriter(file1);
+	
+		           BufferedWriter bw = new BufferedWriter(fw);
+		           bw.write(String.valueOf(objs.size()) );
+		           bw.close();
+		       }
+		       catch (IOException e){
+		           e.printStackTrace();
+		           System.exit(-1);
+		       }
 		    return objs;
 		  }
 	
-	  
-	 
-
+	//Precondition, call in initBeforeAllTest
+	public void init(String clazz) {
+	  	Config.readEnvironmentVariables();
+		literals = Config.literals;
+		pathFile = "serialize/"+clazz+"/"+Config.scope+"/"+Config.tool+"/randoop.xml";
+		objDeserializer = deserialize(pathFile);
+	}
 	
 	public void end(String clazz) {
 		File dir = new File("../scripts/results/1_java-util/"+Config.clazz+"/"+Config.tool+"/"+Config.scope);
@@ -142,8 +149,9 @@ public class ObjectsIterator  implements Iterator<Object>{
    public int getLiterals() {
 	   return literals;
    }
-   
 
-//	
-
+public List<Object> getObjects() {
+	return objDeserializer;
+}
+	
 }
