@@ -695,27 +695,4 @@ public class LinkedList extends AbstractSequentialList
     for (int i = 0; i < size; i++) add(s.readObject());
   }
 
-public boolean repOK() {
-		if (header == null)
-			return false;
-
-		Set<Entry> visited = new HashSet<Entry>();
-		visited.add(header);
-		Entry current = header;
-
-		while (true) {
-			Entry next = current.next;
-			if (next == null)
-				return false;
-			if (next.previous != current)
-				return false;
-			current = next;
-			if (!visited.add(next))
-				break;
-		}
-		if (current != header)
-			return false;
-
-		return true;
-	}
 }

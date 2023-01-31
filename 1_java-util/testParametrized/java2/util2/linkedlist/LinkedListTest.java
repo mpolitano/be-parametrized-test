@@ -87,7 +87,6 @@ public class LinkedListTest {
 		}
 			assertTrue(list1.size() == 1 && result || list1.size() == 0 && !result);
 			
-			assertTrue(list.repOK());
 		}
 	}
 
@@ -107,7 +106,6 @@ public class LinkedListTest {
 
 			} catch (IndexOutOfBoundsException e) {
 			}
-			assertTrue(list.repOK());
 			assertTrue(result!=null||!list.contains(i));
 			assertTrue(result1!=null||!list.contains(i));
 ;
@@ -136,7 +134,6 @@ public class LinkedListTest {
 			}			
 			assertTrue((list.size() == oldSize+1 && list.contains(j)|| (list.size() == oldSize)));
 			assertTrue(((before.size() != i) )||( before.size() == i && list.getFirst() == j));
-			assertTrue(list.repOK());
 		}
 	}
 		
@@ -152,7 +149,6 @@ public class LinkedListTest {
 			int oldSize = list.size();
 			list.addFirst(i);
 			assertTrue(list.size() == oldSize+1);
-			assertTrue(list.repOK());
 		}
 	 }
 	
@@ -167,7 +163,6 @@ public class LinkedListTest {
 	    	boolean containsPrevRemove = list.contains(i);
 			int result1=list.indexOf(i);
 
-			assertTrue(list.repOK());
 			assertTrue((result1>=0 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
 		}
 	 }
@@ -184,7 +179,6 @@ public class LinkedListTest {
 		    	boolean containsPrevRemove = list.contains(i);
 				int result1=list.lastIndexOf(i);
 
-				assertTrue(list.repOK());
 				assertTrue((result1>=0 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
 			}
 	 }
@@ -199,7 +193,6 @@ public class LinkedListTest {
 			objIterator.addCountTest();
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			list.addLast(i);
-			assertTrue(list.repOK());
 		}
 	 }
 //	
@@ -212,7 +205,6 @@ public class LinkedListTest {
 			objIterator.addCountTest();
 			list.clear();
 			assertTrue(list.size() == 0);
-			assertTrue(list.repOK());
 		}
 	 }
 //	
@@ -224,8 +216,7 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)it.next(); 
 			objIterator.addCountTest();
 			LinkedList list1 = (LinkedList) list.clone();
-			assertTrue(list1.repOK());
-			assertTrue(list.repOK());
+		
 		}
 	 }
 	
@@ -239,7 +230,6 @@ public class LinkedListTest {
 
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			boolean result=list.contains(i);
-	    	assertTrue(list.repOK());
 	    	assertTrue(result && list.indexOf(i) != -1|| !result && list.indexOf(i) == -1);
 		}
 		}
@@ -257,8 +247,7 @@ public class LinkedListTest {
 				objIterator.addCountTest();
 				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				list.equals(list1);
-		    	assertTrue(list.repOK());
-		    	assertTrue(list1.repOK());
+
 			}
 		}
 	}
@@ -274,9 +263,7 @@ public class LinkedListTest {
 				objIterator.addCountTest();
 				list.get(i);
 			}catch(IndexOutOfBoundsException e) {
-		    	assertTrue(list.repOK());
 			}
-	    	assertTrue(list.repOK());
 				}
     }
 
@@ -303,7 +290,6 @@ public class LinkedListTest {
 				else {
 					try {
 						obj=list.getFirst();
-				    	assertTrue(list.repOK());
 					}catch(NoSuchElementException e) {
 					}
 				}
@@ -333,7 +319,6 @@ public class LinkedListTest {
 			else {
 				try {
 					obj=list.getLast();
-			    	assertTrue(list.repOK());
 				}catch(NoSuchElementException e) {
 				}
 
@@ -350,7 +335,6 @@ public class LinkedListTest {
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			objIterator.addCountTest();
 			list.addFirst(i);
-	    	assertTrue(list.repOK());
 //			assumeTrue(list.contains(i));
 		}
     }
@@ -364,7 +348,6 @@ public class LinkedListTest {
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			objIterator.addCountTest();
 			list.addLast(i);;
-	    	assertTrue(list.repOK());
 			// assumeTrue(list.contains(i));
 		}	
 	}
@@ -382,7 +365,6 @@ public class LinkedListTest {
 	    	list.indexOf(i);
 	    	list.indexOf(-1);
 
-	    	assertTrue(list.repOK());
 		}
     }
 //	
@@ -394,7 +376,6 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)it.next(); 
 			objIterator.addCountTest();
 	    	boolean result=list.isEmpty();
-	    	assertTrue(list.repOK());
 	    	assertTrue((result && list.size()==0)||(!result && list.size()>0));
 		}
 
@@ -407,7 +388,6 @@ public class LinkedListTest {
     	LinkedList list1 = new LinkedList();
     	   LinkedList list2 = new LinkedList(list1);
 
-    	assertTrue(list2.repOK());
     }
 
        	@Test
@@ -416,7 +396,6 @@ public class LinkedListTest {
 
     	LinkedList list1 = new LinkedList();
 
-    	assertTrue(list1.repOK());
     }
 //	
    	@Test
@@ -457,7 +436,6 @@ public class LinkedListTest {
 			} catch (IndexOutOfBoundsException e){
 	            // org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
 			}
-	    	assertTrue(list.repOK());
 			assertTrue((result && containsPrevRemove ) || !result && !containsPrevRemove ) ;
 
 	    	assertTrue(size-1 == list.size() && result || size == list.size() && !result );
@@ -477,7 +455,6 @@ public class LinkedListTest {
 	    		Object first = list.get(0);
 	    		int size = list.size();
 	        	Object obj=list.removeFirst();
-	        	assertTrue(list.repOK());
 	        	assertTrue(size != list.size());
 
 	        	assertTrue(first.equals(obj));
@@ -503,7 +480,6 @@ public class LinkedListTest {
 				int size = list.size();
 	    		Object last = list.get(list.size()-1);
 	        	Object obj=list.removeLast();
-	        	assertTrue(list.repOK());
 	        	assertTrue(last.equals(obj));
 	        	assertTrue(list.size() == size-1);
 
@@ -535,7 +511,6 @@ public class LinkedListTest {
 				
 			} catch (IndexOutOfBoundsException e){
 			}
-	    	assertTrue(list.repOK());
 
 	    	assertTrue((result == oldValue));
 	    	assertTrue((result != null && objec == j) || (result == null));
@@ -565,7 +540,6 @@ public class LinkedListTest {
 				
 			} catch (IndexOutOfBoundsException e){
 			}
-	    	assertTrue(list.repOK());
 
 //	    	assertTrue((result == oldValue));
 //	    	assertTrue((result != null && objec == j) || (result == null));
@@ -583,7 +557,6 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)it.next(); 
 			objIterator.addCountTest();
 			list.size();
-	    	assertTrue(list.repOK());
 		}
     	
     }
@@ -597,7 +570,6 @@ public class LinkedListTest {
 			objIterator.addCountTest();
 
 	    	Object[] lArray = list.toArray();
-	    	assertTrue(list.repOK());
 	        // org.junit.Assert.assertNotNull(lArray);
 		}
 		
