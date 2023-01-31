@@ -77,9 +77,9 @@ public class TreeSetTest {
 //				boolean b;
 	
 				b = tset.contains(i);
-				tset.add(i);
+				boolean result=tset.add(i);
 				
-				assertTrue((!b && tset.size() == oldSize+1) ||(b && tset.size() == oldSize));
+				assertTrue((!result && tset.size() == oldSize+1) ||(result && tset.size() == oldSize));
 				assertTrue(tset.repOK());
 				assertTrue(tset.contains(i));
 			}	
@@ -244,5 +244,23 @@ public class TreeSetTest {
 	    	assertTrue((!tset.contains(i) && result) || (!result && tset.contains(i)||  (!result && !tset.contains(i))));
 
 		}
+	}
+
+	@Test
+   	public void toString() {
+		while(it.hasNext()) {				
+			objIterator.addCountTest();
+			TreeSet tset = (TreeSet)it.next();
+			boolean result = false;
+			try{
+				result=tset.toString();
+			}catch (NullPointerException|ClassCastException e){
+				continue;
+			}
+	    	assertTrue(tset.repOK());
+	    	assertTrue((!tset.contains(i) && result) || (!result && tset.contains(i)||  (!result && !tset.contains(i))));
+
+		}
 	}   
+
 }

@@ -77,7 +77,7 @@ import java2.util2.*;
  * @see Collections#synchronizedMap(Map)
  * @since 1.2
  */
-public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable {
+public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, Comparable {
   /**
    * The Comparator used to maintain order in this TreeMap, or
    * null if this TreeMap uses its elements natural ordering.
@@ -1701,6 +1701,12 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable {
     for (int m = sz - 1; m >= 0; m = m / 2 - 1) level++;
     return level;
   }
+
+@Override
+public int compareTo(Object o) {
+	// TODO Auto-generated method stub
+	return 0;
+}
 
 //@Override
 //public void putAll(Map t) {
