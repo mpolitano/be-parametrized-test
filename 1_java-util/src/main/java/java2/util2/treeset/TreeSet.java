@@ -71,10 +71,10 @@ import java2.util2.Comparator;
  * @see	    TreeMap
  * @since   1.2
  */
-public class TreeSet implements java.io.Serializable, Comparable  {
+public class TreeSet implements java.io.Serializable, Comparable<Object>  {
 	  private static final long serialVersionUID = 1L;
 
-  private TreeMap m; // The backing Map
+  private TreeMap<?> m; // The backing Map
 //  private Set keySet; // The keySet view of the backing Map
 
   // Dummy value to associate with an Object in the backing Map
