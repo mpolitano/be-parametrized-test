@@ -33,9 +33,12 @@ def parser( file, suffix =".csv"):
 	# out.write("-----------------")
 	# out.write("\n")
 	discard = ['readObject','writeObject','repOK']
-	for index, row in df.iterrows():	
-		if not "$" in row[1]:
+	for index, row in df.iterrows():
+		# print(row)
+	
+		# if not "$" in row[1]:
 			method=row[3]
+
 			if method not in discard:
   				# out.write(row[3])
   				# out.write("\n")
@@ -45,6 +48,9 @@ def parser( file, suffix =".csv"):
 	  				killed=killed+1
 				else:
 	  				noKilled=noKilled+1
+			# else:
+			# 	# if row[5] == 'KILLED':
+			# 	print(row[3])
 
 	print(killed)
 	print(noKilled)
