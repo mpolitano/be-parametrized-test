@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections4.list.NodeCachingLinkedList;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -49,6 +48,25 @@ public class ObjectsIterator  implements Iterator<Object>{
 		      e.printStackTrace();
 		      throw new RuntimeException("Cannot deserialize file: " + file);
 		    }
+			//For amount objects
+		    File dir = new File("../scripts/results/2_apache/"+Config.clazz+"/"+Config.tool+"/"+Config.scope);
+			if (! dir.exists()){
+		        dir.mkdir();            
+			}
+		   	String fileName = dir + "/objects.txt";
+		       try{
+		           File file1 = new File(fileName);
+		           file1.getParentFile().mkdirs();
+		           FileWriter fw = new FileWriter(file1);
+	
+		           BufferedWriter bw = new BufferedWriter(fw);
+		           bw.write(String.valueOf(objs.size()) );
+		           bw.close();
+		       }
+		       catch (IOException e){
+		           e.printStackTrace();
+		           System.exit(-1);
+		       }
 		    return objs;
 		  }
 	
