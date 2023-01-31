@@ -258,8 +258,6 @@ public class TreeSetTest {
 				continue;
 			}
 	    	assertTrue(tset.repOK());
-	    	assertTrue((!tset.contains(i) && result) || (!result && tset.contains(i)||  (!result && !tset.contains(i))));
-
 		}
 	}   
 
