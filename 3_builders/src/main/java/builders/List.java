@@ -43,17 +43,17 @@ public class List  implements java.io.Serializable{
 		mem_count = newCount;
 	}
 
-	public String toString() {
-		Job curr = this.first;
-		final StringBuilder buf = new StringBuilder(2 * this.getMemCount());
-		buf.append('{');
-		for (int i = 0; i < this.getMemCount(); i++) {
-			buf.append(curr.toString());
-			curr = curr.getNext();
-			if (i < this.getMemCount() - 1)
-				buf.append(",");
-		}
-		buf.append('}');
-		return buf.toString();
-	}
+//	public String toString() {
+//		Job curr = this.first;
+//		final StringBuilder buf = new StringBuilder(2 * this.getMemCount());
+//		buf.append('{');
+//		for (int i = 0; i < this.getMemCount(); i++) {
+//			buf.append(curr.toString());
+//			curr = curr.getNext();
+//			if (i < this.getMemCount() - 1)
+//				buf.append(",");
+//		}
+//		buf.append('}');
+//		return buf.toString();
+//	}
 }

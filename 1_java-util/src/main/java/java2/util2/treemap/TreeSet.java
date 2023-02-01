@@ -72,6 +72,8 @@ import java2.util2.*;
  * @since   1.2
  */
 public class TreeSet implements java.io.Serializable  {
+	  private static final long serialVersionUID = 1L;
+
   private TreeMap m; // The backing Map
 //  private Set keySet; // The keySet view of the backing Map
 
@@ -459,7 +461,7 @@ public class TreeSet implements java.io.Serializable  {
 //    s.writeInt(m.size());
 //
 //    // Write out all elements in the proper order.
-//    for (Iterator i = m.keySet().iterator(); i.hasNext(); ) s.writeObject(i.next());
+////    for (Iterator i = m.keySet().iterator(); i.hasNext(); ) s.writeObject(i.next());
 //  }
 
   /**
@@ -495,8 +497,6 @@ public class TreeSet implements java.io.Serializable  {
           return false;
       return m.isBinTreeWithParentReferences();
   }
-
-	private static final long serialVersionUID = 1L;
 
 	
 }

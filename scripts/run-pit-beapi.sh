@@ -17,12 +17,10 @@ budget=$3
 function run_many() {
 	for budget in $budgets
     do
-    	pushd $projectsdir/ > /dev/null
-    	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
-        popd > /dev/null
 	    for project in $projects
 	    do
-    		pushd $projectsdir/$project > /dev/null
+            pushd $projectsdir/$project > /dev/null
+            sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	        for casestudy in $cases 
         	do
         		pathPitResult="pit/$casesstudy/$budget/"

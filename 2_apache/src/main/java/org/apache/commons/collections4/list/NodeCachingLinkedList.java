@@ -43,25 +43,25 @@ import java.util.Collection;
 public class NodeCachingLinkedList extends AbstractLinkedList  implements Serializable {
 
     /** Serialization version */
-    private static final long serialVersionUID = 6897789178562232073L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The default value for {@link #maximumCacheSize}.
      */
-    private static final int DEFAULT_MAXIMUM_CACHE_SIZE = 3;
+    private static final int DEFAULT_MAXIMUM_CACHE_SIZE = 10;
 
     /**
      * The first cached node, or <code>null</code> if no nodes are cached.
      * Cached nodes are stored in a singly-linked list with
      * <code>next</code> pointing to the next element.
      */
-    private transient Node firstCachedNode;
+    private  Node firstCachedNode;
 
     /**
      * The size of the cache.
      */
-    private transient int cacheSize;
-
+    private  int cacheSize;
+ 
     /**
      * The maximum size of the cache.
      */
@@ -80,10 +80,10 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      *
      * @param coll  the collection to copy
      */
-    public NodeCachingLinkedList(final java.util.Collection<Integer>  coll) {
-        super(coll);
-        this.maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
-    }
+//    public NodeCachingLinkedList(final java.util.Collection<Integer>  coll) {
+//        super(coll);
+//        this.maximumCacheSize = DEFAULT_MAXIMUM_CACHE_SIZE;
+//    }
 
     /**
      * Constructor that species the maximum cache size.
@@ -164,7 +164,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      *
      * @param node  the node to add to the cache
      */
-    public void addNodeToCache(final Node node, Integer value) {
+    public void addNodeToCache(final Node node, Object value) {
         if (isCacheFull()) {
             // don't cache the node.
             return;
@@ -188,7 +188,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      * @return the newly created node
      */
     @Override
-    public Node createNode(final Integer value) {
+    public Node createNode(final Object value) {
         final Node cachedNode = getNodeFromCache();
         if (cachedNode == null) {
             return super.createNode(value);
@@ -225,7 +225,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
         Node node = header.next;
         for (int currentIndex = 0; currentIndex < numberOfNodesToCache; currentIndex++) {
             final Node oldNode = node;
-            Integer value = node.getValue();
+            Object value = node.getValue();
             node = node.next;
             addNodeToCache(oldNode, value);
         }
@@ -250,7 +250,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
     }
 
 
-    @Override
+/*    @Override
     public String toString() {
         final StringBuilder buf = new StringBuilder();
         Node node = header.next;
@@ -285,7 +285,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
         return buf.toString();
 //        return super.toString();
     }
-    
+    */
     public boolean repOK(){
 
         if (this.header == null)

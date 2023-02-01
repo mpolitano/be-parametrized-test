@@ -1,2 +1,2 @@
-java2.util2.linkedlist.LinkedList.<init>\(\)
-java2.util2.linkedlist.LinkedList.add\(java.lang.Object\)
+java2.util2.linkedlist.LinkedList()
+java2.util2.linkedlist.LinkedList.add(java.lang.Object)

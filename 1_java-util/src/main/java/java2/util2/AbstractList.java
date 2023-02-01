@@ -53,6 +53,10 @@ package java2.util2;
  */
 public abstract class AbstractList extends AbstractCollection implements List {
   /**
+	 * 
+	 */
+
+/**
    * Sole constructor.  (For invocation by subclass constructors, typically
    * implicit.)
    */
@@ -578,19 +582,19 @@ public abstract class AbstractList extends AbstractCollection implements List {
    *
    * @return <tt>true</tt> if the specified object is equal to this list.
    */
-  public boolean equals(Object o) {
-    if (o == this) return true;
-    if (!(o instanceof List)) return false;
-
-    ListIterator e1 = listIterator();
-    ListIterator e2 = ((List) o).listIterator();
-    while (e1.hasNext() && e2.hasNext()) {
-      Object o1 = e1.next();
-      Object o2 = e2.next();
-      if (!(o1 == null ? o2 == null : o1.equals(o2))) return false;
-    }
-    return !(e1.hasNext() || e2.hasNext());
-  }
+//  public boolean equals(Object o) {
+//    if (o == this) return true;
+//    if (!(o instanceof List)) return false;
+//
+//    ListIterator e1 = listIterator();
+//    ListIterator e2 = ((List) o).listIterator();
+//    while (e1.hasNext() && e2.hasNext()) {
+//      Object o1 = e1.next();
+//      Object o2 = e2.next();
+//      if (!(o1 == null ? o2 == null : o1.equals(o2))) return false;
+//    }
+//    return !(e1.hasNext() || e2.hasNext());
+//  }
 
   /**
    * Returns the hash code value for this list. <p>

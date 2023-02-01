@@ -1,338 +1,659 @@
 package org.apache.commons.collections4.list;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import utils.Config;
+import utils.ObjectsIterator;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
 
 
 public class NodeCachingLinkedListTest { 
-    
-	
+
+
 	//Change with sedl 
-		public static int scope;
-		public static String pathFile;
-		
-	    @BeforeAll
-	    static void initAll() {
-	    	Config.readEnvironmentVariables();
-	    	scope = Config.scope;
-	    	pathFile = "beapi-tests/serialize/org.apache.commons.collections4.list.NodeCachingLinkedList/"+scope+"/objects.ser";
+	public static int scope;
+	public static String pathFile;
 
-	    }
+	//Change with sedl 
+	public static int literals;
+	private static ObjectsIterator objIterator;
+//	private static clazz = "java2.util2.linkedlist.LinkedList";
 	
+	@BeforeEach
+	public void init() {
+		objIterator = new ObjectsIterator("org.apache.commons.collections4.list.NodeCachingLinkedList");
+		literals = objIterator.getLiterals();
+	}
 	
-	    
-	
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void clear_test(NodeCachingLinkedList list) {
-		list.clear();
-		assertTrue(list.repOK());
-	 }
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void add_test(NodeCachingLinkedList list, Integer i) {
-		int oldSize = list.size();
-		list.add(i);
-		assertTrue(list.repOK());
-		assertTrue(list.contains(i));
-		assertTrue(list.size()== oldSize +1);
+//	Aft
+//	public void end() {
+//		objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
+//	}
+//	
+	@AfterAll
+    static void afterAll() {
+		objIterator.end("org.apache.commons.collections4.list.NodeCachingLinkedList");
+	}
 
-	 }
 
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void get_test(NodeCachingLinkedList list, Integer i) {
-		assumeTrue(i<list.size());
-		
-		Integer o = (Integer)list.get(i);
-		assertTrue(list.repOK());
-		assertTrue(list.contains(o));
-
-	 }
-	
-	
-	
-	
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void size_test(NodeCachingLinkedList list) {
-		
-		Integer o = (Integer)list.size();
-		assertTrue(list.repOK());
+	@Test
+	public void cont_test() {
+		objIterator.addCountTest();
+		NodeCachingLinkedList ncl = new NodeCachingLinkedList();
+		ncl = new NodeCachingLinkedList(100);
 
 	}
 	
-
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void empty_test(NodeCachingLinkedList list) {
-		
-		boolean o = list.isEmpty();
-		assertTrue(list.repOK());
+	@Test
+	public void getNodeFromCache_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			ncl.getNodeFromCache();
+			assertTrue(ncl.repOK());
+		}
+	
 
 	}
 	
+	@Test
+	public void createNode_test() {
 
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void index_of_test(NodeCachingLinkedList list, Integer i) {	
-		boolean o = list.isEmpty();
-		assertTrue(list.repOK());
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			Random r = new Random();
+			int i = r.nextInt(literals);	
+
+			ncl.createNode(i);
+			assertTrue(ncl.repOK());
+		}
 
 	}
 	
-	
+	@Test
+	public void clear_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			ncl.clear();
+			assertTrue(ncl.repOK());
+		}
+	}
+
+
+	@Test
+	public void add_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			Random r = new Random();
+			int i = r.nextInt(literals);	
+
+			int oldSize = ncl.size();
+			ncl.add(i);
+			assertTrue(ncl.repOK());
+			assertTrue(ncl.contains(i));
+			assertTrue(ncl.size()== oldSize +1);
+
+		}
+
+	}
+
+	@Test
+	public void get_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			Random r = new Random();
+			int i = r.nextInt(literals);	
+			//assumeTrue(i<ncl.size());
+			if(i<ncl.size()) {
+				Object o = (Object)ncl.get(i);
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.contains(o));
+
+			}
+
+		}
+	}
+
+
+
+
+	@Test
+	public void size_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			Integer o = (Integer)ncl.size();
+			assertTrue(ncl.repOK());
+		}
+	}
+
+
+
+
+	@Test
+	public void empty_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			boolean o = ncl.isEmpty();
+			assertTrue(ncl.repOK());
+		}
+	}
+
+
+//	@Test
+//	public void index_of_test() {
+//
+//		FileInputStream fileTestUnit;
+//		ObjectInputStream ois;
+//		try {
+//			fileTestUnit= new FileInputStream(pathFile);
+//			ois = new ObjectInputStream(fileTestUnit);
+//
+//			NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
+//			while(ncl != null){
+//				count++;
+//				Random r = new Random();
+//				int value = r.nextInt(literals);	
+//
+//				Integer index = ncl.indexOf(value);
+//				assertTrue(ncl.repOK());
+//				assertTrue( (ncl.contains(value) && index >0 && index < ncl.size())||
+//						(!ncl.contains(value) && index == -1));
+//
+//
+//				ncl = (NodeCachingLinkedList)nextObject(ois);
+//
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		catch (ClassNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+//	}
+
+
+
 	//org.apache.commons.collections4.list.AbstractLinkedList.contains(java.lang.Integer)
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void contains_test(NodeCachingLinkedList list, Integer i) {	
-		boolean b = list.contains(i);
-		assertTrue(list.repOK());
 
-	}
-	
-	//org.apache.commons.collections4.list.AbstractLinkedList.getFirst()
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void get_first_test(NodeCachingLinkedList list) {	
-		assumeTrue(list.size()>0);
-		
-		Integer b = list.getFirst();
-		assertTrue(list.repOK());
-		assertTrue(list.contains(b));
+	@Test
+	public void contains_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			Random r = new Random();
+			int value = r.nextInt(literals);	
 
+			boolean b = ncl.contains(value);
+			assertTrue(ncl.repOK());
+
+
+		}
 	}
+
+	@Test
+	public void getfirst_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			if(ncl.size()>0) {
+				Object b = ncl.getFirst();
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.contains(b));
+			}
+		}
+	}
+
+
 	//org.apache.commons.collections4.list.AbstractLinkedList.getLast()
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void get_last_test(NodeCachingLinkedList list) {	
-		assumeTrue(list.size()>0);
-
-		Integer b = list.getLast();
-		assertTrue(list.repOK());
-		assertTrue(list.contains(b));
-
+	@Test
+	public void getlast_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			if(ncl.size()>0) {
+				Object b = ncl.getLast();
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.contains(b));
+			}
+		}
 	}
-	
-	
-	 
-	
-	//org.apache.commons.collections4.list.AbstractLinkedList.addFirst(java.lang.Integer)
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void add_first_test(NodeCachingLinkedList list, Integer i) {
-		int oldSize = list.size();
-		list.addFirst(i);
-		assertTrue(list.repOK());
-		assertTrue(list.contains(i));
-		assertTrue(list.size()== oldSize +1);
 
-	 }
-	
-	
+	//org.apache.commons.collections4.list.AbstractLinkedList.addFirst(java.lang.Integer)
+
+	@Test
+	public void addFirst_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			
+			objIterator.addCountTest();
+
+			int oldSize = ncl.size();
+			ncl.addFirst(value);
+			assertTrue(ncl.repOK());
+			assertTrue(ncl.contains(value));
+			assertTrue(ncl.size()== oldSize +1);	
+				
+		}
+	}
+
 	
 	//org.apache.commons.collections4.list.AbstractLinkedList.addLast(java.lang.Integer)
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void add_last_test(NodeCachingLinkedList list, Integer i) {
-		int oldSize = list.size();
-		list.addLast(i);
-		assertTrue(list.repOK());
-		assertTrue(list.contains(i));
-		assertTrue(list.size()== oldSize +1);
 
-	 }
+	@Test
+	public void addLast_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			objIterator.addCountTest();
+			
+			int oldSize = ncl.size();
+			ncl.addLast(value);
+			assertTrue(ncl.repOK());
+			assertTrue(ncl.contains(value));
+			assertTrue(ncl.size()== oldSize +1);
+		}
+	}
+	
+	
 	
 	//org.apache.commons.collections4.list.NodeCachingLinkedList.getMaximumCacheSize()
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void getMaximumCacheSize_test(NodeCachingLinkedList list) {	
 
-		Integer b = list.getMaximumCacheSize();
-		assertTrue(list.repOK());
+	@Test
+	public void getMaximumCacheSize_test() {
 
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			Integer b = ncl.getMaximumCacheSize();
+			assertTrue(ncl.repOK());
+			
+		}
 	}
-	
+
 	//org.apache.commons.collections4.list.NodeCachingLinkedList.isCacheFull()
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void cache_full_test(NodeCachingLinkedList list) {	
+	@Test
+	public void isCacheFull_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			
+			boolean b = ncl.isCacheFull();
+			assertTrue(ncl.repOK());
 
-		boolean b = list.isCacheFull();
-		assertTrue(list.repOK());
-	
+
+		}
 	}
-	
 	
 	//org.apache.commons.collections4.list.AbstractLinkedList.lastIndexOf(java.lang.Integer)
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void lastIndexOf_test(NodeCachingLinkedList list, Integer i) {
-		int index = list.lastIndexOf(i);
-		assertTrue(list.repOK());
-		assertTrue((list.contains(i) && index >=0) ||  (!list.contains(i) && index ==-1) );
-
-	 }
-	
+	@Test
+	public void lastIndexOf_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			
+			objIterator.addCountTest();
+			int index = ncl.lastIndexOf(value);
+			assertTrue(ncl.repOK());
+			assertTrue((ncl.contains(value) && index >=0) ||  (!ncl.contains(value) && index ==-1) );
+					
+			}
+	}
 	
 	
 	//org.apache.commons.collections4.list.AbstractLinkedList.remove(int)
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void remove_index_test(NodeCachingLinkedList list, Integer i) {
-		
-		assumeTrue(i<list.size());
-		int oldSize = list.size();
-		Integer value = list.remove(i.intValue());
-		assertTrue(list.repOK());
-		assertTrue(list.size() == oldSize-1);
+	@Test
+	public void remove_index_test() {
 
-	 }
-	
-	
-		//org.apache.commons.collections4.list.AbstractLinkedList.equals(java.lang.Object)
-		//org.apache.commons.collections4.list.AbstractLinkedList.add(int,java.lang.Integer)
-	    //org.apache.commons.collections4.list.AbstractLinkedList.iterator()
-		//org.apache.commons.collections4.list.AbstractLinkedList.listIterator()
-		//org.apache.commons.collections4.list.AbstractLinkedList.listIterator(int)
-		//org.apache.commons.collections4.list.NodeCachingLinkedList.removeAllNodes()
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int index = r.nextInt(literals);
+			objIterator.addCountTest();
+			if(index > 0 && index < ncl.size()) {
+				int oldSize = ncl.size();
+				Object b = ncl.remove(index);
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.size() == oldSize-1);
 
+			}
+
+		}
+	}
+
+	
 	//org.apache.commons.collections4.list.AbstractLinkedList.remove(java.lang.Integer)
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Int_Parameters")
-	public void remove_value_test(NodeCachingLinkedList list, Integer value) {
-		int oldSize = list.size();
-		boolean b = list.remove(value);
-		assertTrue(list.repOK());
-		assertTrue((b && list.size() == oldSize-1 ) || (!b && list.size() == oldSize));
+	
+	@Test
+	public void remove_value_test() {
 
-	 }
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			objIterator.addCountTest();
+			int oldSize = ncl.size();
+			boolean b = ncl.remove(new Integer(value));
+			assertTrue(ncl.repOK());
+			assertTrue((b && ncl.size() == oldSize-1) || (!b && ncl.size() == oldSize));
 
-	
-//org.apache.commons.collections4.list.AbstractLinkedList.removeFirst()
-	@ParameterizedTest
-	@MethodSource("provide_NCL_Parameters")
-	public void remove_first_test(NodeCachingLinkedList list) {
-		assumeTrue(list.size() > 0);
-		int oldSize = list.size();
-		Integer value = list.removeFirst();
-		assertTrue(list.repOK());
-	//	assertTrue((b && list.size() == oldSize-1 ) || (!b && list.size() == oldSize));
+		}
+	}
 
-	 }
+	//org.apache.commons.collections4.list.AbstractLinkedList.removeFirst()
+	@Test
+	public void removeFirst_test() {
 
-	
-	
-	//org.apache.commons.collections4.list.AbstractLinkedList.removeLast()
-//
-//org.apache.commons.collections4.list.NodeCachingLinkedList.repOK()
-//org.apache.commons.collections4.list.AbstractLinkedList.set(int,java.lang.Integer)
-//org.apache.commons.collections4.list.NodeCachingLinkedList.setMaximumCacheSize(int)
-//org.apache.commons.collections4.list.NodeCachingLinkedList.shrinkCacheToMaximumSize()
-//org.apache.commons.collections4.list.AbstractLinkedList.toArray()
-//org.apache.commons.collections4.list.AbstractLinkedList.toArray([Ljava.lang.Integer;)
-//org.apache.commons.collections4.list.NodeCachingLinkedList.toString()
-
-	   
-	  
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	 * Providers..
-	 */
-	
-	
-	private static Stream<Arguments> provide_NCL_Parameters() {
-	    	Stream<Arguments> stream = Stream.empty();
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-			try {
-				fileTestUnit= new FileInputStream(pathFile);
-				ois = new ObjectInputStream(fileTestUnit);
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
 			
-				NodeCachingLinkedList ncl = (NodeCachingLinkedList)nextObject(ois);
-				while(ncl != null){
-					stream = Stream.concat(Stream.of(Arguments.of(ncl)), stream);
-					ncl = (NodeCachingLinkedList)nextObject(ois);
-					
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			objIterator.addCountTest();
+
+			if(ncl.size() > 0) {
+				int oldSize = ncl.size();
+				Object b = ncl.removeFirst();
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.size() == oldSize-1);
 			}
-   		 catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-  		}
-	  	return stream;
-	  }
-	
-	
-	private static Stream<Arguments> provide_NCL_Int_Parameters() {
-	  	Stream<Arguments> stream = Stream.empty();
-	   	
-		  	FileInputStream fileTestUnit;
-	    	ObjectInputStream ois;
-	    	for(int i = 1; i <scope; i++) {
-					try {
-						fileTestUnit= new FileInputStream(pathFile);
-						ois = new ObjectInputStream(fileTestUnit);
-					
-						NodeCachingLinkedList list = (NodeCachingLinkedList)nextObject(ois);
-						
-						while(list != null){
-							stream = Stream.concat(Stream.of(Arguments.of(list,i)), stream);
-							list = (NodeCachingLinkedList)nextObject(ois);
-						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		   		 catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-		  		}
-		  	}		
-	  	return stream;
-	  }
-	
+			
+		}
+	}
 	
 	
 	
 
-	public static Object nextObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-			try {
-				return ois.readObject();
-			} catch (EOFException eof) {
-				return null;
-			} catch (ClassNotFoundException e) {
-				throw e;
-			} catch (IOException e) {
-				throw e;
+	//org.apache.commons.collections4.list.AbstractLinkedList.removeLast()
+	
+	@Test
+	public void removeLast_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			
+			objIterator.addCountTest();
+
+			if(ncl.size() > 0) {
+				int oldSize = ncl.size();
+				Object b = ncl.removeLast();
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.size() == oldSize-1);
 			}
-		}    
-    
+			
+
+		}
+	}
+	
+
+	//org.apache.commons.collections4.list.AbstractLinkedList.add(int,java.lang.Integer)
+	@Test
+	public void add_on_position_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			
+			int index = r.nextInt(literals);
+			objIterator.addCountTest();
+
+			if(index >0 && index <= ncl.size()) {
+				int oldSize = ncl.size();
+				ncl.add(index, value);
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.size() == oldSize+1);
+			}
+			
+		}
+	}
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.set(int,java.lang.Integer)
+	@Test
+	public void set_test() {
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			
+			int index = r.nextInt(literals);
+			
+			objIterator.addCountTest();
+
+			if(index >0 && index < ncl.size()) {
+				int oldSize = ncl.size();
+				ncl.set(index, value);
+				assertTrue(ncl.repOK());
+				assertTrue(ncl.size() == oldSize);
+				assertTrue(ncl.contains(value));
+			}
+			
+		}
+	}
+	
+	//org.apache.commons.collections4.list.NodeCachingLinkedList.removeAllNodes()
+	@Test
+	public void removeAllNodes_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			ncl.removeAllNodes();
+			assertTrue(ncl.repOK());
+			assertTrue(ncl.isEmpty());
+			
+		}
+	}
+
+	
+	
+	//org.apache.commons.collections4.list.NodeCachingLinkedList.setMaximumCacheSize(int)
+	@Test
+	public void setMaximumCacheSize_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int value = r.nextInt(literals);
+			
+			objIterator.addCountTest();
+
+			ncl.setMaximumCacheSize(value);
+			assertTrue(ncl.repOK());
+		
+		}
+	}
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.toArray()
+	
+	@Test
+	public void toArray_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			int size = ncl.size();
+			Object [] a = ncl.toArray();
+			assertTrue(ncl.repOK());
+			assertTrue(a.length == size);
+			
+		}
+	}
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.toArray([Ljava.lang.Integer;)
+
+	@Test
+	public void toArray2_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			int size = ncl.size();
+			Object [] a = new Object[ncl.size()];
+			a = ncl.toArray(a);
+			assertTrue(ncl.repOK());
+			assertTrue(a.length == size);
+			
+		}
+	}
+	
+	//org.apache.commons.collections4.list.NodeCachingLinkedList.shrinkCacheToMaximumSize()
+	@Test
+	public void shrinkCacheToMaximumSize_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			ncl.shrinkCacheToMaximumSize();
+			assertTrue(ncl.repOK());
+		}
+	
+	}
+	
+
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.iterator()
+	@Test
+	public void Iterator_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			
+			objIterator.addCountTest();
+			java.util.Iterator i = ncl.iterator();
+			assertTrue(ncl.repOK());
+
+		}
+	}
+	
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.listIterator()
+	@Test
+	public void ListIterator_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			objIterator.addCountTest();
+			org.apache.commons.collections4.ListIterator i = ncl.listIterator();
+			assertTrue(ncl.repOK());
+			assertTrue(i != null);
+
+
+		}
+	}
+	
+	
+	
+	//org.apache.commons.collections4.list.AbstractLinkedList.listIterator(int)
+	@Test
+	public void ListIterator_Int_test() {
+
+		List<Object> nclList = objIterator.getObjects();
+		ListIterator it = nclList.listIterator();
+		while(it.hasNext()) {
+			NodeCachingLinkedList ncl = (NodeCachingLinkedList)it.next(); 
+			Random r = new Random();
+			int i = r.nextInt(literals);
+			
+			objIterator.addCountTest();
+			if(i<ncl.size()) {
+				org.apache.commons.collections4.ListIterator iter = ncl.listIterator(i);
+				assertTrue(ncl.repOK());
+				assertTrue(iter != null);
+
+			}
+		}
+	}
+	
+
 }

@@ -224,7 +224,7 @@ public class Schedule  implements java.io.Serializable{
 		}
 	}
 
-	private List getPrioQueue(int prio) {
+	public List getPrioQueue(int prio) {
 		switch (prio) {
 		case 1:
 			return prio_1;
@@ -241,25 +241,25 @@ public class Schedule  implements java.io.Serializable{
 		blockQueue = new List();
 	}
 
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append("Schedule = {");
-		buf.append(" prioQueue = { ");
-		for (int i = 1; i <= MAXPRIO; i++) {
-			List proc = getPrioQueue(i);
-			buf.append(proc.toString());
-		}
-		buf.append(" }");
-		buf.append(" , ");
-		buf.append(" blockQueue = { ");
-		buf.append(blockQueue.toString());
-		buf.append(" }");
-		buf.append(" currProc = { ");
-		buf.append(curProc == null ? "null" : curProc.toString());
-		buf.append(" }");
-		buf.append(" }");
-		return buf.toString();
-	}
+//	public String toString() {
+//		StringBuffer buf = new StringBuffer();
+//		buf.append("Schedule = {");
+//		buf.append(" prioQueue = { ");
+//		for (int i = 1; i <= MAXPRIO; i++) {
+//			List proc = getPrioQueue(i);
+//			buf.append(proc.toString());
+//		}
+//		buf.append(" }");
+//		buf.append(" , ");
+//		buf.append(" blockQueue = { ");
+//		buf.append(blockQueue.toString());
+//		buf.append(" }");
+//		buf.append(" currProc = { ");
+//		buf.append(curProc == null ? "null" : curProc.toString());
+//		buf.append(" }");
+//		buf.append(" }");
+//		return buf.toString();
+//	}
 
 	public boolean repOK() {
 		if (prio_1 == null)

@@ -109,8 +109,8 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
 /**
    * The default initial capacity - MUST be a power of two.
    */
-  static final int DEFAULT_INITIAL_CAPACITY = 0;
-  // static final int DEFAULT_INITIAL_CAPACITY = 16;
+//  static final int DEFAULT_INITIAL_CAPACITY = 0;
+   static final int DEFAULT_INITIAL_CAPACITY = 16;
 
   /**
    * The maximum capacity, used if a higher value is implicitly specified
@@ -129,18 +129,18 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
   /**
    * The table, resized as necessary. Length MUST Always be a power of two.
    */
-   transient Entry[] table;
+  public Entry[] table;
 
   /**
    * The number of key-value mappings contained in this identity hash map.
    */
-   int size;
+   public int size;
 
   /**
    * The next size value at which to resize (capacity * load factor).
    * @serial
    */
-   int threshold;
+   public int threshold;
 
   /**
    * The load factor for the hash table.
@@ -241,7 +241,7 @@ DEFAULT_INITIAL_CAPACITY];
   /**
    * Value representing null keys inside tables.
    */
-  static final Object NULL_KEY = new Object();
+  private static final Object NULL_KEY = new Object();
 
   /**
    * Returns internal representation for key. Use NULL_KEY if key is null.
@@ -329,7 +329,8 @@ DEFAULT_INITIAL_CAPACITY];
     Entry e = table[i];
     while (true) {
       if (e == null) return e;
-      if (e.hash == hash && eq(k, e.key)) return e.value;
+      if (e.hash == hash)
+    	  if( eq(k, e.key)) return e.value;
       e = e.next;
     }
   }
@@ -613,7 +614,9 @@ DEFAULT_INITIAL_CAPACITY];
    */
   public boolean containsValue(Object value) {
     if (value == null) {
-      return containsNullValue();
+//      return containsNullValue();
+      return true;
+
     }
 
     Entry[] tab = table;
@@ -622,15 +625,15 @@ DEFAULT_INITIAL_CAPACITY];
     return false;
   }
 
-  /**
-   * Special-case code for containsValue with null argument
-   **/
-  private boolean containsNullValue() {
-    Entry[] tab = table;
-    for (int i = 0; i < tab.length; i++)
-      for (Entry e = tab[i]; e != null; e = e.next) if (e.value == null) return true;
-    return false;
-  }
+//  /**
+//   * Special-case code for containsValue with null argument
+//   **/
+//  private boolean containsNullValue() {
+//    Entry[] tab = table;
+//    for (int i = 0; i < tab.length; i++)
+//      for (Entry e = tab[i]; e != null; e = e.next) if (e.value == null) return true;
+//    return false;
+//  }
 
   /**
    * Returns a shallow copy of this <tt>HashMap</tt> instance: the keys and
@@ -701,10 +704,10 @@ DEFAULT_INITIAL_CAPACITY];
       }
       return false;
     }
-
-    public int hashCode() {
-      return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
-    }
+//
+//    public int hashCode() {
+//      return (key == NULL_KEY ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
+//    }
 
     public String toString() {
       return getKey() + "=" + getValue();
@@ -738,7 +741,11 @@ DEFAULT_INITIAL_CAPACITY];
   }
 
   private abstract class HashIterator implements Iterator,java.io.Serializable{
-    Entry next; // next entry to return
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	Entry next; // next entry to return
     int expectedModCount; // For fast-fail
     int index; // current slot
     Entry current; // current entry
@@ -996,7 +1003,7 @@ DEFAULT_INITIAL_CAPACITY];
     }
   }
 
-  private static final long serialVersionUID = 362498820763181265L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
@@ -1032,43 +1039,42 @@ DEFAULT_INITIAL_CAPACITY];
     return loadFactor;
   }
   
-  @Override
-  public String toString() {
-	  StringBuilder buf = new StringBuilder();
-	  buf.append("{");
-
-	  List sorted = new ArrayList(keySet());
-	  
-	  boolean firstNull = false;
-	  if (sorted.remove(null)) {
-		  Object key = null;
-		  Object value = get(key);
-		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
-		  firstNull = true;
-	  }
-	  
-	  Collections.sort(sorted);
-	  
-	  Iterator i = sorted.iterator();
-	  boolean hasNext = i.hasNext();
-	  while (hasNext) {
-		  if (firstNull) {
-			  buf.append(", ");
-			  firstNull = false;
-		  }
-		  
-		  Object key = i.next();
-		  Object value = get(key);
-		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
-
-		  hasNext = i.hasNext();
-		  if (hasNext) buf.append(", ");
-	  }
-
-	  buf.append("}");
-	  return buf.toString();
-  }
-  
+//  public String toString() {
+//	  StringBuilder buf = new StringBuilder();
+//	  buf.append("{");
+//
+//	  List sorted = new ArrayList(keySet());
+//	  
+//	  boolean firstNull = false;
+//	  if (sorted.remove(null)) {
+//		  Object key = null;
+//		  Object value = get(key);
+//		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
+//		  firstNull = true;
+//	  }
+//	  
+//	  Collections.sort(sorted);
+//	  
+//	  Iterator i = sorted.iterator();
+//	  boolean hasNext = i.hasNext();
+//	  while (hasNext) {
+//		  if (firstNull) {
+//			  buf.append(", ");
+//			  firstNull = false;
+//		  }
+//		  
+//		  Object key = i.next();
+//		  Object value = get(key);
+//		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
+//
+//		  hasNext = i.hasNext();
+//		  if (hasNext) buf.append(", ");
+//	  }
+//
+//	  buf.append("}");
+//	  return buf.toString();
+//  }
+//  
   
   public boolean repOK() {
 		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();

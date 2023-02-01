@@ -1,0 +1,7 @@
+java2.util2.AbstractSequentialList.iterator\(\)
+java2.util2.AbstractList.listIterator\(\)
+java2.util2.linkedlist.LinkedList.listIterator\(int\)
+java2.util2.AbstractCollection.removeAll\(java2.util2.Collection\)
+java2.util2.AbstractList.subList\(int,int\)
+java.util2.linkedlist.LinkedList.writeObject\(java.io.ObjectOutputStream\)
+java.util2.linkedlist.LinkedList.readObject\(java.io.ObjectOutputStream\)
