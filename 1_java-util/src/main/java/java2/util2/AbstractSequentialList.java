@@ -258,5 +258,5 @@ public abstract class AbstractSequentialList extends AbstractList {
    * @return a list iterator over the elements in this list (in proper
    *      sequence).
    */
-  public abstract ListIterator listIterator(int index);
+//  public abstract ListIterator listIterator(int index);
 }

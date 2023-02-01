@@ -37,9 +37,10 @@ randoop.main.Main gentests \
 --junit-output-dir=$outdir \
 --time-limit=$budget \
 --junit-package-name=$packagename \
---only-test-public-members \
+--only-test-public-members=false \
 --forbid-null=true \
 --null-ratio=0 \
+--omit-classes=\"java2.util2.linkedlist.LinkedList.ListItr\" \
 $omitmethods
 
 "

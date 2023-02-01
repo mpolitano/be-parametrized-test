@@ -1,6 +1,7 @@
 package java2.util2.linkedlist;
 
 import utils.ObjectsIterator;
+import utils.Reports;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -11,13 +12,10 @@ import org.junit.jupiter.api.Test;
 
 
 import java2.util2.NoSuchElementException;
-import java2.util2.hashmap.HashMap;
-import java2.util2.linkedlist.LinkedList;
 
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Stream;
 
 
 public class LinkedListTest { 
@@ -27,8 +25,6 @@ public class LinkedListTest {
 	//Change with sedl 
 	public static int literals;
 	private static ObjectsIterator objIterator;
-//	private static clazz = "java2.util2.linkedlist.LinkedList";
-
 
 	
 	@BeforeEach
@@ -37,14 +33,10 @@ public class LinkedListTest {
 		literals = objIterator.getLiterals();
 	}
 	
-//	Aft
-//	public void end() {
-//		objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
-//	}
-//	
+	
 	@AfterAll
     static void afterAll() {
-		objIterator.end("java2.util2.linkedlist.LinkedList");
+		Reports.end("java2.util2.linkedlist.LinkedList");
 	}
 
 
@@ -65,9 +57,9 @@ public class LinkedListTest {
 		List<Object> linkedlist = objIterator.getObjects();
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
-			LinkedList list = (LinkedList)it.next(); 	
+			LinkedList list = (LinkedList)it.next(); 
 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			int oldSize = list.size();
 			boolean result=list.add(i);
@@ -86,8 +78,7 @@ public class LinkedListTest {
             // org.junit.Assert.fail("Expected exception of type java2.util2.IndexOutOfBoundsException; message: null");
 		}
 			assertTrue(list1.size() == 1 && result || list1.size() == 0 && !result);
-			
-		}
+					}
 	}
 
 	@Test
@@ -98,7 +89,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 	
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 			try {	
 				result =list.listIterator(i);
@@ -127,7 +118,7 @@ public class LinkedListTest {
 			LinkedList before = list;
 			int oldSize = 0;
 			try {
-				objIterator.addCountTest();
+				Reports.addCountTest();
 				oldSize = list.size();
 				list.add(i,j);
 			} catch (IndexOutOfBoundsException e) {
@@ -145,7 +136,7 @@ public class LinkedListTest {
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			int oldSize = list.size();
 			list.addFirst(i);
 			assertTrue(list.size() == oldSize+1);
@@ -158,7 +149,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 	    	boolean containsPrevRemove = list.contains(i);
 			int result1=list.indexOf(i);
@@ -174,11 +165,10 @@ public class LinkedListTest {
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
 			if(list != null) {
-				objIterator.addCountTest();
+				Reports.addCountTest();
 				int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 		    	boolean containsPrevRemove = list.contains(i);
 				int result1=list.lastIndexOf(i);
-
 				assertTrue((result1>=0 && containsPrevRemove ) || result1==-1 && !containsPrevRemove ) ;
 			}
 	 }
@@ -190,7 +180,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			list.addLast(i);
 		}
@@ -202,7 +192,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			list.clear();
 			assertTrue(list.size() == 0);
 		}
@@ -214,9 +204,9 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			LinkedList list1 = (LinkedList) list.clone();
-		
+
 		}
 	 }
 	
@@ -226,7 +216,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 			boolean result=list.contains(i);
@@ -244,7 +234,7 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)it.next(); 
 			while(it2.hasNext()) {
 				LinkedList list1 = (LinkedList)it2.next(); 
-				objIterator.addCountTest();
+				Reports.addCountTest();
 				int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				list.equals(list1);
 
@@ -260,11 +250,13 @@ public class LinkedListTest {
 			LinkedList list = (LinkedList)it.next(); 
 			int i = ThreadLocalRandom.current().nextInt(-1, literals + 1);
 			try {
-				objIterator.addCountTest();
+				Reports.addCountTest();
 				list.get(i);
 			}catch(IndexOutOfBoundsException e) {
+				continue;
 			}
-				}
+			//assert
+		}
     }
 
 	@Test
@@ -276,7 +268,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 	
-			objIterator.addCountTest();
+			Reports.addCountTest();
 				if(list.size()>0) {
 					try {
 						size = list.size();
@@ -291,6 +283,7 @@ public class LinkedListTest {
 					try {
 						obj=list.getFirst();
 					}catch(NoSuchElementException e) {
+				    	assertTrue(!list.contains(obj));
 					}
 				}
 		}
@@ -305,7 +298,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 	
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			if(list.size()>0) {
 				try {
 					size = list.size();
@@ -313,6 +306,8 @@ public class LinkedListTest {
 					obj=list.getLast();
 			    	assertTrue(list.contains(obj));
 				}catch(NoSuchElementException e) {
+			    	assertTrue(!list.contains(obj));
+
 	            // org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
 				}
 			}
@@ -333,9 +328,9 @@ public class LinkedListTest {
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			list.addFirst(i);
-//			assumeTrue(list.contains(i));
+			assumeTrue(list.contains(i));
 		}
     }
 //	
@@ -346,7 +341,7 @@ public class LinkedListTest {
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			list.addLast(i);;
 			// assumeTrue(list.contains(i));
 		}	
@@ -360,11 +355,10 @@ public class LinkedListTest {
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
 			int i = ThreadLocalRandom.current().nextInt(0, literals + 1);
-			objIterator.addCountTest();
+			Reports.addCountTest();
 
 	    	list.indexOf(i);
 	    	list.indexOf(-1);
-
 		}
     }
 //	
@@ -374,7 +368,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 	    	boolean result=list.isEmpty();
 	    	assertTrue((result && list.size()==0)||(!result && list.size()>0));
 		}
@@ -383,17 +377,15 @@ public class LinkedListTest {
 //	
    	@Test
    	public void const_test1() {
-		objIterator.addCountTest();
-
-    	LinkedList list1 = new LinkedList();
-    	   LinkedList list2 = new LinkedList(list1);
+   		Reports.addCountTest();
+   	   LinkedList list1 = new LinkedList();
+	   LinkedList list2 = new LinkedList(list1);
 
     }
 
        	@Test
    	public void const_test() {
-		objIterator.addCountTest();
-
+   		Reports.addCountTest();
     	LinkedList list1 = new LinkedList();
 
     }
@@ -410,29 +402,13 @@ public class LinkedListTest {
 			LinkedList list1 = null;
 			boolean containsPrevRemove = false;
 			try {
-				objIterator.addCountTest();
+				Reports.addCountTest();
 				size = list.size();
 				Integer i = ThreadLocalRandom.current().nextInt(0, literals + 1);
 				int indexToRemove = list.indexOf(i);
 		    	containsPrevRemove = list.contains(i);
 
 				result = list.remove(i);
-//				list1= new LinkedList();
-//				result1 = list1.remove(i);
-
-//				System.out.println(list.get(indexToRemove).equals(i));		
-
-//		        org.junit.Assert.assertTrue(indexToRemove != -1 && list.get(indexToRemove) != null? !list.get(indexToRemove).equals(i) : true );
-
-		        java2.util2.linkedlist.LinkedList linkedList0 = new java2.util2.linkedlist.LinkedList();
-		        boolean boolean2 = linkedList0.contains((java.lang.Object) (-1.0d));
-		        boolean boolean4 = linkedList0.add((java.lang.Object) (short) 100);
-		        java.lang.Object obj6 = linkedList0.remove(0);
-		        boolean boolean7 = linkedList0.isEmpty();
-		        // org.junit.Assert.assertTrue("'" + boolean4 + "' != '" + true + "'", boolean4 == true);
-		        // org.junit.Assert.assertEquals("'" + obj6 + "' != '" + (short) 100 + "'", obj6, (short) 100);
-		        // org.junit.Assert.assertTrue("'" + boolean7 + "' != '" + true + "'", boolean7 == true);
-
 			} catch (IndexOutOfBoundsException e){
 	            // org.junit.Assert.fail("Expected exception of type java2.util2.NoSuchElementException; message: null");
 			}
@@ -450,7 +426,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 	    	if(list.size()>0) {
 	    		Object first = list.get(0);
 	    		int size = list.size();
@@ -468,7 +444,7 @@ public class LinkedListTest {
 			}
 		}
 	}
-//	
+
    	@Test
    	public void removeLast_test() {
 		List<Object> linkedlist = objIterator.getObjects();
@@ -476,7 +452,7 @@ public class LinkedListTest {
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
 	    	if(list.size()>0) {
-				objIterator.addCountTest();
+	    		Reports.addCountTest();
 				int size = list.size();
 	    		Object last = list.get(list.size()-1);
 	        	Object obj=list.removeLast();
@@ -488,14 +464,14 @@ public class LinkedListTest {
 		
 		
     }
-//	
+
 	@Test
    	public void set_test() {
 		List<Object> linkedlist = objIterator.getObjects();
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 
 			int i = ThreadLocalRandom.current().nextInt(-2, literals + 1);
 				Integer j = 0;
@@ -533,17 +509,13 @@ public class LinkedListTest {
 			try {
 				if(list.size() ==1) {
 					oldValue = list.get(i);
-
-					objIterator.addCountTest();
-					 resultTest=list.set(0, -100);
+					Reports.addCountTest();
+					resultTest=list.set(0, -100);
 				 }				 
 				
 			} catch (IndexOutOfBoundsException e){
 			}
-
-//	    	assertTrue((result == oldValue));
-//	    	assertTrue((result != null && objec == j) || (result == null));
-	    	assertTrue((resultTest == oldValue));
+			assertTrue((resultTest == oldValue));
 
 		 }	
     }
@@ -555,7 +527,7 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 			list.size();
 		}
     	
@@ -567,31 +539,11 @@ public class LinkedListTest {
 		ListIterator it = linkedlist.listIterator();
 		while(it.hasNext()) {
 			LinkedList list = (LinkedList)it.next(); 
-			objIterator.addCountTest();
+			Reports.addCountTest();
 
 	    	Object[] lArray = list.toArray();
 	        // org.junit.Assert.assertNotNull(lArray);
 		}
 		
     }
-//	
-//	
-//	
-//	/*
-//	 * Providers..
-//	 */
-//	
-//
-//	public static Object nextObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-//			try {
-//				return ois.readObject();
-//			} catch (EOFException eof) {
-//				return null;
-//			} catch (ClassNotFoundException e) {
-//				throw e;
-//			} catch (IOException e) {
-//				throw e;
-//			}
-//		}    
-    
 }

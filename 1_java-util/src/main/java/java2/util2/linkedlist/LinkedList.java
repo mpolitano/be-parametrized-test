@@ -448,99 +448,103 @@ public class LinkedList extends AbstractSequentialList
    *		  (<tt>index &lt; 0 || index &gt; size()</tt>).
    * @see List#listIterator(int)
    */
-  public ListIterator listIterator(int index) {
-    return new ListItr(index);
-  }
+//  public ListIterator listIterator(int index) {
+//    return new ListItr(index);
+//  }
 
-  private class ListItr implements ListIterator, java.io.Serializable {
-    private Entry lastReturned = header;
-    private Entry next;
-    private int nextIndex;
-    private int expectedModCount = modCount;
-
-    ListItr(int index) {
-      if (index < 0 || index > size) {
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-      }
-      if (index < (size >> 1)) {
-        next = header.next;
-        for (nextIndex = 0; nextIndex < index; nextIndex++) next = next.next;
-      } else {
-        next = header;
-        for (nextIndex = size; nextIndex > index; nextIndex--) next = next.previous;
-      }
-    }
-
-    public boolean hasNext() {
-      return nextIndex != size;
-    }
-
-    public Object next() {
-      checkForComodification();
-      if (nextIndex == size) {
-        throw new NoSuchElementException();
-      }
-
-      lastReturned = next;
-      next = next.next;
-      nextIndex++;
-      return lastReturned.element;
-    }
-
-    public boolean hasPrevious() {
-      return nextIndex != 0;
-    }
-
-    public Object previous() {
-      if (nextIndex == 0) {
-        throw new NoSuchElementException();
-      }
-
-      lastReturned = next = next.previous;
-      nextIndex--;
-      checkForComodification();
-      return lastReturned.element;
-    }
-
-    public int nextIndex() {
-      return nextIndex;
-    }
-
-    public int previousIndex() {
-      return nextIndex - 1;
-    }
-
-    public void remove() {
-      checkForComodification();
-      try {
-        LinkedList.this.remove(lastReturned);
-      } catch (NoSuchElementException e) {
-        throw new IllegalStateException();
-      }
-      if (next == lastReturned) next = lastReturned.next;
-      else nextIndex--;
-      lastReturned = header;
-      expectedModCount++;
-    }
-
-    public void set(Object o) {
-      if (lastReturned == header) throw new IllegalStateException();
-      checkForComodification();
-      lastReturned.element = o;
-    }
-
-    public void add(Object o) {
-      checkForComodification();
-      lastReturned = header;
-      addBefore(o, next);
-      nextIndex++;
-      expectedModCount++;
-    }
-
-    final void checkForComodification() {
-      if (modCount != expectedModCount) throw new ConcurrentModificationException();
-    }
-  }
+//  private class ListItr implements ListIterator, java.io.Serializable {
+//    /**
+//	 * 
+//	 */
+//	private static final long serialVersionUID = 1L;
+//	private Entry lastReturned = header;
+//    private Entry next;
+//    private int nextIndex;
+//    private int expectedModCount = modCount;
+//
+//    ListItr(int index) {
+//      if (index < 0 || index > size) {
+//        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+//      }
+//      if (index < (size >> 1)) {
+//        next = header.next;
+//        for (nextIndex = 0; nextIndex < index; nextIndex++) next = next.next;
+//      } else {
+//        next = header;
+//        for (nextIndex = size; nextIndex > index; nextIndex--) next = next.previous;
+//      }
+//    }
+//
+//    public boolean hasNext() {
+//      return nextIndex != size;
+//    }
+//
+//    public Object next() {
+//      checkForComodification();
+//      if (nextIndex == size) {
+//        throw new NoSuchElementException();
+//      }
+//
+//      lastReturned = next;
+//      next = next.next;
+//      nextIndex++;
+//      return lastReturned.element;
+//    }
+//
+//    public boolean hasPrevious() {
+//      return nextIndex != 0;
+//    }
+//
+//    public Object previous() {
+//      if (nextIndex == 0) {
+//        throw new NoSuchElementException();
+//      }
+//
+//      lastReturned = next = next.previous;
+//      nextIndex--;
+//      checkForComodification();
+//      return lastReturned.element;
+//    }
+//
+//    public int nextIndex() {
+//      return nextIndex;
+//    }
+//
+//    public int previousIndex() {
+//      return nextIndex - 1;
+//    }
+//
+//    public void remove() {
+//      checkForComodification();
+//      try {
+//        LinkedList.this.remove(lastReturned);
+//      } catch (NoSuchElementException e) {
+//        throw new IllegalStateException();
+//      }
+//      if (next == lastReturned) next = lastReturned.next;
+//      else nextIndex--;
+//      lastReturned = header;
+//      expectedModCount++;
+//    }
+//
+//    public void set(Object o) {
+//      if (lastReturned == header) throw new IllegalStateException();
+//      checkForComodification();
+//      lastReturned.element = o;
+//    }
+//
+//    public void add(Object o) {
+//      checkForComodification();
+//      lastReturned = header;
+//      addBefore(o, next);
+//      nextIndex++;
+//      expectedModCount++;
+//    }
+//
+//    final void checkForComodification() {
+//      if (modCount != expectedModCount) throw new ConcurrentModificationException();
+//    }
+//  }
 
   private static class Entry implements java.io.Serializable{
     Object element;
@@ -654,7 +658,7 @@ public class LinkedList extends AbstractSequentialList
 //    return a;
 //  }
 
-  private static final long serialVersionUID = 876323262645176354L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * Save the state of this <tt>LinkedList</tt> instance to a stream (that

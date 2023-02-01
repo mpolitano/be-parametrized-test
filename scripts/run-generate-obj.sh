@@ -1,9 +1,10 @@
 #!/bin/bash
 
+
 project=$1
 class=$2
-budget=$3
-tool=$4
+tool=$3
+budget=$4
 
 projectsdir=$BE_EXP_SRC
 scriptsdir=$projectsdir/scripts
@@ -63,12 +64,7 @@ else #need parameterized tests. Depends with builders or no builders
 fi
 
 
-# cmd="mvn clean 	test >> $explog"
-# echo ""
-# echo "> Running tests, Coverage and Mutation: $cmd"
-# bash -c "$cmd"
-
-cmd="mvn -B clean test-compile test  >> $explog"
+cmd="mvn -B clean test-compile test compile >> $explog"
 echo ""
 echo "> Running test $cmd"
 bash -c "$cmd"
@@ -78,7 +74,7 @@ cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
 	
 if [[ $tool == "randoop" ]]; then 
 	#change is only parametrized
-	# cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
+	cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
 	echo ""
 	echo "> Save Test runner $cmd"
 	bash -c "$cmd"
@@ -90,42 +86,3 @@ else
 	echo "> Save Test count $cmd"
 	bash -c "$cmd"
 fi
-
-cmd="timeout 3600 mvn -B test jacoco:report -Dpackage=${packagename} >> $explog"
-echo ""
-echo "> Running jacoco $cmd"
-bash -c "$cmd"
-CODE=$?
-    if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
-    then
-        echo "Jacoco take more than 3600 to run" >> $explog
-    fi    
-
-
-echo ""
-echo "> Saving Jacoco: $cmd"
-cmd="cp -r $projectdir/target/site/*/* $resultsdir"
-bash -c "$cmd" 
-
-
-cmd="timeout 3600 mvn -B clean test-compile org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
-echo ""
-echo "> Running pit $cmd"
-bash -c "$cmd"
-CODE=$?
-    if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
-    then
-        echo "Pitest take more than 3600 to run" >> $explog
-    fi    
-
-
-cmd="cp -r $projectdir/target/pit-reports $resultsdir"
-echo ""
-echo "> Saving pit: $cmd"
-bash -c "$cmd" 
-
-rm -r $projectdir/target/*
-popd > /dev/null
-
-echo ""
-echo "> Experiment finished! Results in: $resultsdir"
