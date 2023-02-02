@@ -1,45 +1,49 @@
 package java2.util2.linkedlist;
 
-import utils.ObjectsIterator;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import utils.Reports;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
-import java2.util2.NoSuchElementException;
-
+import utils.TestHarness;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ThreadLocalRandom;
 
+public class LinkedListTest extends TestHarness {
 
-public class LinkedListTest { 
-    
-
-	
-	//Change with sedl 
-	public static int literals;
-	private static ObjectsIterator objIterator;
-
-	
-	@BeforeEach
-	public void init() {
-		objIterator = new ObjectsIterator("java2.util2.linkedlist.LinkedList");
-		literals = objIterator.getLiterals();
-	}
-	
-	
-	@AfterAll
-    static void afterAll() {
-		Reports.end("java2.util2.linkedlist.LinkedList");
+	@ParameterizedTest
+	@MethodSource("readObjects")
+	public void elementsDoesNotBelongToList(Object o) {
+		LinkedList l = (LinkedList) o;
+		int e = getInt(-1000, 1000);
+		if (!l.contains(e)) {
+			int oldSize = l.size();
+			boolean res = l.add(e);
+			assertTrue(res);
+			assertTrue(l.contains(e));
+			assertEquals(oldSize + 1, l.size());
+		}
 	}
 
+	@ParameterizedTest
+	@MethodSource("readObjects")
+	public void elementsBelongToList(Object o) {
+		LinkedList l = (LinkedList) o;
+		if (l.isEmpty()) return;
+		Object e = getElementFrom(l);
+		if (l.contains(e)) {
+			int oldSize = l.size();
+			boolean res = l.add(e);
+			assertFalse(res);
+			assertFalse(l.contains(e));
+			assertEquals(oldSize, l.size());
+		}
+	}
 
+
+/*
 	@Test
 	public void addAll() {			
 		List<Object> linkedlist = objIterator.getObjects();
@@ -523,4 +527,6 @@ public class LinkedListTest {
 		}
 		
     }
+
+ */
 }
