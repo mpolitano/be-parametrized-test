@@ -11,7 +11,7 @@ class=$2
 packagename=${class%\.*}
 classname=${class##*\.}
 budget=$3
-cp=./build/classes:./lib/*.jar
+cp=./target/classes:./lib/*.jar
 outdir=randoop-tests
 
 pushd $projectsdir/$1 > /dev/null
