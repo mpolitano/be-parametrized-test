@@ -10,23 +10,24 @@
 <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
+    <junit-jupiter.version>5.7.0</junit-jupiter.version>
+        <!-- optional : if we want to use a junit4 specific version -->
+    <junit.version>4.12</junit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 </properties>
-
     <dependencies>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.8.1</version>
-			<scope>test</scope>
-		</dependency>
+	        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+	        <groupId>org.pitest</groupId>
+	        <artifactId>pitest-junit5-plugin</artifactId>
+	        <version>0.8</version>
+    	</dependency>
         <dependency>
 			  <groupId>com.thoughtworks.xstream</groupId>
 			  <artifactId>xstream</artifactId>
@@ -43,6 +44,20 @@
 		    <version>1.1.4c</version>
 		</dependency>
 
+        <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
+       <!--  <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+        </dependency> -->
+        <!-- Optional : override the JUnit 4 API version provided by junit-vintage-engine -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
@@ -52,16 +67,15 @@
 		<plugin>
 		    <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+               <version>2.0.2</version>
                <configuration>
                   <source>1.8</source>
                   <target>1.8</target>
                </configuration>
             </plugin>
 		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>3.0.0-M3</version>
+		    <artifactId>maven-surefire-plugin</artifactId>
+		    <version>2.22.0</version>
 		</plugin>
 		<plugin>
 		    <groupId>org.jacoco</groupId>
@@ -76,29 +90,26 @@
 		        <execution>
 		            <id>report</id>
 		            <phase>prepare-package</phase>
-			<!-- PABLO: NO COMPILABA
-                <goals>
-                    <goal>report</goal>
-                    <goal>jacoco:report</goal>
-                </goals>
-                -->
-            </execution>
-            <execution>
-                <id>jacoco-site</id>
-                <phase>verify</phase>
-                <goals>
-                    <goal>report</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
+		            <goals>
+		                <goal>report</goal>
+		                <goal> jacoco:report</goal>
+					</goals>
+		        </execution>
+				<execution>
+				    <id>jacoco-site</id>
+				    <phase>verify</phase>
+				    <goals>
+				        <goal>report</goal>
+				    </goals>
+				</execution>
+		    </executions>
+		</plugin>
 
-    <plugin>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-maven</artifactId>
-            <version>1.4.10</version>
+		<plugin>
+		        <groupId>org.pitest</groupId>
+		        <artifactId>pitest-maven</artifactId>
+		        <version>1.4.10</version>
 
-            <!--attach execution to maven's test phase-->
 		        <executions>
 		            <execution>
 		                <id>pit-report</id>
@@ -108,7 +119,7 @@
 		            </execution>
 		        </executions>
 
-		        <!--allows to work with JUnit 5-->
+		        <!-- allows to work with JUnit 5 -->
 		        <dependencies>
 		            <dependency>
 		                <groupId>org.pitest</groupId>
@@ -117,19 +128,17 @@
 		            </dependency>
 		        </dependencies>
 
-			<configuration>
-		        <!-- PABLO: NO COMPILABA
-			        <targetTests>
-		    			<param>${package}.*</param>
+		        <!-- optional -->
+		         <configuration>
+			        <!--  <targetTests>                   
+		    			<param>java2.util2.linkedlist.LinkedListTest</param>
 		    			<param>utils.*</param>
 
-					</targetTests>
+					 </targetTests> -->
 
 			       <targetClasses>
 				    	<param>${package}.*</param>
 					</targetClasses>
-					-->
-
 		            <outputFormats>
 		                <param>CSV</param>
 		                <param>HTML</param>

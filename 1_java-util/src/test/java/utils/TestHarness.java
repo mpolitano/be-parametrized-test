@@ -1,7 +1,7 @@
 package utils;
 
 import java2.util2.Collection;
-import java2.util2.Random;
+import java.util.Random;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +9,7 @@ import utils.Config;
 import utils.Reports;
 import utils.Serializer;
 
+import java2.util2.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,7 +28,7 @@ public class TestHarness {
 
     @BeforeEach
     public void before() {
-
+    	
     }
 
     @AfterAll
@@ -43,6 +44,13 @@ public class TestHarness {
         Object [] arr = c.toArray();
         int index = randomGen.nextInt(arr.length);
         return arr[index];
+    }
+    
+    public static Collection getCollection() {
+    	List<Collection> coll = serializer.getCollection();
+    	Random rand = new Random();
+    	Collection randomElement = coll.get(rand.nextInt(coll.size()));   
+    	return randomElement;
     }
 
     public static int getInt(int min, int max) {

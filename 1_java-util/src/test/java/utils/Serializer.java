@@ -7,11 +7,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java2.util2.Collection;
+import java2.util2.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Serializer {
     XStream xstream;
-
+    List<Collection> coll = new ArrayList<Collection>();;
     public Serializer() {
         xstream = new XStream();
         xstream.allowTypesByRegExp(new String[]{".*"});
@@ -26,6 +29,7 @@ public class Serializer {
                 while (true) {
                     o = ois.readObject();
                     objs.add(o);
+                    coll.add((Collection) o);
                 }
             } catch (EOFException e) {
                 /* The loop ends here */ }
@@ -41,6 +45,9 @@ public class Serializer {
         String objXML = xstream.toXML(obj);
         return xstream.fromXML(objXML);
     }
-
+    
+    public List<Collection> getCollection() {
+    	return coll;
+    }
 
 }
