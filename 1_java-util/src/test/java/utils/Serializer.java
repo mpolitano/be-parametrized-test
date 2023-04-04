@@ -14,14 +14,13 @@ import java.util.Random;
 
 public class Serializer {
     XStream xstream;
-    List<Collection> coll = new ArrayList<Collection>();;
+    List<Object> objs = new ArrayList<>();
     public Serializer() {
         xstream = new XStream();
         xstream.allowTypesByRegExp(new String[]{".*"});
     }
 
     public List<Object> readObjectsFromFile(String file) {
-        List<Object> objs = new ArrayList<>();
         try {
             ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file));
             Object o;
@@ -29,7 +28,7 @@ public class Serializer {
                 while (true) {
                     o = ois.readObject();
                     objs.add(o);
-                    coll.add((Collection) o);
+					// coll.add((Object) o);
                 }
             } catch (EOFException e) {
                 /* The loop ends here */ }
@@ -45,9 +44,9 @@ public class Serializer {
         String objXML = xstream.toXML(obj);
         return xstream.fromXML(objXML);
     }
-    
-    public List<Collection> getCollection() {
-    	return coll;
+
+    public List<Object> getCollection() {
+    	return objs;
     }
 
 }

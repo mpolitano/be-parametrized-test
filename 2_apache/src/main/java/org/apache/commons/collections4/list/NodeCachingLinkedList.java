@@ -61,7 +61,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
      * The size of the cache.
      */
     private  int cacheSize;
- 
+
     /**
      * The maximum size of the cache.
      */
@@ -260,13 +260,13 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
             buf.append(node.getValue());
             node = node.next;
             i++;
-            if (i < super.size()) 
+            if (i < super.size())
                 buf.append(",");
         }
         buf.append("]");
 
         buf.append("-");
-        
+
         Node nodeC = firstCachedNode;
         buf.append('[');
         i=0;
@@ -274,7 +274,7 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
             buf.append(nodeC.getValue());
             nodeC = nodeC.next;
             i++;
-            if (i < cacheSize) 
+            if (i < cacheSize)
                 buf.append(",");
         }
         buf.append("]");
@@ -286,86 +286,86 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
 //        return super.toString();
     }
     */
-    public boolean repOK(){
-
-        if (this.header == null)
-          return false;
-
-        if (this.header.next == null)
-          return false;
-
-        if (this.header.previous == null)
-          return false;
-
-        if (this.cacheSize > this.maximumCacheSize)
-          return false;
-
-        //if (this.DEFAULT_MAXIMUM_CACHE_SIZE != 20)
-        //  return false;
-
-        if (this.size < 0)
-          return false;
-
-        int cyclicSize = 0;
-
-        Node n = this.header;
-        do
-        {
-            cyclicSize++;
-
-            if (n.previous == null)
-              return false;
-
-            if (n.previous.next != n)
-              return false;
-
-            if (n.next == null)
-              return false;
-
-            if (n.next.previous != n)
-              return false;
-
-           
-            if (n != null) {
-                n = n.next;
-            }
-        } while (n != this.header && n != null);
-
-        if (n == null)
-          return false;
-
-        if (this.size != cyclicSize - 1)
-          return false;
-
-        int acyclicSize = 0;
-        Node m = this.firstCachedNode;
-
-        java.util.Set<Node> visited = new java.util.HashSet<Node>();
-        visited.add(this.firstCachedNode);
-
-        while (m != null)
-        {
-            acyclicSize++;
-
-            if (m.previous != null)
-              return false;
-
-           // if (m.value != null)
-            // return false;
-
-            m = m.next;
-
-            if (!visited.add(m))
-              return false;
-
-        }
-
-        if (this.cacheSize != acyclicSize) {
-          return false;
-        }
-
-        return true;
-    }
+//    public boolean repOK(){
+//
+//        if (this.header == null)
+//          return false;
+//
+//        if (this.header.next == null)
+//          return false;
+//
+//        if (this.header.previous == null)
+//          return false;
+//
+//        if (this.cacheSize > this.maximumCacheSize)
+//          return false;
+//
+//        //if (this.DEFAULT_MAXIMUM_CACHE_SIZE != 20)
+//        //  return false;
+//
+//        if (this.size < 0)
+//          return false;
+//
+//        int cyclicSize = 0;
+//
+//        Node n = this.header;
+//        do
+//        {
+//            cyclicSize++;
+//
+//            if (n.previous == null)
+//              return false;
+//
+//            if (n.previous.next != n)
+//              return false;
+//
+//            if (n.next == null)
+//              return false;
+//
+//            if (n.next.previous != n)
+//              return false;
+//
+//
+//            if (n != null) {
+//                n = n.next;
+//            }
+//        } while (n != this.header && n != null);
+//
+//        if (n == null)
+//          return false;
+//
+//        if (this.size != cyclicSize - 1)
+//          return false;
+//
+//        int acyclicSize = 0;
+//        Node m = this.firstCachedNode;
+//
+//        java.util.Set<Node> visited = new java.util.HashSet<Node>();
+//        visited.add(this.firstCachedNode);
+//
+//        while (m != null)
+//        {
+//            acyclicSize++;
+//
+//            if (m.previous != null)
+//              return false;
+//
+//           // if (m.value != null)
+//            // return false;
+//
+//            m = m.next;
+//
+//            if (!visited.add(m))
+//              return false;
+//
+//        }
+//
+//        if (this.cacheSize != acyclicSize) {
+//          return false;
+//        }
+//
+//        return true;
+//    }
 
 
 }

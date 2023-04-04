@@ -6,6 +6,7 @@
  */
 
 package java2.util2.treeset;
+import java2.util2.Set;
 import java2.util2.hashmap.HashSet;
 import java2.util2.Comparator;
 /**
@@ -62,12 +63,12 @@ import java2.util2.Comparator;
  *
  * @author  Josh Bloch
  * @version 1.26, 01/23/03
- * @see	    Collection
- * @see	    Set
+// * @see	    Collection
+// * @see	    Set
  * @see	    HashSet
  * @see     Comparable
  * @see     Comparator
- * @see	    Collections#synchronizedSortedSet(SortedSet)
+// * @see	    Collections#synchronizedSortedSet(SortedSet)
  * @see	    TreeMap
  * @since   1.2
  */
@@ -75,7 +76,7 @@ public class TreeSet implements java.io.Serializable, Comparable<Object>  {
 	  private static final long serialVersionUID = 1L;
 
   private TreeMap<?> m; // The backing Map
-//  private Set keySet; // The keySet view of the backing Map
+  private Set keySet; // The keySet view of the backing Map
 
   // Dummy value to associate with an Object in the backing Map
   private static final Object PRESENT = new Object();
@@ -85,9 +86,9 @@ public class TreeSet implements java.io.Serializable, Comparable<Object>  {
    */
   private TreeSet(TreeMap m) {
     this.m = m;
-//    keySet = m.keySet();
+    keySet = m.keySet();
   }
-  
+
   @Override
   public String toString() {
 	  return m.toString();
@@ -485,13 +486,13 @@ public class TreeSet implements java.io.Serializable, Comparable<Object>  {
 //
 //    ((TreeMap) m).readTreeSet(size, s, PRESENT);
 //  }
-  
+
   public boolean repOK() {
 		if (m == null)
 			return false;
 		return m.repOK();
 	}
-	
+
 	public boolean isBinTreeWithParentReferences() {
       if (m == null)
           return false;
@@ -504,5 +505,5 @@ public class TreeSet implements java.io.Serializable, Comparable<Object>  {
 		return 0;
 	}
 
-	
+
 }

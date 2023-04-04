@@ -47,7 +47,7 @@ import java2.util2.*;
  * expected number of entries in the map and its load factor should be taken
  * into account when setting its initial capacity, so as to minimize the
  * number of <tt>rehash</tt> operations.  If the initial capacity is greater
- * than the 
+ * than the
 maximum number of entries divided by the load factor, no
  * <tt>rehash</tt> operations will ever occur.
  *
@@ -103,7 +103,7 @@ maximum number of entries divided by the load factor, no
  */
 public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Serializable {
   /**
-	 * 
+	 *
 	 */
 
 /**
@@ -660,7 +660,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   public static class Entry implements Map.Entry, java.io.Serializable {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	public final Object key;
@@ -742,7 +742,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   private abstract class HashIterator implements Iterator,java.io.Serializable{
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	Entry next; // next entry to return
@@ -794,7 +794,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   private class ValueIterator extends HashIterator implements java.io.Serializable{
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -805,7 +805,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   private class KeyIterator extends HashIterator implements java.io.Serializable {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -816,7 +816,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   private class EntryIterator extends HashIterator implements java.io.Serializable {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -860,7 +860,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   private class KeySet extends AbstractSet implements java.io.Serializable {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -903,7 +903,7 @@ DEFAULT_INITIAL_CAPACITY];
 //
 //  private class Values extends AbstractCollection implements java.io.Serializable {
 //    /**
-//	 * 
+//	 *
 //	 */
 //	private static final long serialVersionUID = 1L;
 //
@@ -944,7 +944,7 @@ DEFAULT_INITIAL_CAPACITY];
 
   private class EntrySet extends AbstractSet implements java.io.Serializable{
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -1009,26 +1009,26 @@ DEFAULT_INITIAL_CAPACITY];
    * Reconstitute the <tt>HashMap</tt> instance from a stream (i.e.,
    * deserialize it).
    */
-  private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
-    // Read in the threshold, loadfactor, and any hidden stuff
-    s.defaultReadObject();
-
-    // Read in number of buckets and allocate the bucket array;
-    int numBuckets = s.readInt();
-    table = new Entry[numBuckets];
-
-    init(); // Give subclass a chance to do its thing.
-
-    // Read in size (number of Mappings)
-    int size = s.readInt();
-
-    // Read the keys and values, and put the mappings in the HashMap
-    for (int i = 0; i < size; i++) {
-      Object key = s.readObject();
-      Object value = s.readObject();
-      putForCreate(key, value);
-    }
-  }
+//  private void readObject(java.io.ObjectInputStream s) throws IOException, ClassNotFoundException {
+//    // Read in the threshold, loadfactor, and any hidden stuff
+//    s.defaultReadObject();
+//
+//    // Read in number of buckets and allocate the bucket array;
+//    int numBuckets = s.readInt();
+//    table = new Entry[numBuckets];
+//
+//    init(); // Give subclass a chance to do its thing.
+//
+//    // Read in size (number of Mappings)
+//    int size = s.readInt();
+//
+//    // Read the keys and values, and put the mappings in the HashMap
+//    for (int i = 0; i < size; i++) {
+//      Object key = s.readObject();
+//      Object value = s.readObject();
+//      putForCreate(key, value);
+//    }
+//  }
 
   // These methods are used when serializing HashSets
   int capacity() {
@@ -1038,13 +1038,13 @@ DEFAULT_INITIAL_CAPACITY];
   float loadFactor() {
     return loadFactor;
   }
-  
+
 //  public String toString() {
 //	  StringBuilder buf = new StringBuilder();
 //	  buf.append("{");
 //
 //	  List sorted = new ArrayList(keySet());
-//	  
+//
 //	  boolean firstNull = false;
 //	  if (sorted.remove(null)) {
 //		  Object key = null;
@@ -1052,9 +1052,9 @@ DEFAULT_INITIAL_CAPACITY];
 //		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
 //		  firstNull = true;
 //	  }
-//	  
+//
 //	  Collections.sort(sorted);
-//	  
+//
 //	  Iterator i = sorted.iterator();
 //	  boolean hasNext = i.hasNext();
 //	  while (hasNext) {
@@ -1062,7 +1062,7 @@ DEFAULT_INITIAL_CAPACITY];
 //			  buf.append(", ");
 //			  firstNull = false;
 //		  }
-//		  
+//
 //		  Object key = i.next();
 //		  Object value = get(key);
 //		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
@@ -1074,31 +1074,12 @@ DEFAULT_INITIAL_CAPACITY];
 //	  buf.append("}");
 //	  return buf.toString();
 //  }
-//  
-  
-  public boolean repOK() {
-		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();
-		for (int i = 0; i < DEFAULT_INITIAL_CAPACITY; i++)
-			if (!isLinkedList(i, visited))
-				return false;
-		return true;
-	}
-
-	private boolean isLinkedList(int index, java.util.Set<Entry> visited) {
-		Entry current = table[index];
-		while (current != null) {
-			if (!visited.add(current))
-				return false;
-			current = current.next;
-		}
-		return true;
-	}
-
+//
 	@Override
 	public Collection values() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-  
-  
+
+
 }

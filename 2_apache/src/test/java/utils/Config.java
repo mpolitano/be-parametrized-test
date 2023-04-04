@@ -4,17 +4,12 @@ import java.util.Properties;
 
 public class Config {
 
-    
-    
 	public static int scope;
 	public static int literals;
-
-	public static String path;
     public static String tool;
     public static String clazz;
 
-    public static void readEnvironmentVariables() {
-
+    public static void readConfig() {
         String propFile = System.getProperty("properties", "config.properties");
         Properties props = new Properties();
         try {
@@ -23,16 +18,15 @@ public class Config {
             literals = Integer.parseInt(props.getProperty("literals"));
             tool = props.getProperty("tool");
             clazz = props.getProperty("clazz");
-
-            path = props.getProperty("path");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             System.exit(1);
         }
-
     }
 
- 
+    public static String getPath() {
+        return "serialize/" + clazz + "/" + Config.scope + "/" + Config.tool + "/randoop.xml";
+    }
 
 }

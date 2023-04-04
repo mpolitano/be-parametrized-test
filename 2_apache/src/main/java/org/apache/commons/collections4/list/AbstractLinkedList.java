@@ -159,15 +159,14 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     }
 
     public boolean containsAll(final java.util.Collection coll) {
-		return false;
+
+        for (final Object o : coll) {
+            if (!contains((Integer)o)) {
+                return false;
+            }
+        }
+        return true;
     }
-//        for (final Object o : coll) {
-//            if (!contains((Integer)o)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 
     //-----------------------------------------------------------------------
 
@@ -228,8 +227,8 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
         }
         return true;
     }
-   
-    
+
+
     //-----------------------------------------------------------------------
 
     public Object remove(final int index) {
@@ -643,7 +642,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     protected static class Node  implements java.io.Serializable{
 
         /**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		/** A pointer to the node before this node */
@@ -751,7 +750,7 @@ public abstract class AbstractLinkedList implements org.apache.commons.collectio
     /**
      * A list iterator over the linked list.
      */
-    
+
     protected static class LinkedListIterator implements org.apache.commons.collections4.ListIterator, OrderedIterator {
 
         /** The parent list */

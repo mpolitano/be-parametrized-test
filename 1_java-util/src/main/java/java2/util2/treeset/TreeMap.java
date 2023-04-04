@@ -7,6 +7,7 @@
 
 package java2.util2.treeset;
 import java2.util2.*;
+
 /**
  * Red-Black tree based implementation of the <tt>SortedMap</tt> interface.
  * This class guarantees that the map will be in ascending key order, sorted
@@ -69,7 +70,7 @@ import java2.util2.*;
  * @author  Josh Bloch and Doug Lea
  * @version 1.56, 01/23/03
  * @see Map
- * @see HashMap
+// * @see HashMap
  * @see Hashtable
  * @see Comparable
  * @see Comparator
@@ -576,6 +577,7 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
    * so there's no reason to create more than one.
    */
   private transient volatile Set entrySet = null;
+  private transient volatile Set keySet = null;
 
   /**
    * Returns a Set view of the keys contained in this map.  The set's
@@ -589,35 +591,35 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
    *
    * @return a set view of the keys contained in this TreeMap.
    */
-// public Set keySet() {
-//   if (keySet == null) {
-//     keySet =
-//         new AbstractSet() {
-//           public Iterator iterator() {
-//             return new KeyIterator();
-//           }
-//
-//           public int size() {
-//             return TreeMap.this.size();
-//           }
-//
-//           public boolean contains(Object o) {
-//             return containsKey(o);
-//           }
-//
-//           public boolean remove(Object o) {
-//             int oldSize = size;
-//             TreeMap.this.remove(o);
-//             return size != oldSize;
-//           }
-//
-//           public void clear() {
-//             TreeMap.this.clear();
-//           }
-//         };
-//   }
-//   return keySet;
-// }
+ public Set keySet() {
+   if (keySet == null) {
+     keySet =
+         new AbstractSet() {
+           public Iterator iterator() {
+             return new KeyIterator();
+           }
+
+           public int size() {
+             return TreeMap.this.size();
+           }
+
+           public boolean contains(Object o) {
+             return containsKey(o);
+           }
+
+           public boolean remove(Object o) {
+             int oldSize = size;
+             TreeMap.this.remove(o);
+             return size != oldSize;
+           }
+
+           public void clear() {
+             TreeMap.this.clear();
+           }
+         };
+   }
+   return keySet;
+ }
 
   /**
    * Returns a collection view of the values contained in this map.  The
@@ -833,7 +835,7 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
    *     SortedMap tail = m.tailMap(low+"\0");
    * </pre>
    *
-   * @param fromKey low endpoint (inclusive) of the tailMap.
+//   * @param fromKey low endpoint (inclusive) of the tailMap.
    * @return a view of the portion of this map whose keys are greater
    *                than or equal to <tt>fromKey</tt>.
    * @throws ClassCastException if <tt>fromKey</tt> is not compatible
@@ -1043,11 +1045,11 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
     }
   }
 //
-//  private class KeyIterator extends EntryIterator {
-//    public Object next() {
-//      return nextEntry().key;
-//    }
-//  }
+  private class KeyIterator extends EntryIterator {
+    public Object next() {
+      return nextEntry().key;
+    }
+  }
 //
 //  private class ValueIterator extends EntryIterator {
 //    public Object next() {
@@ -1173,7 +1175,7 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
 		}
 		return true;
 	}
-	
+
 	private class Pair<T, U> {
 		private T a;
 		private U b;
@@ -1711,7 +1713,7 @@ public int compareTo(Object o) {
 //@Override
 //public void putAll(Map t) {
 //	// TODO Auto-generated method stub
-//	
+//
 //}
 //
 //@Override
