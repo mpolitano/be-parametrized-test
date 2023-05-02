@@ -22,11 +22,10 @@ public class TreeMapTest extends TestHarness {
 	 @Rule
 	  public final ExpectedException exception = ExpectedException.none();
 
-	//ADDs. Always add element to list.
 	@ParameterizedTest
 	@MethodSource("readObjects")
-	public void elementsDoesNotBelongToList() {
-		TreeMap l = (TreeMap) new TreeMap();
+	public void elementsDoesNotBelongToList(Object o) {
+		TreeMap l = (TreeMap) o;
 		int e = getInt(-1000, 1000);
 		int k = getInt(-1000, 1000);
 		if (!l.containsKey(e)) {
@@ -36,6 +35,20 @@ public class TreeMapTest extends TestHarness {
 //			assertTrue(l.containsKey(res));
 			assertEquals(oldSize + 1, l.size());
 		}
+	}
+
+	//ADDs. Always add element to list.
+	@ParameterizedTest
+	@MethodSource("readObjects")
+	public void elementsBelongToList(Object o) {
+		TreeMap l = (TreeMap) o;
+		if (l.isEmpty()) return;
+		Object e = getElementFrom(l);
+		Object k = getInt(-1000, 1000);
+		int oldSize = l.size();
+		Object res = l.put(e,k);
+		assertTrue(l.containsKey(e));
+		assertEquals(oldSize , l.size());
 	}
 
 	@ParameterizedTest
@@ -172,7 +185,7 @@ public class TreeMapTest extends TestHarness {
 		TreeMap t = new TreeMap();
 	}
 
-	
+
 }
 //
 //	//Check collection. Get Collection?
