@@ -1,2 +1,2 @@
-java2.util2.hashmap.HashSet()
-java2.util2.hashmap.HashSet.add(java.lang.Object)
+java2.util2.hashmap.HashSet.<init>\(\)
+java2.util2.hashmap.HashSet.add\(java.lang.Object\)

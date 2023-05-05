@@ -12,15 +12,6 @@ function process_results() {
     for casestudy in $projects
     do
         currdir=$resultsdir/$casestudy
-        # cases=$(ls $currdir)
-        # [[ $cases == "" ]] && echo "No case studies found in $currdir" && continue;
-        # for casestudy in $cases 
-        # do
-            # currdir=$resultsdir/$project/$casestudy
-            # for technique in $techniques 
-            # do
-            #     currdir=$resultsdir/$project/$casestudy/$technique
-            #     [[ ! -d $currdir ]] && continue;
                 budgets=$(ls $currdir)
                 [[ $budgets == "" ]] && echo "No budgets found in $currdir" && continue;
                 for budget in $budgets
@@ -57,31 +48,7 @@ function process_results() {
                         branchesmiss=$(echo $covline | cut -d',' -f6)
                         branchescov=$(echo $covline | cut -d',' -f7)
                     fi
-
-                    # Process mutation
-                    #pitinstrcov=""
-                    #pittotalinstr=""
-                    #mutantskilled=""
-                    #totalmutants=""
-                    #pitreport=$(ls $currdir/pitReports/*/*/index.html 2> /dev/null)
-                    #if [[ $pitreport != "" ]]; then
-                    #    caselinenum=$(grep -n ">$classname.java<" $pitreport | cut -d':' -f1)
-                    #    instrline=$(sed -n $(($caselinenum+1))p $pitreport)
-                    #    mutationline=$(sed -n $(($caselinenum+2))p $pitreport)
-                    #    pitinstrcov=$(echo $instrline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f1) 
-                    #    pittotalinstr=$(echo $instrline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f2) 
-                    #    mutantskilled=$(echo $mutationline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f1) 
-                    #    totalmutants=$(echo $mutationline | cut -d'<' -f8 | cut -d'>' -f2 | cut -d'/' -f2) 
-                    #fi
-
-                    # measure_mutation $basedir $casestudy
-
-                    #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
-                    #echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesmiss,$branchescov,$branchesmiss,$pitinstrcov,$pittotalinstr,$mutantskilled,$totalmutants" >> $tmpfile
                     echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$branchescov,$mutantskilled,$totalmutants" >> $tmpfile
-
-            #     done
-            # done
         done
     done
 }

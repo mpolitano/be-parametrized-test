@@ -15,9 +15,6 @@ projectdir=$projectsdir/$project
 resultsdir=$scriptsdir/results/$project/$class/$tool/$budget
 testSource=$projectdir/src/test/java/
 
-
-
-
 # if [[ -d $resultsdir ]]; then
 #     rm -rf $resultsdir
 # fi

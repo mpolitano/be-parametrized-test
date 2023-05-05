@@ -487,17 +487,17 @@ public class TreeSet implements java.io.Serializable, Comparable<Object>  {
 //    ((TreeMap) m).readTreeSet(size, s, PRESENT);
 //  }
 
-  public boolean repOK() {
-		if (m == null)
-			return false;
-		return m.repOK();
-	}
-
-	public boolean isBinTreeWithParentReferences() {
-      if (m == null)
-          return false;
-      return m.isBinTreeWithParentReferences();
-  }
+//  public boolean repOK() {
+//		if (m == null)
+//			return false;
+//		return m.repOK();
+//	}
+//
+//	public boolean isBinTreeWithParentReferences() {
+//      if (m == null)
+//          return false;
+//      return m.isBinTreeWithParentReferences();
+//  }
 
 	@Override
 	public int compareTo(Object o) {

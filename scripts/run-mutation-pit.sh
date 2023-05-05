@@ -1,4 +1,4 @@
-#!/bin/bash
+	#!/bin/bash
 project=$1
 class=$2
 tool=$3
@@ -36,9 +36,9 @@ else #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
-	test=${class//*.}Test
+	test=${packagename}.${class//*.}Test
 fi
-cmd="timeout 3600 mvn -B clean test-compile org.pitest:pitest-maven:mutationCoverage -Dpackage=${packagename} >> $explog"
+cmd="timeout 3600 mvn clean test-compile org.pitest:pitest-maven:mutationCoverage  -Dtest=${test} -Dpackage=${packagename} >> $explog"
 echo ""
 echo "> Running pit $cmd"
 bash -c "$cmd"
@@ -54,4 +54,4 @@ echo ""
 echo "> Saving pit: $cmd"
 bash -c "$cmd" 
 
-rm -r $projectdir/target/* 
+# rm -r $projectdir/target/* 

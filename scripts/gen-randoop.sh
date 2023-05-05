@@ -40,6 +40,7 @@ randoop.main.Main gentests \
 --only-test-public-members=false \
 --forbid-null=true \
 --null-ratio=0 \
+--testsperfile=300 \
 --omit-classes=\"java2.util2.linkedlist.LinkedList.ListItr\" \
 $omitmethods
 

@@ -95,7 +95,6 @@ function process_results() {
                             arrMutants=(${mutants//,/ })
                             mutantsKilled=${arrMutants[0]}
                             mutantsNoKilled=${arrMutants[1]}
-                            echo $mutantsKilled
                             mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
                             
                             mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
@@ -104,8 +103,6 @@ function process_results() {
                         fi 
                     fi
 #
-                    #echo "Project,Class,Technique,Budget,Tests,Testing time,Lines cov,Lines miss,Branches cov,Branches miss,Lines cov,Lines,Mutants killed,Mutants"
-                    #echo "$project,$casestudy,$technique,$budget,$testsnum,$runtime,$linescov,$linesmiss,$branchescov,$branchesmiss,$pitinstrcov,$pittotalinstr,$mutantskilled,$totalmutants" >> $tmpfile
                     echo "$project,$casestudy,$technique,$budget,$objects,$testsnum,$runtime,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime" >> $tmpfile
 
                 done

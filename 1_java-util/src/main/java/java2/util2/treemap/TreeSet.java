@@ -87,7 +87,7 @@ public class TreeSet implements java.io.Serializable  {
     this.m = m;
 //    keySet = m.keySet();
   }
-  
+
   @Override
   public String toString() {
 	  return m.toString();
@@ -485,18 +485,18 @@ public class TreeSet implements java.io.Serializable  {
 //
 //    ((TreeMap) m).readTreeSet(size, s, PRESENT);
 //  }
-  
-  public boolean repOK() {
-		if (m == null)
-			return false;
-		return m.repOK();
-	}
-	
-	public boolean isBinTreeWithParentReferences() {
-      if (m == null)
-          return false;
-      return m.isBinTreeWithParentReferences();
-  }
 
-	
+//  public boolean repOK() {
+//		if (m == null)
+//			return false;
+//		return m.repOK();
+//	}
+
+//	public boolean isBinTreeWithParentReferences() {
+//      if (m == null)
+//          return false;
+//      return m.isBinTreeWithParentReferences();
+//  }
+
+
 }

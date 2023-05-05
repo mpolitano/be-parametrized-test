@@ -125,6 +125,19 @@ public class TreeMapTest extends TestHarness {
 
 	@ParameterizedTest
 	@MethodSource("readObjects")
+	public void get_test(Object o) {
+		TreeMap l = (TreeMap) o;
+		if (l.isEmpty()) return;
+		Object e = getElementFrom(l);
+		int oldSize = l.size();
+		Object c = l.get(e);
+		assertTrue(l.containsValue(c));
+		assertTrue(l.containsKey(e));
+		assertEquals(oldSize, l.size());
+	}
+
+	@ParameterizedTest
+	@MethodSource("readObjects")
 	public void empty_test(Object o) {
 		TreeMap l = (TreeMap) o;
 		if (l.isEmpty()) return;

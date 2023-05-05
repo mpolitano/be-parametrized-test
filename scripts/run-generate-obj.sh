@@ -30,11 +30,7 @@ testSource=$projectdir/src/test/java/
 # rm -r $testSource
 # mkdir $testSource
 
-#Need generate serialize
-cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
-echo ""
-echo "> Generating/serialize tests: $cmd"
-bash -c "$cmd" 
+
 
 
 # mvn -B clean compile 
@@ -42,6 +38,11 @@ bash -c "$cmd"
 
 #move to common.sh
 if [[ $tool == "randoop" ]]; then 
+	#Need generate randoop test
+	cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
+	echo ""
+	echo "> Generating/serialize tests: $cmd"
+	bash -c "$cmd" 
 	# cmd="cp -r $projectdir/$tool-tests $resultsdir"
 	mkdir -p $testSource/${dirPackage}/
 	cmd="cp -r $projectdir/$tool-tests/${dirPackage}/Regression* $testSource/${dirPackage}/"
@@ -50,7 +51,13 @@ if [[ $tool == "randoop" ]]; then
 	bash -c "$cmd" 
 	test=RegressionTest
 
-else #need parameterized tests. Depends with builders or no builders
+else
+	#Need generate serialize. Randoop-builders randoop-serialize beapi
+	cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
+	echo ""
+	echo "> Generating/serialize tests: $cmd"
+	bash -c "$cmd" 
+	 #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties

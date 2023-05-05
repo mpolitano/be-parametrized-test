@@ -11,7 +11,6 @@ function run_many() {
         do
             for technique in $techniques 
             do
-                methodsfile=$scriptsdir/config/$project/methods/$casestudy
                 for budget in $scopes
                 do
                         ./run-tests-coverage.sh "$project" "$casestudy" "$budget" "$technique"
@@ -20,20 +19,21 @@ function run_many() {
         done
     done
 }
-scopes="5"
+scopes="4"
 
 
 projects="1_java-util"
-# cases="java2.util2.hashmap.HashMap"
-cases="java2.util2.linkedlist.LinkedList"
-techniques="randoop-serialize-builders"
+cases="java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap java2.util2.linkedlist.LinkedList"
+techniques="beapi randoop-serialize randoop-builders"
+# techniques="randoop"
+scopes="3"
+# scopes="180"
 run_many
-
-projects="3_builders"
-cases="builders.Schedule"
-# run_many
 
 projects="2_apache"
 cases="org.apache.commons.collections4.list.NodeCachingLinkedList"
+techniques="beapi randoop-serialize randoop-builders"
+# techniques="randoop"
 scopes="3"
-# run_many
+# scopes="180"
+run_many

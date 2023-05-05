@@ -52,7 +52,25 @@ public class TestHarness {
         return arr[index];
     }
 
-    public static Object getKeyFrom(TreeMap t) {
+	public static Object getElementFrom(HashMap c) {
+		Object [] arr = c.keySet().toArray();
+		int index = randomGen.nextInt(arr.length);
+		return arr[index];
+	}
+	public static Object getElementFrom(TreeMap c) {
+		Object [] arr = c.keySet().toArray();
+		int index = randomGen.nextInt(arr.length);
+		return arr[index];
+	}
+
+	public static Object getElementFromValues(TreeMap c) {
+		Object [] arr = c.entrySet().toArray();
+		int index = randomGen.nextInt(arr.length);
+		return arr[index];
+	}
+
+
+	public static Object getKeyFrom(TreeMap t) {
         Set setKey = t.keySet();
         Object [] arr = setKey.toArray();
         if (arr.length > 0 ) {
