@@ -27,16 +27,7 @@ echo "> Starting experiment: $@"
 packagename=${class%\.*}
 dirPackage=${packagename//.//}
 testSource=$projectdir/src/test/java/
-# rm -r $testSource
-# mkdir $testSource
 
-
-
-
-# mvn -B clean compile 
-
-
-#move to common.sh
 if [[ $tool == "randoop" ]]; then 
 	#Need generate randoop test
 	cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
@@ -52,7 +43,7 @@ if [[ $tool == "randoop" ]]; then
 	test=RegressionTest
 
 else
-	#Need generate serialize. Randoop-builders randoop-serialize beapi
+
 	cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
 	echo ""
 	echo "> Generating/serialize tests: $cmd"
@@ -63,38 +54,4 @@ else
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
 	test=${class//*.}Test
 	
-# 	mkdir -p $testSource/${dirPackage}/
-# 	cmd="cp -r $projectdir/testParametrized/${dirPackage}/* $testSource/${dirPackage}/"
-# 	echo ""
-# 	echo "> Copy tests parameterized: $cmd"
-# 	bash -c "$cmd" 
-
-# 	cmd="cp -r $projectdir/testParametrized/utils $testSource/"
-# 	echo ""
-# 	echo "> Copy utils for tests: $cmd"
-# 	bash -c "$cmd" 
-fi
-
-
-cmd="mvn -B test-compile test  -Dtest="${test}" >> $explog"
-echo ""
-echo "> Running test $cmd"
-bash -c "$cmd"
-cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
-	echo "> Save Test runner $cmd"
-	bash -c "$cmd"
-	
-if [[ $tool == "randoop" ]]; then 
-	#change is only parametrized
-	cmd="cp -r $projectdir/target/surefire-reports $resultsdir"
-	echo ""
-	echo "> Save Test runner $cmd"
-	bash -c "$cmd"
-	
-else
-
-	cmd="mv $resultsdir/tests.txt $resultsdir/testsCount.txt"
-	echo ""
-	echo "> Save Test count $cmd"
-	bash -c "$cmd"
 fi

@@ -114,7 +114,8 @@ function process_results() {
 
 echo "Project,Class,Technique,Budget,Objects,Tests,Testing time,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation"
 
-techniques="randoop randoop-serialize-builders randoop-serialize"
+# techniques="randoop randoop-serialize-builders randoop-serialize"
+techniques="beapi"
 process_results
 
 cat $tmpfile | sort -V

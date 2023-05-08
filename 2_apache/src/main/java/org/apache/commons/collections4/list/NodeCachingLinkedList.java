@@ -173,8 +173,8 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
         final Node nextCachedNode = firstCachedNode;
         node.previous = null;
         node.next = nextCachedNode;
-        // node.setValue(null);
-        node.setValue(value);
+		node.setValue(null);
+//        node.setValue(value);
         firstCachedNode = node;
         cacheSize++;
     }

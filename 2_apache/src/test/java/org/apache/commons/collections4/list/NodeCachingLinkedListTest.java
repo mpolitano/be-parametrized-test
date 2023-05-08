@@ -1,30 +1,16 @@
 package org.apache.commons.collections4.list;
 
 import org.junit.Rule;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.rules.ExpectedException;
-import utils.Config;
 import utils.TestHarness;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
-import java.io.BufferedWriter;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class NodeCachingLinkedListTest extends TestHarness {

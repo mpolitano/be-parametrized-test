@@ -23,7 +23,7 @@ set_config_options() {
 
     if [[ $builders == "builders" ]]
     then
-        buildersfile=$scriptsdir/config/$project/builders/$class
+        buildersfile=$scriptsdir/config/$project/builders-beapi/$class
         file_to_string $buildersfile "|"
         buildersstr=$strres
         beopts="$beopts --builder-methods=\"$buildersstr\""
