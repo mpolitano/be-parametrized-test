@@ -1,0 +1,4 @@
+org.apache.commons.collections4.list.NodeCachingLinkedList.<init>\(\)
+org.apache.commons.collections4.list.AbstractLinkedList.add\(java.lang.Object\)
+org.apache.commons.collections4.list.AbstractLinkedList.clear\(\)
+org.apache.commons.collections4.list.AbstractLinkedList.remove\(int\)

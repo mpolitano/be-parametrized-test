@@ -1,0 +1,50 @@
+package utils;
+
+import com.thoughtworks.xstream.XStream;
+
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Serializer {
+    XStream xstream;
+    List<Object> objs = new ArrayList<>();
+    public Serializer() {
+        xstream = new XStream();
+        xstream.allowTypesByRegExp(new String[]{".*"});
+    }
+
+    public List<Object> readObjectsFromFile(String file) {
+        try {
+            ObjectInputStream ois = xstream.createObjectInputStream(new FileInputStream(file));
+            Object o;
+            try {
+                while (true) {
+                    o = ois.readObject();
+                    objs.add(o);
+					// coll.add((Object) o);
+                }
+            } catch (EOFException e) {
+                /* The loop ends here */ }
+            ois.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Cannot deserialize file: " + file);
+        }
+        return objs;
+    }
+
+    public Object clone(Object obj) {
+        String objXML = xstream.toXML(obj);
+        return xstream.fromXML(objXML);
+    }
+
+    public List<Object> getCollection() {
+    	return objs;
+    }
+
+}
