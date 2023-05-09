@@ -91,12 +91,12 @@ public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Seri
    * @param c the collection whose elements are to be placed into this set.
    * @throws NullPointerException   if the specified collection is null.
    */
-  public HashSet(Collection c) {
-    // map = new HashMap(Math.max((int) (c.size() / 1f) + 1, 4));
-    map = new HashMap(Math.max((int)  1, 20));
-
-    addAll(c);
-  }
+//  public HashSet(Collection c) {
+//    // map = new HashMap(Math.max((int) (c.size() / 1f) + 1, 4));
+//    map = new HashMap(Math.max((int)  1, 20));
+//
+//    addAll(c);
+//  }
 
   /**
    * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
@@ -137,9 +137,9 @@ public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Seri
    * @throws     IllegalArgumentException if the initial capacity is less
    *             than zero, or if the load factor is nonpositive.
    */
-  HashSet(int initialCapacity, float loadFactor, boolean dummy) {
-    map = new LinkedHashMap(initialCapacity, loadFactor);
-  }
+//  HashSet(int initialCapacity, float loadFactor, boolean dummy) {
+//    map = new LinkedHashMap(initialCapacity, loadFactor);
+//  }
 
   /**
    * Returns an iterator over the elements in this set.  The elements
@@ -230,55 +230,62 @@ public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Seri
     }
   }
 
-  /**
-   * Save the state of this <tt>HashSet</tt> instance to a stream (that is,
-   * serialize this set).
-   *
-   * @serialData The capacity of the backing <tt>HashMap</tt> instance
-   *		   (int), and its load factor (float) are emitted, followed by
-   *		   the size of the set (the number of elements it contains)
-   *		   (int), followed by all of its elements (each an Object) in
-   *             no particular order.
-   */
-  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
-    // Write out any hidden serialization magic
-    s.defaultWriteObject();
+	public boolean repOK() {
+		if (map == null)
+			return false;
+		return map.repOK();
+	}
 
-    // Write out HashMap capacity and load factor
-    s.writeInt(map.capacity());
-    s.writeFloat(map.loadFactor());
 
-    // Write out size
-    s.writeInt(map.size());
-
-    // Write out all elements in the proper order.
-    for (Iterator i = map.keySet().iterator(); i.hasNext(); ) s.writeObject(i.next());
-  }
+	/**
+	 * Save the state of this <tt>HashSet</tt> instance to a stream (that is,
+	 * serialize this set).
+	 *
+	 * @serialData The capacity of the backing <tt>HashMap</tt> instance
+	 *		   (int), and its load factor (float) are emitted, followed by
+	 *		   the size of the set (the number of elements it contains)
+	 *		   (int), followed by all of its elements (each an Object) in
+	 *             no particular order.
+	 */
+//  private void writeObject(java.io.ObjectOutputStream s) throws java.io.IOException {
+//    // Write out any hidden serialization magic
+//    s.defaultWriteObject();
+//
+//    // Write out HashMap capacity and load factor
+//    s.writeInt(map.capacity());
+//    s.writeFloat(map.loadFactor());
+//
+//    // Write out size
+//    s.writeInt(map.size());
+//
+//    // Write out all elements in the proper order.
+//    for (Iterator i = map.keySet().iterator(); i.hasNext(); ) s.writeObject(i.next());
+//  }
 
   /**
    * Reconstitute the <tt>HashSet</tt> instance from a stream (that is,
    * deserialize it).
    */
-  private void readObject(java.io.ObjectInputStream s)
-      throws java.io.IOException, ClassNotFoundException {
-    // Read in any hidden serialization magic
-    s.defaultReadObject();
-
-    // Read in HashMap capacity and load factor and create backing HashMap
-    int capacity = s.readInt();
-    float loadFactor = s.readFloat();
-    map =
-        (this instanceof LinkedHashSet
-            ? new LinkedHashMap(capacity, loadFactor)
-            : new HashMap(capacity, loadFactor));
-
-    // Read in size
-    int size = s.readInt();
-
-    // Read in all elements in the proper order.
-    for (int i = 0; i < size; i++) {
-      Object e = s.readObject();
-      map.put(e, PRESENT);
-    }
-  }
+//  private void readObject(java.io.ObjectInputStream s)
+//      throws java.io.IOException, ClassNotFoundException {
+//    // Read in any hidden serialization magic
+//    s.defaultReadObject();
+//
+//    // Read in HashMap capacity and load factor and create backing HashMap
+//    int capacity = s.readInt();
+//    float loadFactor = s.readFloat();
+//    map =
+//        (this instanceof LinkedHashSet
+//            ? new LinkedHashMap(capacity, loadFactor)
+//            : new HashMap(capacity, loadFactor));
+//
+//    // Read in size
+//    int size = s.readInt();
+//
+//    // Read in all elements in the proper order.
+//    for (int i = 0; i < size; i++) {
+//      Object e = s.readObject();
+//      map.put(e, PRESENT);
+//    }
+//  }
 }

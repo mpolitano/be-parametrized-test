@@ -49,7 +49,6 @@ public class NodeCachingLinkedListTest extends TestHarness {
 		}
 	}
 
-
 	@ParameterizedTest
 	@MethodSource("readObjects")
 	public void elementstBelongToList_put(Object o) {

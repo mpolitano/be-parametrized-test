@@ -97,7 +97,6 @@ maximum number of entries divided by the load factor, no
  * @see     Object#hashCode()
  * @see     Collection
  * @see	    Map
- * @see	    TreeMap
  * @see	    Hashtable
  * @since   1.2
  */
@@ -117,46 +116,46 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
    * by either of the constructors with arguments.
    * MUST be a power of two <= 1<<30.
    */
-  static final int MAXIMUM_CAPACITY = 100000;
-  // static final int MAXIMUM_CAPACITY = 1 << 30;
+//  static final int MAXIMUM_CAPACITY = 100000;
+   static final int MAXIMUM_CAPACITY = 1 << 30;
 
   /**
    * The load factor used when none specified in constructor.
    **/
   static final float DEFAULT_LOAD_FACTOR = 1f;
   // static final float DEFAULT_LOAD_FACTOR = 0.75f;
+	/**
+	 * The table, resized as necessary. Length MUST Always be a power of two.
+	 */
+	Entry[] table;
 
-  /**
-   * The table, resized as necessary. Length MUST Always be a power of two.
-   */
-  public Entry[] table;
+	/**
+	 * The number of key-value mappings contained in this identity hash map.
+	 */
+	private int size;
 
-  /**
-   * The number of key-value mappings contained in this identity hash map.
-   */
-   public int size;
+	/**
+	 * The next size value at which to resize (capacity * load factor).
+	 * @serial
+	 */
+	private int threshold;
 
-  /**
-   * The next size value at which to resize (capacity * load factor).
-   * @serial
-   */
-   public int threshold;
+	/**
+	 * The load factor for the hash table.
+	 *
+	 * @serial
+	 */
+	final float loadFactor;
 
-  /**
-   * The load factor for the hash table.
-   *
-   * @serial
-   */
-  final float loadFactor;
+	/**
+	 * The number of times this HashMap has been structurally modified
+	 * Structural modifications are those that change the number of mappings in
+	 * the HashMap or otherwise modify its internal structure (e.g.,
+	 * rehash).  This field is used to make iterators on Collection-views of
+	 * the HashMap fail-fast.  (See ConcurrentModificationException).
+	 */
+	public volatile int modCount;
 
-  /**
-   * The number of times this HashMap has been structurally modified
-   * Structural modifications are those that change the number of mappings in
-   * the HashMap or otherwise modify its internal structure (e.g.,
-   * rehash).  This field is used to make iterators on Collection-views of
-   * the HashMap fail-fast.  (See ConcurrentModificationException).
-   */
-  public volatile int modCount;
 
   /**
    * Constructs an empty <tt>HashMap</tt> with the specified initial
@@ -896,33 +895,33 @@ DEFAULT_INITIAL_CAPACITY];
    *
    * @return a collection view of the values contained in this map.
    */
-//  public Collection values() {
-//    Collection vs = values;
-//    return (vs != null ? vs : (values = new Values()));
-//  }
-//
-//  private class Values extends AbstractCollection implements java.io.Serializable {
-//    /**
-//	 *
-//	 */
-//	private static final long serialVersionUID = 1L;
-//
-//	public Iterator iterator() {
-//      return newValueIterator();
-//    }
-//
-//    public int size() {
-//      return size;
-//    }
-//
-//    public boolean contains(Object o) {
-//      return containsValue(o);
-//    }
-//
-//    public void clear() {
-//      HashMap.this.clear();
-//    }
-//  }
+  public Collection values() {
+    Collection vs = values;
+    return (vs != null ? vs : (values = new Values()));
+  }
+
+  private class Values extends AbstractCollection implements java.io.Serializable {
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Iterator iterator() {
+      return newValueIterator();
+    }
+
+    public int size() {
+      return size;
+    }
+
+    public boolean contains(Object o) {
+      return containsValue(o);
+    }
+
+    public void clear() {
+      HashMap.this.clear();
+    }
+  }
 
   /**
    * Returns a collection view of the mappings contained in this map.  Each
@@ -1039,46 +1038,26 @@ DEFAULT_INITIAL_CAPACITY];
     return loadFactor;
   }
 
-//  public String toString() {
-//	  StringBuilder buf = new StringBuilder();
-//	  buf.append("{");
-//
-//	  List sorted = new ArrayList(keySet());
-//
-//	  boolean firstNull = false;
-//	  if (sorted.remove(null)) {
-//		  Object key = null;
-//		  Object value = get(key);
-//		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
-//		  firstNull = true;
-//	  }
-//
-//	  Collections.sort(sorted);
-//
-//	  Iterator i = sorted.iterator();
-//	  boolean hasNext = i.hasNext();
-//	  while (hasNext) {
-//		  if (firstNull) {
-//			  buf.append(", ");
-//			  firstNull = false;
-//		  }
-//
-//		  Object key = i.next();
-//		  Object value = get(key);
-//		  buf.append((key == this ? "(this Map)" : key) + "=" + (value == this ? "(this Map)" : value));
-//
-//		  hasNext = i.hasNext();
-//		  if (hasNext) buf.append(", ");
-//	  }
-//
-//	  buf.append("}");
-//	  return buf.toString();
-//  }
-//
-	@Override
-	public Collection values() {
-		// TODO Auto-generated method stub
-		return null;
+
+	public boolean repOK() {
+		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();
+		for (int i = 0; i < table.length; i++)
+			if (!isLinkedList(i, visited))
+				return false;
+		return true;
+	}
+
+	private boolean isLinkedList(int index, java.util.Set<Entry> visited) {
+		Entry current = table[index];
+		while (current != null) {
+			if(! (current.getKey() instanceof Comparable) ) {
+				return false;
+			}
+			if (!visited.add(current))
+				return false;
+			current = current.next;
+		}
+		return true;
 	}
 
 

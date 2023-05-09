@@ -25,13 +25,15 @@ public class HashMapTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void elementsDoesNotBelongToList(Object o) {
 		HashMap l = (HashMap) o;
-		int e = getInt(-1000, 1000);
+		 if(l.isEmpty()) return;
+		 if(!l.repOK())  { addInvalidTest(); return; } //Maybe need filter one time before. Is better to Randoop
+		 Object e = getInt(-1000,1000);
 		int k = getInt(-1000, 1000);
 		if (!l.containsKey(e)) {
 			int oldSize = l.size();
 			Object res = l.put(e,k);
-//			assertTrue(res);
-//			assertTrue(l.containsKey(res));
+			assertNull(res);
+			assertTrue(l.containsKey(e));
 			assertEquals(oldSize + 1, l.size());
 		}
 	}
@@ -42,6 +44,7 @@ public class HashMapTest extends TestHarness {
 	public void elementsBelongToList(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  {return; }
 		Object e = getElementFrom(l);
 		Object k = getInt(-1000, 1000);
 		if(l.containsKey(e)) {
@@ -56,6 +59,8 @@ public class HashMapTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void clear(Object o) {
 		HashMap l = (HashMap) o;
+		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		l.clear();
 		assertEquals(l.size() , 0);
 	}
@@ -76,6 +81,7 @@ public class HashMapTest extends TestHarness {
 	public void noEleme_containsValue(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		Object e = getInt(-1000,1000);
 		if(!l.containsValue(e)) {
 			int oldSize = l.size();
@@ -89,6 +95,7 @@ public class HashMapTest extends TestHarness {
 	public void Belong_remove(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		Object e = getElementFrom(l);
 		if(l.containsKey(e)) {
 			int oldSize = l.size();
@@ -103,6 +110,7 @@ public class HashMapTest extends TestHarness {
 	public void noEleme_remove(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		Object e = getInt(-1000,1000);
 		if(!l.containsKey(e)) {
 			int oldSize = l.size();
@@ -118,6 +126,7 @@ public class HashMapTest extends TestHarness {
 	public void last_key_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		int oldSize = l.size();
 //		Object c = l.lastKey();
 //		assertTrue(l.containsKey(c));
@@ -129,6 +138,7 @@ public class HashMapTest extends TestHarness {
 	public void get_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		Object e = getElementFrom(l);
 		int oldSize = l.size();
 		Object c = l.get(e);
@@ -142,28 +152,20 @@ public class HashMapTest extends TestHarness {
 	public void empty_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
-			int oldSize = l.size();
-			boolean result = l.isEmpty();
-			assertEquals(result,false);
-			assertTrue(oldSize>0);
-	}
-
-	@ParameterizedTest
-	@MethodSource("readObjects")
-	public void non_empty_test(Object o) {
-		HashMap l = (HashMap) o;
-		if (!l.isEmpty()) return;
+		if(!l.repOK())  return;
 		int oldSize = l.size();
 		boolean result = l.isEmpty();
-		assertEquals(result,true);
-		assertTrue(oldSize==0);
+		assertEquals(result,false);
+		assertTrue(oldSize>0);
 	}
+
 
 	@ParameterizedTest
 	@MethodSource("readObjects")
 	public void first_key_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		int oldSize = l.size();
 //		Object c = l.firstKey();
 //		assertTrue(l.containsKey(c));
@@ -175,6 +177,7 @@ public class HashMapTest extends TestHarness {
 	public void toString_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
 		int oldSize = l.size();
 		String c = l.toString();
 	}
@@ -184,7 +187,8 @@ public class HashMapTest extends TestHarness {
 	public void comparator_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;
-//		l.comparator();
+		if(!l.repOK())  return;
+		//		l.comparator();
 	}
 
 	@Test
@@ -204,7 +208,7 @@ public class HashMapTest extends TestHarness {
 	}
 
 	@Test
-	public void elementsDoesNotBelongToList_remove_First(Object o) {
+	public void constructor_negative() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			HashMap t = new HashMap(-1);
 		});

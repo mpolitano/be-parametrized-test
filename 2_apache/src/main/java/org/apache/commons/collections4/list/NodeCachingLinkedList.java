@@ -191,10 +191,12 @@ public class NodeCachingLinkedList extends AbstractLinkedList  implements Serial
     public Node createNode(final Object value) {
         final Node cachedNode = getNodeFromCache();
         if (cachedNode == null) {
-            return super.createNode(value);
+            return super.createNode(null);
         }
-        cachedNode.setValue(value);
-        return cachedNode;
+//        cachedNode.setValue(value);
+		cachedNode.setValue(null);
+
+		return cachedNode;
     }
 
     /**

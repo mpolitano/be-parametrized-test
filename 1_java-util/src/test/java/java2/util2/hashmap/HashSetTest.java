@@ -26,32 +26,36 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void elementsDoesNotBelongToList(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  { addInvalidTest(); return; } //Maybe need filter one time before. Is better to Randoop
 		int e = getInt(-1000, 1000);
 		int k = getInt(-1000, 1000);
 		if (!l.contains(e)) {
 			int oldSize = l.size();
 			boolean res = l.add(e);
-//			assertTrue(res);
 			assertTrue(res);
 			assertEquals(oldSize + 1, l.size());
 		}
 	}
 
-	//ADDs. Always add element to list.
-//	@ParameterizedTest
-//	@MethodSource("readObjects")
-//	public void elementsBelongToList(Object o) {
-//		TreeSet l = (TreeSet) o;
-//		if (l.isEmpty()) return;
-//		int oldSize = l.size();
-//		assertTrue(l.containsKey(e));
-//		assertEquals(oldSize , l.size());
-//	}
+	@ParameterizedTest
+	@MethodSource("readObjects")
+	public void elementsBelongToList(Object o) {
+		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
+		if (l.isEmpty()) return;
+		Object e = getElementFrom(l);
+		int oldSize = l.size();
+		boolean res = l.add(e);
+		assertTrue(l.contains(e));
+		assertEquals(oldSize , l.size());
+	}
 
 	@ParameterizedTest
 	@MethodSource("readObjects")
 	public void clear(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
+		if (l.isEmpty()) return;
 		l.clear();
 		assertEquals(l.size() , 0);
 	}
@@ -71,6 +75,7 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void noElem_containsValue(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
 		Object e = getInt(-1000,1000);
 		if(!l.contains(e)) {
@@ -84,6 +89,7 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void belong_remove(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
 		Object e = getElementFrom(l);
 		int oldSize = l.size();
@@ -96,6 +102,7 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void noEleme_remove(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
 		Object e = getInt(-1000,1000);
 		if(!l.contains(e)) {
@@ -122,8 +129,9 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void empty_test(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
-			int oldSize = l.size();
+		int oldSize = l.size();
 			boolean result = l.isEmpty();
 			assertEquals(result,false);
 			assertTrue(oldSize>0);
@@ -133,7 +141,8 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void non_empty_test(Object o) {
 		HashSet l = (HashSet) o;
-		if (!l.isEmpty()) return;
+		if(!l.repOK())  return;
+		if (l.isEmpty()) return;
 		int oldSize = l.size();
 		boolean result = l.isEmpty();
 		assertEquals(result,true);
@@ -144,6 +153,7 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void first_key_test(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
 		int oldSize = l.size();
 		Object c = l.clone();
@@ -155,6 +165,7 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void toString_test(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
 		int oldSize = l.size();
 		String c = l.toString();
@@ -164,6 +175,7 @@ public class HashSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void hashCode_test(Object o) {
 		HashSet l = (HashSet) o;
+		if(!l.repOK())  return;
 		if (l.isEmpty()) return;
 		l.hashCode();
 	}

@@ -1,4 +1,4 @@
-package java2.util2.treeset;
+package java2.util2.treemap;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -26,32 +26,39 @@ public class TreeSetTest extends TestHarness {
 	@MethodSource("readObjects")
 	public void elementsDoesNotBelongToList(Object o) {
 		TreeSet l = (TreeSet) o;
-		int e = getInt(-1000, 1000);
+		if(l.isEmpty()) return;
+		if(!l.repOK())  { addInvalidTest(); return; } //Maybe need filter one time before. Is better to Randoop
+		Object e = getObj(l.first());
 		int k = getInt(-1000, 1000);
 		if (!l.contains(e)) {
 			int oldSize = l.size();
 			boolean res = l.add(e);
-//			assertTrue(res);
 			assertTrue(res);
 			assertEquals(oldSize + 1, l.size());
 		}
 	}
 
 	//ADDs. Always add element to list.
-//	@ParameterizedTest
-//	@MethodSource("readObjects")
-//	public void elementsBelongToList(Object o) {
-//		TreeSet l = (TreeSet) o;
-//		if (l.isEmpty()) return;
-//		int oldSize = l.size();
-//		assertTrue(l.containsKey(e));
-//		assertEquals(oldSize , l.size());
-//	}
+	@ParameterizedTest
+	@MethodSource("readObjects")
+	public void elementsBelongToList(Object o) {
+		TreeSet l = (TreeSet) o;
+		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
+		int oldSize = l.size();
+		Object e = l.first();
+		boolean res = l.add(e);
+		assertFalse(res);
+		assertTrue(l.contains(e));
+		assertEquals(oldSize , l.size());
+	}
 
 	@ParameterizedTest
 	@MethodSource("readObjects")
 	public void clear(Object o) {
 		TreeSet l = (TreeSet) o;
+		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
 		l.clear();
 		assertEquals(l.size() , 0);
 	}
@@ -72,7 +79,8 @@ public class TreeSetTest extends TestHarness {
 	public void noElem_containsValue(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
-		Object e = getInt(-1000,1000);
+		if(!l.repOK()) return;
+		Object e = getObj(l.first());
 		if(!l.contains(e)) {
 			int oldSize = l.size();
 			assertFalse(l.contains(e));
@@ -85,6 +93,7 @@ public class TreeSetTest extends TestHarness {
 	public void belong_remove(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
 		Object e = l.first();
 		int oldSize = l.size();
 		Object c = l.remove(e);
@@ -97,7 +106,8 @@ public class TreeSetTest extends TestHarness {
 	public void noEleme_remove(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
-		Object e = getInt(-1000,1000);
+		if(!l.repOK()) return;
+		Object e = getObj(l.first());
 		if(!l.contains(e)) {
 			int oldSize = l.size();
 			Object c = l.remove(e);
@@ -112,6 +122,7 @@ public class TreeSetTest extends TestHarness {
 	public void last_key_test(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
 		int oldSize = l.size();
 		Object c = l.last();
 		assertTrue(l.contains(c));
@@ -123,7 +134,8 @@ public class TreeSetTest extends TestHarness {
 	public void empty_test(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
-			int oldSize = l.size();
+		if(!l.repOK()) return;
+		int oldSize = l.size();
 			boolean result = l.isEmpty();
 			assertEquals(result,false);
 			assertTrue(oldSize>0);
@@ -134,6 +146,7 @@ public class TreeSetTest extends TestHarness {
 	public void non_empty_test(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (!l.isEmpty()) return;
+		if(!l.repOK()) return;
 		int oldSize = l.size();
 		boolean result = l.isEmpty();
 		assertEquals(result,true);
@@ -145,6 +158,7 @@ public class TreeSetTest extends TestHarness {
 	public void first_key_test(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
 		int oldSize = l.size();
 		Object c = l.first();
 		assertTrue(l.contains(c));
@@ -156,6 +170,7 @@ public class TreeSetTest extends TestHarness {
 	public void toString_test(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
 		int oldSize = l.size();
 		String c = l.toString();
 	}
@@ -165,6 +180,7 @@ public class TreeSetTest extends TestHarness {
 	public void comparator_test(Object o) {
 		TreeSet l = (TreeSet) o;
 		if (l.isEmpty()) return;
+		if(!l.repOK()) return;
 		l.comparator();
 	}
 

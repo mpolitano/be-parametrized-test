@@ -77,7 +77,7 @@ import java2.util2.*;
  * @see Collections#synchronizedMap(Map)
  * @since 1.2
  */
-public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, Comparable {
+public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable {
   /**
    * The Comparator used to maintain order in this TreeMap, or
    * null if this TreeMap uses its elements natural ordering.
@@ -1091,89 +1091,93 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
 
   private static final boolean RED = false;
   private static final boolean BLACK = true;
-//  public boolean repOK() {
-//		if (root != null) {
-//			if (!isBinTreeWithParentReferences())
-//				return false;
-//			if (!isWellColored())
-//				return false;
-//		}
-//		return true;
-//	}
-//
-//	public boolean isBinTreeWithParentReferences() {
-//		if (root == null)
-//			return true;
-//		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();
-//		java.util.LinkedList<Entry> worklist = new java.util.LinkedList<Entry>();
-//		visited.add(root);
-//		worklist.add(root);
-//		if (root.parent != null)
-//			return false;
-//
-//		while (!worklist.isEmpty()) {
-//			Entry node = worklist.removeFirst();
-//			Entry left = node.left;
-//			if (left != null) {
-//				if (!visited.add(left))
-//					return false;
-//				if (left.parent != node)
-//					return false;
-//				worklist.add(left);
-//			}
-//			Entry right = node.right;
-//			if (right != null) {
-//				if (!visited.add(right))
-//					return false;
-//				if (right.parent != node)
-//					return false;
-//				worklist.add(right);
-//			}
-//		}
-//		return true;
-//	}
-//
-//	public boolean isWellColored() {
-//		if (root.color != BLACK)
-//			return false;
-//		java.util.LinkedList worklist = new java.util.LinkedList();
-//		worklist.add(root);
-//		while (!worklist.isEmpty()) {
-//			Entry current = (Entry) worklist.removeFirst();
-//			Entry cl = current.left;
-//			Entry cr = current.right;
-//			if (current.color == RED) {
-//				if (cl != null && cl.color == RED)
-//					return false;
-//				if (cr != null && cr.color == RED)
-//					return false;
-//			}
-//			if (cl != null)
-//				worklist.add(cl);
-//			if (cr != null)
-//				worklist.add(cr);
-//		}
-//		int numberOfBlack = -1;
-//		java.util.LinkedList worklist2 = new java.util.LinkedList();
-//		worklist2.add(new Pair<Entry, Integer>(root, 0));
-//		while (!worklist2.isEmpty()) {
-//			Pair<Entry, Integer> p = (Pair<Entry, Integer>) worklist2.removeFirst();
-//			Entry e = p.first();
-//			int n = p.second();
-//			if (e != null && e.color == BLACK)
-//				n++;
-//			if (e == null) {
-//				if (numberOfBlack == -1)
-//					numberOfBlack = n;
-//				else if (numberOfBlack != n)
-//					return false;
-//			} else {
-//				worklist2.add(new Pair<Entry, Integer>(e.left, n));
-//				worklist2.add(new Pair<Entry, Integer>(e.right, n));
-//			}
-//		}
-//		return true;
-//	}
+  public boolean repOK() {
+		if (root != null) {
+			if (!isBinTreeWithParentReferences())
+				return false;
+			if (!isWellColored())
+				return false;
+		}
+		return true;
+	}
+
+	public boolean isBinTreeWithParentReferences() {
+		if (root == null)
+			return true;
+		java.util.Set<Entry> visited = new java.util.HashSet<Entry>();
+		java.util.LinkedList<Entry> worklist = new java.util.LinkedList<Entry>();
+		visited.add(root);
+		worklist.add(root);
+		if (root.parent != null)
+			return false;
+
+		while (!worklist.isEmpty()) {
+			Entry node = worklist.removeFirst();
+			Entry left = node.left;
+			if (left != null) {
+				if (!visited.add(left))
+					return false;
+				if (left.parent != node)
+					return false;
+				worklist.add(left);
+			}
+			Entry right = node.right;
+			if (right != null) {
+				if (!visited.add(right))
+					return false;
+				if (right.parent != node)
+					return false;
+				worklist.add(right);
+			}
+			if (node.getKey() == null)
+				return false;
+			if (!(node.getKey() instanceof Comparable))
+				return false;
+		}
+		return true;
+	}
+
+	public boolean isWellColored() {
+		if (root.color != BLACK)
+			return false;
+		java.util.LinkedList worklist = new java.util.LinkedList();
+		worklist.add(root);
+		while (!worklist.isEmpty()) {
+			Entry current = (Entry) worklist.removeFirst();
+			Entry cl = current.left;
+			Entry cr = current.right;
+			if (current.color == RED) {
+				if (cl != null && cl.color == RED)
+					return false;
+				if (cr != null && cr.color == RED)
+					return false;
+			}
+			if (cl != null)
+				worklist.add(cl);
+			if (cr != null)
+				worklist.add(cr);
+		}
+		int numberOfBlack = -1;
+		java.util.LinkedList worklist2 = new java.util.LinkedList();
+		worklist2.add(new Pair<Entry, Integer>(root, 0));
+		while (!worklist2.isEmpty()) {
+			Pair<Entry, Integer> p = (Pair<Entry, Integer>) worklist2.removeFirst();
+			Entry e = p.first();
+			int n = p.second();
+			if (e != null && e.color == BLACK)
+				n++;
+			if (e == null) {
+				if (numberOfBlack == -1)
+					numberOfBlack = n;
+				else if (numberOfBlack != n)
+					return false;
+			} else {
+				worklist2.add(new Pair<Entry, Integer>(e.left, n));
+				worklist2.add(new Pair<Entry, Integer>(e.right, n));
+			}
+		}
+		return true;
+	}
 
 	private class Pair<T, U> {
 		private T a;
@@ -1703,51 +1707,4 @@ public class TreeMap<E extends Comparable<E>>  implements java.io.Serializable, 
     return level;
   }
 
-@Override
-public int compareTo(Object o) {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-//@Override
-//public void putAll(Map t) {
-//	// TODO Auto-generated method stub
-//
-//}
-//
-//@Override
-//public Collection values() {
-//	// TODO Auto-generated method stub
-//	return values;
-//}
-//
-//@Override
-//public Set entrySet() {
-//	// TODO Auto-generated method stub
-//	return entrySet;
-//}
-
-//@Override
-//public SortedMap subMap(Object fromKey, Object toKey) {
-//	// TODO Auto-generated method stub
-//	return null;
-//}
-//
-//@Override
-//public SortedMap headMap(Object toKey) {
-//	// TODO Auto-generated method stub
-//	return null;
-//}
-//
-//@Override
-//public SortedMap tailMap(Object fromKey) {
-//	// TODO Auto-generated method stub
-//	return null;
-//}
-//
-//@Override
-//public Set entrySet() {
-//	// TODO Auto-generated method stub
-//	return entrySet;
-//}
 }

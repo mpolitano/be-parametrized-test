@@ -75,7 +75,7 @@ public class TreeSet implements java.io.Serializable  {
 	  private static final long serialVersionUID = 1L;
 
   private TreeMap m; // The backing Map
-//  private Set keySet; // The keySet view of the backing Map
+  private Set keySet; // The keySet view of the backing Map
 
   // Dummy value to associate with an Object in the backing Map
   private static final Object PRESENT = new Object();
@@ -85,7 +85,7 @@ public class TreeSet implements java.io.Serializable  {
    */
   private TreeSet(TreeMap m) {
     this.m = m;
-//    keySet = m.keySet();
+    keySet = m.keySet();
   }
 
   @Override
@@ -165,9 +165,9 @@ public class TreeSet implements java.io.Serializable  {
    *
    * @return an iterator over the elements in this set.
    */
-//  public Iterator iterator() {
-////    return keySet.iterator();
-//  }
+  public Iterator iterator() {
+    return keySet.iterator();
+  }
 
   /**
    * Returns the number of elements in this set (its cardinality).
@@ -486,11 +486,11 @@ public class TreeSet implements java.io.Serializable  {
 //    ((TreeMap) m).readTreeSet(size, s, PRESENT);
 //  }
 
-//  public boolean repOK() {
-//		if (m == null)
-//			return false;
-//		return m.repOK();
-//	}
+  public boolean repOK() {
+		if (m == null)
+			return false;
+		return m.repOK();
+	}
 
 //	public boolean isBinTreeWithParentReferences() {
 //      if (m == null)

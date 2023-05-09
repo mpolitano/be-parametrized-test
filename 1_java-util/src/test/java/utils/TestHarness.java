@@ -4,7 +4,6 @@ import java2.util2.Collection;
 import java.util.Random;
 
 import java2.util2.hashmap.HashMap;
-import java2.util2.treeset.TreeSet;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +22,12 @@ public class TestHarness {
     private static Serializer serializer;
     private static String pathFile;
     private static Random randomGen;
+	private static int invalids;
 
     @BeforeAll
     public static void init() {
         Config.readConfig();
+		invalids = 0;
         pathFile = Config.getPath();
         serializer = new Serializer();
         randomGen = new Random();
@@ -39,7 +40,7 @@ public class TestHarness {
 
     @AfterAll
     static void afterAll() {
-        Reports.end(Config.clazz);
+        Reports.end(invalids);
     }
 
     public static Stream<Object> readObjects() {
@@ -114,30 +115,51 @@ public class TestHarness {
         return randomGen.nextInt((max+1)-min)+min;
     }
 
-    public static Object getObj(Object t, int min, int max) {
+    public static Object getObj(Object t) {
     	Object type = t.getClass();
     	if (type == Integer.class) {
-            return randomGen.nextInt((max+1)-min)+min;
+            return randomGen.nextInt((1000+1)-1000)+1000;
     	}
     	if (type == Float.class) {
     		return randomGen.nextFloat();
     	}
+		if (type == Double.class) {
+			return randomGen.nextDouble();
+		}
+		if (type == Short.class) {
+			return (short)randomGen.nextInt(Short.MAX_VALUE + 1);
+		}
+		if (type == Long.class) {
+			return randomGen.nextLong();
+		}
     	if (type == Byte.class) {
-    		return getByte(t,min,max);
+    		return getByte();
     	}
     	if (type == Character.class) {
-    		return getChar(t,min,max);
+    		return getChar();
     	}
+		if (type == Boolean.class) {
+			return randomGen.nextBoolean();
+		}
+		if (type == String.class) {
+			return getString();
+		}
+		System.out.println(type);
     	return null;
     }
 
-    public static Object getChar(Object t, int min, int max) {
+    public static Object getChar() {
     	String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     	char letter = abc.charAt(randomGen.nextInt(abc.length()));
     	return letter;
     }
 
-    public static Object getByte(Object t, int min, int max) {
+	public static Object getString() {
+		String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		return abc;
+	}
+
+    public static Object getByte() {
         byte[] arr = new byte[1];
     	randomGen.nextBytes(arr);
     	return arr[0];
@@ -154,6 +176,10 @@ public class TestHarness {
     	return false;
     }
 
+
+	public static void addInvalidTest() {
+		invalids++;
+	}
 
 
 }
