@@ -24,15 +24,21 @@ scopes="4"
 
 projects="1_java-util"
 cases="java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap java2.util2.linkedlist.LinkedList"
-techniques="randoop-serialize randoop-builders randoop"
-scopes="10"
-# run_many
+techniques="randoop-serialize randoop"
+scopes="20 60 120 300"
+run_many
 
 projects="1_java-util"
 cases="java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap java2.util2.linkedlist.LinkedList"
+techniques="randoop-builders"
+scopes="5 10 20"
+run_many
+
+projects="1_java-util"
+cases="java2.util2.treemap.TreeMap java2.util2.treemap.TreeSet java2.util2.hashmap.HashMap java2.util2.hashmap.HashSet java2.util2.linkedlist.LinkedList"
 techniques="beapi"
-scopes="4"
-# run_many
+scopes="3 4 5 6"
+run_many
 
 
 
@@ -50,5 +56,5 @@ techniques="randoop-serialize randoop-builders randoop"
 techniques="beapi"
 # scopes="10"
 scopes="3"
-run_many
+# run_many
 
