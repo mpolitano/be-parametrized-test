@@ -30,7 +30,7 @@ popd > /dev/null
 
 #Need generate serialize
 #all obj are generate.
-# ./run-generate-obj.sh $project $class $tool $budget
+./run-generate-obj.sh $project $class $tool $budget
 ./run-coverage-jacoco.sh $project $class $tool $budget
 ./run-mutation-pit.sh  $project $class $tool $budget
 
