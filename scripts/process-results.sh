@@ -45,25 +45,22 @@ function process_results() {
                     mutationTime=0
 
 
-                    if [[ $technique == "randoop" ]]; then
-
-                        testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
+                        testreport=$(ls $currdir/log.txt 2> /dev/null)
                         if [[ $testreport != "" ]]; then
-                            testline=$(cat $testreport | grep "Tests run:") 
-                            testsnum=$(echo $testline | cut -d',' -f1 | cut -d' ' -f3)
-                            runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
-                        fi
-                    else
-                        testreport=$(ls $currdir/surefire-reports/*.txt 2> /dev/null)
-                        if [[ $testreport != "" ]]; then
+                            testline=$(cat $testreport | grep "Tests run:"|head -1) 
+                            testsnum=$(echo $testline | cut -d' ' -f4|cut -d',' -f1)
+                            runtime=$(echo $testline | cut -d' ' -f13|cut -d '.' -f1)
                             objects=0
-                            objects=$(cat $currdir/log.txt | grep "CountObjects=" | cut -d' ' -f3)
-                            testline=$(cat $testreport | grep "Tests run:") 
-                            testsnum=$(cat $currdir/testsCount.txt) 
-                            runtime=$(echo $testline | cut -d',' -f5 | cut -d' ' -f4)
+                            objects=$(cat $currdir/log.txt | grep "ObjectsSerialize=" | cut -d' ' -f3)
+                            objectsInvalids=0
+                            objectsInvalids=$(cat $currdir/invalidsLock.txt) 
+
+                            timeJacoco=$(cat $testreport | grep "JacocoTime"|cut -d" " -f2) 
+                            
+                            timePit=$(cat $testreport | grep "PitTime"|cut -d" " -f2) 
+
                         fi
 
-                    fi
                     # Process coverage
                     linesmiss=""                   
                     linescov=""
@@ -79,6 +76,8 @@ function process_results() {
                         branchesmiss=$(cat $covreport | grep ",$packagename,"|cut -d',' -f6|awk '{ SUM += $1} END { print SUM }') 
                         branchescov=$(cat $covreport | grep ",$packagename,"|cut -d',' -f7|awk '{ SUM += $1} END { print SUM }') 
                         branchesTotal=$(($branchesmiss + $branchescov))
+
+
                     fi
 
                     # Process mutation
@@ -103,7 +102,8 @@ function process_results() {
                         fi 
                     fi
 #
-                    echo "$project,$casestudy,$technique,$budget,$objects,$testsnum,$runtime,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime" >> $tmpfile
+
+                    echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime,$runtime,$timeJacoco,$timePit" >> $tmpfile
 
                 done
             done
@@ -112,10 +112,10 @@ function process_results() {
 }
 
 
-echo "Project,Class,Technique,Budget,Objects,Tests,Testing time,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation"
+echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation,Testing time, Jacoco Time, PitTime"
 
 # techniques="randoop randoop-serialize-builders randoop-serialize"
-techniques="beapi"
+techniques="randoop-serialize randoop-builders beapi randoop"
 process_results
 
 cat $tmpfile | sort -V

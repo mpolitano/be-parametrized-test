@@ -39,7 +39,7 @@ else #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
 	test=${class//*.}Test
 fi
-
+SECONDS=0
 cmd="timeout 3600 mvn -B test jacoco:report -Dpackage=${packagename} -Dtest=${test} >> $explog"
 echo ""
 echo "> Running jacoco $cmd"
@@ -52,6 +52,13 @@ CODE=$?
 
 
 echo ""
+echo "> Saving invalids Objects: $cmd"
+cp $resultsdir/invalids.txt $resultsdir/invalidsLock.txt 
+
+echo ""
 echo "> Saving Jacoco: $cmd"
 cmd="cp -r $projectdir/target/site/*/* $resultsdir"
 bash -c "$cmd" 
+
+echo "JacocoTime: $SECONDS" >> $explog
+

@@ -20,16 +20,14 @@ def parser( file, suffix =".csv"):
 	discard = ['readObject','writeObject','repOK']
 	for index, row in df.iterrows():
 			method=row[3]
-
 			if method not in discard:
 				if row[5] == 'KILLED':
 	  				killed=killed+1
-				else:
-	  				noKilled=noKilled+1
+			
 
 	print(killed)
-	print(noKilled)
-	out.write('{},{}\n'.format(killed,noKilled))
+	print(len(df))
+	out.write('{},{}\n'.format(killed,len(df)))
 
 	out.close()
 

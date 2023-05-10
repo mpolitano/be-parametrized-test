@@ -50,7 +50,6 @@ randoop.main.Main gentests \
 --dont-output-tests=true \
 --null-ratio=0 \
 --dont-output-tests=true \
---count_objects \
 --serialize-xstream-file=$serializeDir/randoop.xml \
 $omitmethods "
 # --literals-file=$literals \

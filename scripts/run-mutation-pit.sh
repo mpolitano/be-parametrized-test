@@ -38,6 +38,8 @@ else #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
 	test=${packagename}.${class//*.}Test
 fi
+
+SECONDS=0
 cmd="timeout 3600 mvn clean test-compile org.pitest:pitest-maven:mutationCoverage  -Dtest=${test} -Dpackage=${packagename} >> $explog"
 echo ""
 echo "> Running pit $cmd"
@@ -53,5 +55,8 @@ cmd="cp -r $projectdir/target/pit-reports $resultsdir"
 echo ""
 echo "> Saving pit: $cmd"
 bash -c "$cmd" 
+
+echo "$SECONDS"
+echo "PitTime: $SECONDS" >> $explog
 
 # rm -r $projectdir/target/* 

@@ -55,3 +55,4 @@ else
 	test=${class//*.}Test
 	
 fi
+

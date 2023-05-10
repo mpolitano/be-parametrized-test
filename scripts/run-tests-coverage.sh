@@ -26,6 +26,7 @@ echo "> Starting experiment: $@"
 packagename=${class%\.*}
 dirPackage=${packagename//.//}
 
+mvn compile
 popd > /dev/null
 
 #Need generate serialize
@@ -33,7 +34,6 @@ popd > /dev/null
 ./run-generate-obj.sh $project $class $tool $budget
 ./run-coverage-jacoco.sh $project $class $tool $budget
 ./run-mutation-pit.sh  $project $class $tool $budget
-
 
 echo ""
 echo "> Experiment finished! Results in: $resultsdir"
