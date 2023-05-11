@@ -63,6 +63,7 @@
 <build>
 
 	<plugins>
+
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
@@ -72,9 +73,13 @@
 				<target>1.8</target>
 			</configuration>
 		</plugin>
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
+<!--				<configuration>-->
+<!--					<argLine>-Xmx12g</argLine>-->
+<!--				</configuration>-->
 			</plugin>
 		<plugin>
 		    <groupId>org.jacoco</groupId>
@@ -85,6 +90,7 @@
 		            <goals>
 		                <goal>prepare-agent</goal>
 		            </goals>
+
 		        </execution>
 		        <execution>
 		            <id>report</id>
@@ -145,13 +151,16 @@
 
 		            </outputFormats>
 		            <jvmArgs>
-					    <jvmArg>-Xmx8g</jvmArg>
+					    <jvmArg>-Xmx12g</jvmArg>
 					</jvmArgs>
 		            <avoidCallsTo>
 		                <param>readObjects</param>
 		                <param>writeObjects</param>
 		                <param>repOK</param>
 		            </avoidCallsTo>
+					 <mutators>
+						 <mutator>STRONGER</mutator>
+					 </mutators>
 		        </configuration>
 
 		    </plugin>
