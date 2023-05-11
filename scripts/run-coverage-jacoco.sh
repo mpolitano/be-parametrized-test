@@ -45,15 +45,10 @@ echo ""
 echo "> Running jacoco $cmd"
 bash -c "$cmd"
 CODE=$?
-    if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
-    then
-        echo "Jacoco take more than 3600 to run" >> $explog
-    fi    
-
-
-echo ""
-echo "> Saving invalids Objects: $cmd"
-cp $resultsdir/invalids.txt $resultsdir/invalidsLock.txt 
+if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
+then
+    echo "Jacoco take more than 3600 to run" >> $explog
+fi    
 
 echo ""
 echo "> Saving Jacoco: $cmd"

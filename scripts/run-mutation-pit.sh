@@ -45,10 +45,10 @@ echo ""
 echo "> Running pit $cmd"
 bash -c "$cmd"
 CODE=$?
-    if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
-    then
-        echo "Pitest take more than 3600 to run" >> $explog
-    fi    
+if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
+then
+    echo "Pitest take more than 3600 to run" >> $explog
+fi    
 
 
 cmd="cp -r $projectdir/target/pit-reports $resultsdir"

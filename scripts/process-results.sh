@@ -47,14 +47,14 @@ function process_results() {
 
                         testreport=$(ls $currdir/log.txt 2> /dev/null)
                         if [[ $testreport != "" ]]; then
-                            testline=$(cat $testreport | grep "Tests run:"|head -1) 
+                            testline=$(cat $testreport | grep -A 3 "Results"|grep "Tests run:"|head -1) 
                             testsnum=$(echo $testline | cut -d' ' -f4|cut -d',' -f1)
-                            runtime=$(echo $testline | cut -d' ' -f13|cut -d '.' -f1)
                             objects=0
                             objects=$(cat $currdir/log.txt | grep "ObjectsSerialize=" | cut -d' ' -f3)
                             objectsInvalids=0
                             objectsInvalids=$(cat $currdir/invalidsLock.txt) 
 
+                            runtime=$(cat $testreport | grep "RunTime"|cut -d" " -f2)
                             timeJacoco=$(cat $testreport | grep "JacocoTime"|cut -d" " -f2) 
                             
                             timePit=$(cat $testreport | grep "PitTime"|cut -d" " -f2) 

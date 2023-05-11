@@ -7,6 +7,7 @@ For example, by executing:
 
 export BE_EXP_SRC=$(pwd)
 
+export MAVEN_OPTS="-Xmx12g"
 
 Folders structures:
 ####
