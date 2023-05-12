@@ -37,7 +37,7 @@ else #need parameterized tests. Depends with builders or no builders
 	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
-	test=${class//*.}Test
+	test=${class}Test
 fi
 
 
@@ -50,7 +50,7 @@ CODE=$?
 if [ $CODE -eq 124 ] || [ $CODE -eq 133 ] 
 then
     echo "Run Test take more than 3600 to run" >> $explog
-    exit
+
 fi    
 
 

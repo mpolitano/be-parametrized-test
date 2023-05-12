@@ -30,6 +30,8 @@ testSource=$projectdir/src/test/java/
 
 if [[ $tool == "randoop" ]]; then 
 	#Need generate randoop test
+	rm $testSource/${dirPackage}/RegressionTest*
+
 	cmd="$scriptsdir/gen-$tool.sh $project $class $budget graph builders > $explog"
 	echo ""
 	echo "> Generating/serialize tests: $cmd"
@@ -40,7 +42,6 @@ if [[ $tool == "randoop" ]]; then
 	echo ""
 	echo "> Copy tests: $cmd"
 	bash -c "$cmd" 
-	test=RegressionTest
 
 else
 
@@ -52,7 +53,6 @@ else
 	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
 	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
 	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
-	test=${class//*.}Test
 	
 fi
 

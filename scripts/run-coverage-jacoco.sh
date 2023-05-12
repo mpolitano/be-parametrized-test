@@ -25,18 +25,10 @@ pushd $projectdir > /dev/null
 
 #move to common.sh
 if [[ $tool == "randoop" ]]; then 
-	# cmd="cp -r $projectdir/$tool-tests $resultsdir"
-	# mkdir -p $testSource/${dirPackage}/
-	cmd="cp -r $projectdir/$tool-tests/${dirPackage}/Regression* $testSource/${dirPackage}/"
-	echo ""
-	echo "> Copy tests: $cmd"
-	bash -c "$cmd" 
+
 	test=${packagename}.RegressionTest*
 
 else #need parameterized tests. Depends with builders or no builders
-	sed -i'' -e "s/scope=.*/scope=$budget/g" config.properties
-	sed -i'' -e "s/tool=.*/tool=$tool/g" config.properties
-	sed -i'' -e "s/clazz=.*/clazz=$class/g" config.properties
 	test=${class//*.}Test
 fi
 SECONDS=0
