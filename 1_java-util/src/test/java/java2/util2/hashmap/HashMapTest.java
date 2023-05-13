@@ -190,7 +190,7 @@ public class HashMapTest extends TestHarness {
 		if(!l.repOK())  return;
 		int oldSize = l.size();
 		Collection c = l.values();
-		
+
 	}
 	@ParameterizedTest
 	@MethodSource("readObjects")
