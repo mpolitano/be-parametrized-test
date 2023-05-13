@@ -220,15 +220,15 @@ public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Seri
    *
    * @return a shallow copy of this set.
    */
-  public Object clone() {
-    try {
-      HashSet newSet = (HashSet) super.clone();
-      newSet.map = (HashMap) map.clone();
-      return newSet;
-    } catch (CloneNotSupportedException e) {
-      throw new InternalError();
-    }
-  }
+//  public Object clone() {
+//    try {
+//      HashSet newSet = (HashSet) super.clone();
+//      newSet.map = (HashMap) map.clone();
+//      return newSet;
+//    } catch (CloneNotSupportedException e) {
+//      throw new InternalError();
+//    }
+//  }
 
 	public boolean repOK() {
 		if (map == null)
