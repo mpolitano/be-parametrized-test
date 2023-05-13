@@ -69,7 +69,7 @@ import java2.util2.*;
 public class HashSet extends AbstractSet implements Set, Cloneable, java.io.Serializable {
   static final long serialVersionUID = -5024744406713321676L;
 
-  private transient HashMap map;
+  private HashMap map;
 
   // Dummy value to associate with an Object in the backing Map
   private static final Object PRESENT = new Object();
