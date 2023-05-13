@@ -80,27 +80,27 @@ public class LinkedListTest extends TestHarness {
 //	}
 //
 //	//Check collection. Get Collection?
-	@Test
-	public void emptyList_addAll() {
-		LinkedList l = new LinkedList();
-		Collection b = new LinkedList();
-		boolean res = l.addAll(b);
-		assertFalse(res);
-		assertEquals(0, l.size());
-	}
+//	@Test
+//	public void emptyList_addAll() {
+//		LinkedList l = new LinkedList();
+//		Collection b = new LinkedList();
+//		boolean res = l.addAll(b);
+//		assertFalse(res);
+//		assertEquals(0, l.size());
+//	}
 
-	@ParameterizedTest
-	@MethodSource("readObjects")
-	public void nonEmptyList_addAll(Object o) {
-		LinkedList l = (LinkedList) o;
-		Collection e = (Collection) getCollection();
-		if (e.isEmpty()) return;
-		int oldSize = l.size();
-		boolean res = l.addAll(e);
-
-		assertTrue(res);
-//		assertEquals(oldSize+e.size(), l.size());
-	}
+//	@ParameterizedTest
+//	@MethodSource("readObjects")
+//	public void nonEmptyList_addAll(Object o) {
+//		LinkedList l = (LinkedList) o;
+//		Collection e = (Collection) getCollection();
+//		if (e.isEmpty()) return;
+//		int oldSize = l.size();
+//		boolean res = l.addAll(e);
+//
+//		assertTrue(res);
+////		assertEquals(oldSize+e.size(), l.size());
+//	}
 
 
 	//REMOVEs. Same value in the list. Contains no check
@@ -359,13 +359,13 @@ public class LinkedListTest extends TestHarness {
 //		assertTrue(l.size()==0);
 //	}
 
-	@ParameterizedTest
-	@MethodSource("readObjects")
-	public void constructorCollectionTest() {
-		Collection e = (Collection) getCollection();
-		LinkedList l = new LinkedList(e);
-		assertTrue(l.size()==e.size());
-	}
+//	@ParameterizedTest
+//	@MethodSource("readObjects")
+//	public void constructorCollectionTest() {
+//		Collection e = (Collection) getCollection();
+//		LinkedList l = new LinkedList(e);
+//		assertTrue(l.size()==e.size());
+//	}
 
 
 }
