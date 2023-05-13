@@ -184,6 +184,16 @@ public class HashMapTest extends TestHarness {
 
 	@ParameterizedTest
 	@MethodSource("readObjects")
+	public void values_test(Object o) {
+		HashMap l = (HashMap) o;
+		if (l.isEmpty()) return;
+		if(!l.repOK())  return;
+		int oldSize = l.size();
+		Collection c = l.values();
+		
+	}
+	@ParameterizedTest
+	@MethodSource("readObjects")
 	public void comparator_test(Object o) {
 		HashMap l = (HashMap) o;
 		if (l.isEmpty()) return;

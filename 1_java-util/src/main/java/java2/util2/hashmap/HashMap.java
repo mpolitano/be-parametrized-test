@@ -279,7 +279,7 @@ DEFAULT_INITIAL_CAPACITY];
   /**
    * Check for equality of non-null reference x and possibly-null y.
    */
-  static boolean eq(Object x, Object y) {
+  private static boolean eq(Object x, Object y) {
     return x == y || x.equals(y);
   }
 
@@ -425,7 +425,7 @@ DEFAULT_INITIAL_CAPACITY];
     createEntry(hash, k, value, i);
   }
 
-  void putAllForCreate(Map m) {
+  private void putAllForCreate(Map m) {
     for (Iterator i = m.entrySet().iterator(); i.hasNext(); ) {
       Map.Entry e = (Map.Entry) i.next();
       putForCreate(e.getKey(), e.getValue());
@@ -564,7 +564,7 @@ DEFAULT_INITIAL_CAPACITY];
   /**
    * Special version of remove for EntrySet.
    */
-  Entry removeMapping(Object o) {
+  private Entry removeMapping(Object o) {
     if (!(o instanceof Map.Entry)) {
       return null;
     }
@@ -640,22 +640,22 @@ DEFAULT_INITIAL_CAPACITY];
    *
    * @return a shallow copy of this map.
    */
-  public Object clone() {
-    HashMap result = null;
-    try {
-      result = (HashMap) super.clone();
-    } catch (CloneNotSupportedException e) {
-      // assert false;
-    }
-    result.table = new Entry[table.length];
-    result.entrySet = null;
-    result.modCount = 0;
-    result.size = 0;
-    result.init();
-    result.putAllForCreate(this);
-
-    return result;
-  }
+//  public Object clone() {
+//    HashMap result = null;
+//    try {
+//      result = (HashMap) super.clone();
+//    } catch (CloneNotSupportedException e) {
+//      // assert false;
+//    }
+//    result.table = new Entry[table.length];
+//    result.entrySet = null;
+//    result.modCount = 0;
+//    result.size = 0;
+//    result.init();
+//    result.putAllForCreate(this);
+//
+//    return result;
+//  }
 
   public static class Entry implements Map.Entry, java.io.Serializable {
     /**
@@ -734,7 +734,7 @@ DEFAULT_INITIAL_CAPACITY];
    * Subclass overrides this to alter the behavior of HashMap(Map),
    * clone, and readObject.
    */
-  void createEntry(int hash, Object key, Object value, int bucketIndex) {
+  private void createEntry(int hash, Object key, Object value, int bucketIndex) {
     table[bucketIndex] = new Entry(hash, key, value, table[bucketIndex]);
     size++;
   }
@@ -1030,13 +1030,13 @@ DEFAULT_INITIAL_CAPACITY];
 //  }
 
   // These methods are used when serializing HashSets
-  int capacity() {
-    return table.length;
-  }
+//  int capacity() {
+//    return table.length;
+//  }
 
-  float loadFactor() {
-    return loadFactor;
-  }
+//  float loadFactor() {
+//    return loadFactor;
+//  }
 
 
 	public boolean repOK() {
