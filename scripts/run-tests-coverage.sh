@@ -31,7 +31,7 @@ popd > /dev/null
 
 #Need generate serialize
 #all obj are generate.
-./clean $project $class $tool $budget
+./clean.sh $project $class $tool $budget
 ./run-generate-obj.sh $project $class $tool $budget
 ./run-tests.sh $project $class $tool $budget
 ./run-coverage-jacoco.sh $project $class $tool $budget
