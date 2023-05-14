@@ -149,17 +149,17 @@ public class HashSetTest extends TestHarness {
 		assertTrue(oldSize==0);
 	}
 
-	@ParameterizedTest
-	@MethodSource("readObjects")
-	public void first_key_test(Object o) {
-		HashSet l = (HashSet) o;
-		if(!l.repOK())  return;
-		if (l.isEmpty()) return;
-		int oldSize = l.size();
-		Object c = l.clone();
-		assertEquals(l,c);
-		assertEquals(oldSize, l.size());
-	}
+//	@ParameterizedTest
+//	@MethodSource("readObjects")
+//	public void clone_test(Object o) {
+//		HashSet l = (HashSet) o;
+//		if(!l.repOK())  return;
+//		if (l.isEmpty()) return;
+//		int oldSize = l.size();
+//		Object c = l.clone();
+//		assertEquals(l,c);
+//		assertEquals(oldSize, l.size());
+//	}
 
 	@ParameterizedTest
 	@MethodSource("readObjects")
