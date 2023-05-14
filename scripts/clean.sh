@@ -13,9 +13,6 @@ source $scriptsdir/common.sh
 projectdir=$projectsdir/$project
 resultsdir=$scriptsdir/results/$project/$class/$tool/$budget
 
-if [[ -d $resultsdir ]]; then
-    rm -rf $resultsdir
-fi
 mkdir -p $resultsdir
 explog=$resultsdir/log.txt
 
