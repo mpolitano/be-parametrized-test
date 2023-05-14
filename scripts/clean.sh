@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 project=$1
 class=$2
 tool=$3
@@ -21,21 +22,10 @@ explog=$resultsdir/log.txt
 pushd $projectdir > /dev/null
 
 echo ""
-echo "> Starting experiment: $@"
+echo "> Starting experiment: Clean $@"
 
 packagename=${class%\.*}
 dirPackage=${packagename//.//}
+testSource=$projectdir/src/test/java/
 
-mvn compile
-popd > /dev/null
-
-#Need generate serialize
-#all obj are generate.
-./clean $project $class $tool $budget
-./run-generate-obj.sh $project $class $tool $budget
-./run-tests.sh $project $class $tool $budget
-./run-coverage-jacoco.sh $project $class $tool $budget
-./run-mutation-pit.sh  $project $class $tool $budget
-
-echo ""
-echo "> Experiment finished! Results in: $resultsdir"
+rm $testSource/${dirPackage}/RegressionTest*
