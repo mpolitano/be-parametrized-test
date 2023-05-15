@@ -5,7 +5,7 @@ import utils.TestHarness;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HashSetTest2 extends TestHarness {
+public class HashSetTest extends TestHarness {
 
 	@Test
 	public void elementsDoesNotBelongToList() {

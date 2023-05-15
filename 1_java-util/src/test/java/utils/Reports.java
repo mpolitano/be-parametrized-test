@@ -33,7 +33,7 @@ public class Reports {
 //	       }
 //	}
 
-	public static void end(int invalids) {
+	public static void invalidsFile(int invalids) {
 		File dir = new File("../scripts/results/1_java-util/"+Config.clazz+"/"+Config.tool+"/"+Config.scope);
 		 if (! dir.exists()){
 		        dir.mkdir();
@@ -55,4 +55,26 @@ public class Reports {
 
 	}
 
+
+	public static void testsFile(int tests) {
+		File dir = new File("../scripts/results/1_java-util/"+Config.clazz+"/"+Config.tool+"/"+Config.scope);
+		if (! dir.exists()){
+			dir.mkdir();
+		}
+		String fileName = dir + "/tests.txt";
+		try{
+			File file = new File(fileName);
+			file.getParentFile().mkdirs();
+			FileWriter fw = new FileWriter(file);
+
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(String.valueOf(tests) );
+			bw.close();
+		}
+		catch (IOException e){
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+	}
 }

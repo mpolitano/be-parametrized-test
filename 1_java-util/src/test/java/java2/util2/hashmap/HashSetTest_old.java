@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import utils.TestHarness;
 
-public class HashSetTest extends TestHarness {
+public class HashSetTest_old extends TestHarness {
 
 	 @Rule
 	  public final ExpectedException exception = ExpectedException.none();

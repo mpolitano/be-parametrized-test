@@ -58,6 +58,10 @@ function process_results() {
                             objectsInvalids=0
                             objectsInvalids=$(cat $currdir/invalidsLock.txt) 
 
+                            testsnum=0
+                            testsnum=$(cat $currdir/testsLock.txt) 
+
+                            objectsInvalids=$(cat $currdir/invalidsLock.txt)
                             runtime=$(cat $testreport | grep "RunTime"|cut -d" " -f2)
                             timeJacoco=$(cat $testreport | grep "JacocoTime"|cut -d" " -f2) 
                             

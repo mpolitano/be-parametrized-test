@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import utils.TestHarness;
 
-public class HashMapTest extends TestHarness {
+public class HashMapTest_old extends TestHarness {
 
 	 @Rule
 

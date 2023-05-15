@@ -24,8 +24,10 @@ public class TestHarness {
     private static String pathFile;
     private static Random randomGen;
 	private static int invalids;
+	private static int tests;
 
-    @BeforeAll
+
+	@BeforeAll
     public static void init() {
         Config.readConfig();
 		invalids = 0;
@@ -34,19 +36,24 @@ public class TestHarness {
         randomGen = new Random();
     }
 
-    @BeforeEach
+/*    @BeforeEach
     public void before() {
 
-    }
+    } */
 
     @AfterAll
     static void afterAll() {
-        Reports.end(invalids);
+        Reports.invalidsFile(invalids);
+		Reports.testsFile(tests);
     }
 
     public static Stream<Object> readObjects() {
         return serializer.readObjectsFromFile(pathFile).stream();
     }
+
+	public static List<Object> readObjects2() {
+		return serializer.readObjectsFromFile(pathFile);
+	}
 
     public static Object getElementFrom(Collection c) {
         Object [] arr = c.toArray();
@@ -202,5 +209,8 @@ public class TestHarness {
 		invalids++;
 	}
 
+	public static void countTest() {
+		tests++;
+	}
 
 }

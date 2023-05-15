@@ -23,23 +23,32 @@ scopes="4"
 
 
 projects="1_java-util"
-cases="java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap java2.util2.linkedlist.LinkedList"
-techniques="randoop-serialize randoop"
-scopes="20 60 120 300"
-run_many
-
-projects="1_java-util"
-cases="java2.util2.treemap.TreeMap java2.util2.hashmap.HashMap java2.util2.linkedlist.LinkedList"
-techniques="randoop-builders"
-scopes="5 10 20"
+cases="java2.util2.treemap.TreeMap java2.util2.treemap.TreeSet java2.util2.hashmap.HashMap java2.util2.hashmap.HashSet java2.util2.linkedlist.LinkedList"
+# cases="java2.util2.treemap.TreeMap"
+techniques="randoop"
+scopes="5 10 20 40 150 300"
 run_many
 
 projects="1_java-util"
 cases="java2.util2.treemap.TreeMap java2.util2.treemap.TreeSet java2.util2.hashmap.HashMap java2.util2.hashmap.HashSet java2.util2.linkedlist.LinkedList"
-techniques="beapi"
-scopes="3 4 5 6"
+# cases="java2.util2.treemap.TreeMap"
+techniques="randoop-builders"
+scopes="5 10 20 40"
 run_many
 
+projects="1_java-util"
+cases="java2.util2.treemap.TreeMap java2.util2.treemap.TreeSet java2.util2.hashmap.HashMap java2.util2.hashmap.HashSet java2.util2.linkedlist.LinkedList"
+# cases="java2.util2.treemap.TreeMap"
+techniques="randoop-serialize"
+scopes="5 10 20 40"
+run_many
+
+projects="1_java-util"
+cases="java2.util2.treemap.TreeMap java2.util2.treemap.TreeSet java2.util2.hashmap.HashMap java2.util2.hashmap.HashSet java2.util2.linkedlist.LinkedList"
+# cases="java2.util2.treemap.TreeMap"
+techniques="beapi"
+scopes="3 4 5"
+run_many
 
 
 projects="2_apache"
