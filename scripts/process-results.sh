@@ -50,7 +50,10 @@ function process_results() {
                             testline=$(cat $testreport | grep -A 3 "Results"|grep "Tests run:"|head -1) 
                             testsnum=$(echo $testline | cut -d' ' -f4|cut -d',' -f1)
                             objects=0
-                            objects=$(cat $currdir/log.txt | grep "ObjectsSerialize=" | cut -d' ' -f3)
+                            if [[ $technique != "beapi" ]]; then
+                                objects=$(cat $currdir/log.txt | grep "Number of builder sequences" | cut -d' ' -f5)
+                            else
+                                objects=$(cat $currdir/log.txt | grep "ObjectsSerialize=" | cut -d' ' -f3)                            
                             objectsInvalids=0
                             objectsInvalids=$(cat $currdir/invalidsLock.txt) 
 
@@ -112,10 +115,12 @@ function process_results() {
 }
 
 
-echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants No Killed, Time Mutation,Testing time, Jacoco Time, PitTime"
+echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants Total, Time Mutation,Testing time, Jacoco Time, PitTime"
 
 # techniques="randoop randoop-serialize-builders randoop-serialize"
 techniques="randoop-serialize randoop-builders beapi randoop"
+techniques="beapi"
+
 process_results
 
 cat $tmpfile | sort -V
