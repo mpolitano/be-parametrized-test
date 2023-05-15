@@ -16,8 +16,9 @@ def parser( file, suffix =".csv"):
 	output = "result.txt"
 	fname = file
 	df = pd.read_csv(fname, header=None, on_bad_lines='skip')
+
 	out = open(output, "a+")
-	discard = ['readObject','writeObject','repOK']
+	discard = ['readObject','writeObject','repOK', 'newKeyIterator', 'newValueIterator', 'putAll']
 	for index, row in df.iterrows():
 			method=row[3]
 			if method not in discard:

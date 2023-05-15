@@ -73,14 +73,16 @@ function process_results() {
                     covreport=$currdir/jacoco.csv
                     if [[ -f $covreport ]]; then
                         packagename=${casestudy%\.*}
-                        linesmiss=$(cat $covreport | grep ",$packagename,"|cut -d',' -f8|awk '{ SUM += $1} END { print SUM }') 
-                        linescov=$(cat $covreport | grep ",$packagename,"|cut -d',' -f9|awk '{ SUM += $1} END { print SUM }') 
-                        linesTotal=$(($linescov + $linesmiss)) 
-
-                        branchesmiss=$(cat $covreport | grep ",$packagename,"|cut -d',' -f6|awk '{ SUM += $1} END { print SUM }') 
-                        branchescov=$(cat $covreport | grep ",$packagename,"|cut -d',' -f7|awk '{ SUM += $1} END { print SUM }') 
-                        branchesTotal=$(($branchesmiss + $branchescov))
-
+                        file="readJacoco.py"
+                        filesize=$(wc -c "$covreport" | awk '{print $1}')
+                        if (( filesize > 1 )); then #problem with timeout
+                            coverage=$(python3 $file $covreport $packagename)
+                            coveragearray=($coverage)
+                            linescov=${coveragearray[0]}
+                            linesTotal=${coveragearray[1]}
+                            branchescov=${coveragearray[2]}
+                            branchesTotal=${coveragearray[3]}
+                        fi 
 
                     fi
 
@@ -120,7 +122,7 @@ echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov, Line
 
 # techniques="randoop randoop-serialize-builders randoop-serialize"
 techniques="randoop-serialize randoop-builders beapi randoop"
-techniques="beapi"
+techniques="beapi randoop-serialize"
 
 process_results
 

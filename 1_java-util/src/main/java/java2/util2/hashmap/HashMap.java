@@ -154,7 +154,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
 	 * rehash).  This field is used to make iterators on Collection-views of
 	 * the HashMap fail-fast.  (See ConcurrentModificationException).
 	 */
-	public volatile int modCount;
+	private transient volatile int modCount;
 
 
   /**

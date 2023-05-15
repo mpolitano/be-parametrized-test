@@ -4,6 +4,7 @@ import java2.util2.Collection;
 import java.util.Random;
 
 import java2.util2.hashmap.HashMap;
+import java2.util2.hashmap.HashSet;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,6 +54,12 @@ public class TestHarness {
         return arr[index];
     }
 
+	public static Object getElementFrom(HashSet c) {
+		Object [] arr = c.toArray();
+		int index = randomGen.nextInt(arr.length);
+		return arr[index];
+	}
+
 	public static Object getElementFrom(HashMap c) {
 		Object [] arr = c.keySet().toArray();
 		int index = randomGen.nextInt(arr.length);
@@ -65,6 +72,12 @@ public class TestHarness {
 	}
 
 	public static Object getElementFromValues(TreeMap c) {
+		Object [] arr = c.entrySet().toArray();
+		int index = randomGen.nextInt(arr.length);
+		return arr[index];
+	}
+
+	public static Object getElementFromValues(HashMap c) {
 		Object [] arr = c.entrySet().toArray();
 		int index = randomGen.nextInt(arr.length);
 		return arr[index];
@@ -104,14 +117,22 @@ public class TestHarness {
 		return 0;
 	}
 
-    public static Object getCollection() {
-    	List<Object> coll = serializer.getCollection();
-    	Random rand = new Random();
-    	Object randomElement = coll.get(rand.nextInt(coll.size()+1));
-    	return randomElement;
-    }
+//    public static Object getCollection() {
+//    	List<Object> coll = serializer.getCollection();
+//    	Random rand = new Random();
+//    	Object randomElement = coll.get(rand.nextInt(coll.size()+1));
+//    	return randomElement;
+//    }
 
-    public static int getInt(int min, int max) {
+//	public static HashMap getCollection() {
+//		List<HashMap> coll = (List<HashMap>) serializer.getCollection();
+//		Random rand = new Random();
+//		HashMap randomElement = coll.get(rand.nextInt(coll.size()+1));
+//		return randomElement;
+//	}
+
+
+	public static int getInt(int min, int max) {
         return randomGen.nextInt((max+1)-min)+min;
     }
 
