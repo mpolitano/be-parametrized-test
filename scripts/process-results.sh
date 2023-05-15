@@ -50,7 +50,7 @@ function process_results() {
                             testline=$(cat $testreport | grep -A 3 "Results"|grep "Tests run:"|head -1) 
                             testsnum=$(echo $testline | cut -d' ' -f4|cut -d',' -f1)
                             objects=0
-                            if [[ $technique != "beapi" ]]; then
+                            if [[ $technique == "beapi" ]]; then
                                 objects=$(cat $currdir/log.txt | grep "Number of builder sequences" | cut -d' ' -f5)
                             else
                                 objects=$(cat $currdir/log.txt | grep "ObjectsSerialize=" | cut -d' ' -f3)                            
