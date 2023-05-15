@@ -54,6 +54,7 @@ function process_results() {
                                 objects=$(cat $currdir/log.txt | grep "Number of builder sequences" | cut -d' ' -f5)
                             else
                                 objects=$(cat $currdir/log.txt | grep "ObjectsSerialize=" | cut -d' ' -f3)                            
+                            fi
                             objectsInvalids=0
                             objectsInvalids=$(cat $currdir/invalidsLock.txt) 
 
