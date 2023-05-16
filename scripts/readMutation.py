@@ -15,7 +15,7 @@ def parser( file, suffix =".csv"):
 	noKilled=0
 	output = "result.txt"
 	fname = file
-	df = pd.read_csv(fname, header=None, on_bad_lines='skip')
+	df = pd.read_csv(fname, header=None,error_bad_lines=False)
 
 	out = open(output, "a+")
 	discard = ['readObject','writeObject','repOK', 'newKeyIterator', 'newValueIterator', 'putAll']
