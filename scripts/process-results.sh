@@ -62,6 +62,13 @@ function process_results() {
                             testsnum=$(cat $currdir/testsLock.txt) 
 
                             objectsInvalids=$(cat $currdir/invalidsLock.txt)
+                            if [[ $technique == "beapi" ]]; then
+                                genTimeMs=$(cat $currdir/log.txt | grep "Bounded exhaustive generation time" | cut -d' ' -f5)
+                                genTimeMs=${genTimeMs%?};
+                                genTime=${genTimeMs%?};
+                                genTime=$(echo ${genTime}/1000 | bc)
+
+                            fi
                             runtime=$(cat $testreport | grep "RunTime"|cut -d" " -f2)
                             timeJacoco=$(cat $testreport | grep "JacocoTime"|cut -d" " -f2) 
                             
@@ -113,7 +120,7 @@ function process_results() {
                     fi
 #
 
-                    echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$linesTotal,$branchescov,$branchesTotal,$mutantsKilled,$mutationTotal,$mutationTime,$runtime,$timeJacoco,$timePit" >> $tmpfile
+                    echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$branchescov,$mutantsKilled,$mutationTime,$runtime,$genTime" >> $tmpfile
 
                 done
             done
@@ -122,7 +129,7 @@ function process_results() {
 }
 
 
-echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov, Line Total, Branches cov, Branches Total, Mutants Killed,Mutants Total, Time Mutation,Testing time, Jacoco Time, PitTime"
+echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov,Branches cov, Mutants Killed,Testing time,GenTime"
 
 # techniques="randoop randoop-serialize-builders randoop-serialize"
 techniques="randoop-serialize randoop-builders beapi randoop"
