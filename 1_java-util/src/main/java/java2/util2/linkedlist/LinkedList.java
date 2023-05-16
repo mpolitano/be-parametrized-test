@@ -71,8 +71,8 @@ import java.util.HashSet;
  */
 public class LinkedList extends AbstractSequentialList
     implements List, Cloneable, java.io.Serializable {
-  private transient Entry header = new Entry(null, null, null);
-  private transient int size = 0;
+  private Entry header = new Entry(null, null, null);
+  private int size = 0;
 
   /**
    * Constructs an empty list.
@@ -89,10 +89,10 @@ public class LinkedList extends AbstractSequentialList
    * @param  c the collection whose elements are to be placed into this list.
    * @throws NullPointerException if the specified collection is null.
    */
-//  public LinkedList(Collection c) {
-//    this();
-//    addAll(c);
-//  }
+  public LinkedList(Collection c) {
+    this();
+    addAll(c);
+  }
 
   /**
    * Returns the first element in this list.
@@ -547,6 +547,8 @@ public class LinkedList extends AbstractSequentialList
 //  }
 
   private static class Entry implements java.io.Serializable{
+    private static final long serialVersionUID = 1L;
+
     Object element;
     Entry next;
     Entry previous;
@@ -698,5 +700,34 @@ public class LinkedList extends AbstractSequentialList
     // Read in all elements in the proper order.
     for (int i = 0; i < size; i++) add(s.readObject());
   }
+
+
+    public boolean repOK() {
+      if (header == null)
+        return false;
+      Set<Entry> visited = new HashSet<Entry>();
+      visited.add(header);
+      Entry current = header;
+
+      while (true) {
+        Entry next = current.next;
+        if (next == null)
+          return false;
+        if (next.previous != current)
+          return false;
+        if(! (next.element instanceof Comparable || next.element == null)  ) {
+          return false;
+        }
+        current = next;
+
+          if (!visited.add(next))
+          break;
+      }
+      if (current != header)
+        return false;
+
+      return true;
+    }
+
 
 }

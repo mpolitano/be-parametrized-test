@@ -124,12 +124,12 @@ public class TestHarness {
 		return 0;
 	}
 
-//    public static Object getCollection() {
-//    	List<Object> coll = serializer.getCollection();
-//    	Random rand = new Random();
-//    	Object randomElement = coll.get(rand.nextInt(coll.size()+1));
-//    	return randomElement;
-//    }
+    public static Object getCollection() {
+    	List<Object> coll = serializer.getCollection();
+    	Random rand = new Random();
+    	Object randomElement = coll.get(rand.nextInt(coll.size()));
+    	return randomElement;
+    }
 
 //	public static HashMap getCollection() {
 //		List<HashMap> coll = (List<HashMap>) serializer.getCollection();
@@ -172,7 +172,6 @@ public class TestHarness {
 		if (type == String.class) {
 			return getString();
 		}
-		System.out.println(type);
     	return null;
     }
 
