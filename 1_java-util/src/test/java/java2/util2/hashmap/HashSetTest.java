@@ -13,7 +13,7 @@ public class HashSetTest extends TestHarness {
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) {
 				addInvalidTest();
-				return;
+				continue;
 			} //Maybe need filter one time before. Is better to Randoop
 			int e = getInt(-1000, 1000);
 			int k = getInt(-1000, 1000);
@@ -30,8 +30,8 @@ public class HashSetTest extends TestHarness {
 	public void elementsBelongToList() {
 		for (Object o: readObjects2()) {
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			Object e = getElementFrom(l);
 			int oldSize = l.size();
 			boolean res = l.add(e);
@@ -44,8 +44,8 @@ public class HashSetTest extends TestHarness {
 	public void clear() {
 		for (Object o: readObjects2()) {
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			l.clear();
 			assertEquals(l.size(), 0);
 		}
@@ -55,7 +55,7 @@ public class HashSetTest extends TestHarness {
 //	@MethodSource("readObjects")
 //	public void containsValue(Object o) {
 //		TreeMap l = (TreeMap) o;
-//		if (l.isEmpty()) return;
+//		if (l.isEmpty()) continue;
 //		Object e = getElementFromValues(l);
 //		int oldSize = l.size();
 //		assertTrue(l.containsValue(e));
@@ -66,8 +66,8 @@ public class HashSetTest extends TestHarness {
 	public void noElem_containsValue() {
 		for (Object o: readObjects2()) {
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			Object e = getInt(-1000, 1000);
 			if (!l.contains(e)) {
 				int oldSize = l.size();
@@ -83,8 +83,8 @@ public class HashSetTest extends TestHarness {
 	public void belong_remove() {
 		for (Object o: readObjects2()) {
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			Object e = getElementFrom(l);
 			if (l.contains(e)) {
 				int oldSize = l.size();
@@ -100,8 +100,8 @@ public class HashSetTest extends TestHarness {
 	public void noEleme_remove() {
 		for (Object o: readObjects2()) {
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			Object e = getInt(-1000, 1000);
 			if (!l.contains(e)) {
 				int oldSize = l.size();
@@ -117,7 +117,7 @@ public class HashSetTest extends TestHarness {
 //	@MethodSource("readObjects")
 //	public void last_key_test(Object o) {
 //		HashSet l = (HashSet) o;
-//		if (l.isEmpty()) return;
+//		if (l.isEmpty()) continue;
 //		int oldSize = l.size();
 //		Object c = l.;
 //		assertTrue(l.contains(c));
@@ -129,8 +129,8 @@ public class HashSetTest extends TestHarness {
 		for (Object o: readObjects2()) {
 
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			int oldSize = l.size();
 			boolean result = l.isEmpty();
 			assertEquals(result, false);
@@ -143,8 +143,8 @@ public class HashSetTest extends TestHarness {
 		for (Object o: readObjects2()) {
 
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			int oldSize = l.size();
 			boolean result = l.isEmpty();
 			assertEquals(result, false);
@@ -156,8 +156,8 @@ public class HashSetTest extends TestHarness {
 //	@MethodSource("readObjects")
 //	public void clone_test(Object o) {
 //		HashSet l = (HashSet) o;
-//		if(!l.repOK())  return;
-//		if (l.isEmpty()) return;
+//		if(!l.repOK())  continue;
+//		if (l.isEmpty()) continue;
 //		int oldSize = l.size();
 //		Object c = l.clone();
 //		assertEquals(l,c);
@@ -169,24 +169,31 @@ public class HashSetTest extends TestHarness {
 		for (Object o: readObjects2()) {
 
 			HashSet l = (HashSet) o;
-			if (!l.repOK()) return;
-			if (l.isEmpty()) return;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
 			int oldSize = l.size();
 			String c = l.toString();
 		}
 	}
 
 	@Test
-	public void hashCode_test(Object o) {
-		HashSet l = (HashSet) o;
-		if(!l.repOK())  return;
-		if (l.isEmpty()) return;
-		l.hashCode();
+	public void hashCode_test() {
+		for (Object o: readObjects2()) {
+			HashSet l = (HashSet) o;
+			if (!l.repOK()) continue;
+			if (l.isEmpty()) continue;
+			l.hashCode();
+		}
 	}
 
 	@Test
 	public void constructor_test() {
 		HashSet t = new HashSet();
+	}
+
+	@Test
+	public void constructor_two_test() {
+		HashSet t = new HashSet(10,10);
 	}
 
 	@Test
