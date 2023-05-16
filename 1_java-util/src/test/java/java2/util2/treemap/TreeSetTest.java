@@ -161,14 +161,14 @@ public class TreeSetTest extends TestHarness {
 		for (Object o: readObjects2()) {
 			countTest();
 			TreeSet l = (TreeSet) o;
-			if (l.isEmpty()) continue;
+			if (!l.isEmpty()) continue;
 			if (!l.repOK()) {
 				continue;
 			}
 			int oldSize = l.size();
 			boolean result = l.isEmpty();
-			assertEquals(result, false);
-			assertTrue(oldSize > 0);
+			assertEquals(result, true);
+			assertTrue(oldSize == 0);
 		}
 	}
 
@@ -183,8 +183,8 @@ public class TreeSetTest extends TestHarness {
 			}
 			int oldSize = l.size();
 			boolean result = l.isEmpty();
-			assertEquals(result, true);
-			assertTrue(oldSize == 0);
+			assertEquals(result, false);
+			assertTrue(oldSize > 0);
 		}
 	}
 
