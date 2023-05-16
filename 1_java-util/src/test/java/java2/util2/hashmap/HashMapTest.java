@@ -16,7 +16,6 @@ public class HashMapTest extends TestHarness {
 		for (Object o: readObjects2()) {
 			countTest();
 			HashMap l = (HashMap) o;
-			System.out.println(l);
 			if (l.isEmpty()) continue;
 			if (!l.repOK()) {
 				addInvalidTest();
@@ -48,6 +47,8 @@ public class HashMapTest extends TestHarness {
 			Object k = getInt(-1000, 1000);
 			if (l.containsKey(e)) {
 				int oldSize = l.size();
+				if (l.get(e)==null) continue;
+				Object z = l.get(e);
 				Object res = l.put(e, k);
 				assertNotNull(res);
 				assertTrue(l.containsKey(e));
