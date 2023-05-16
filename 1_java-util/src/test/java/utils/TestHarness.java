@@ -5,6 +5,7 @@ import java.util.Random;
 
 import java2.util2.hashmap.HashMap;
 import java2.util2.hashmap.HashSet;
+import java2.util2.linkedlist.LinkedList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,8 @@ public class TestHarness {
     public static void init() {
         Config.readConfig();
 		invalids = 0;
-        pathFile = Config.getPath();
+		tests = 0;
+		pathFile = Config.getPath();
         serializer = new Serializer();
         randomGen = new Random();
     }
@@ -55,7 +57,7 @@ public class TestHarness {
 		return serializer.readObjectsFromFile(pathFile);
 	}
 
-    public static Object getElementFrom(Collection c) {
+    public static Object getElementFrom(LinkedList c) {
         Object [] arr = c.toArray();
         int index = randomGen.nextInt(arr.length);
         return arr[index];
@@ -146,7 +148,7 @@ public class TestHarness {
     public static Object getObj(Object t) {
     	Object type = t.getClass();
     	if (type == Integer.class) {
-            return randomGen.nextInt((1000+1)-1000)+1000;
+            return randomGen.nextInt(1000+1-1000)+1000;
     	}
     	if (type == Float.class) {
     		return randomGen.nextFloat();
@@ -172,7 +174,8 @@ public class TestHarness {
 		if (type == String.class) {
 			return getString();
 		}
-    	return null;
+
+		return null;
     }
 
     public static Object getChar() {

@@ -48,7 +48,6 @@ function process_results() {
                         testreport=$(ls $currdir/log.txt 2> /dev/null)
                         if [[ $testreport != "" ]]; then
                             testline=$(cat $testreport | grep -A 3 "Results"|grep "Tests run:"|head -1) 
-                            testsnum=$(echo $testline | cut -d' ' -f4|cut -d',' -f1)
                             objects=0
                             if [[ $technique == "beapi" ]]; then
                                 objects=$(cat $currdir/log.txt | grep "Number of builder sequences" | cut -d' ' -f5)
@@ -58,9 +57,14 @@ function process_results() {
                             objectsInvalids=0
                             objectsInvalids=$(cat $currdir/invalidsLock.txt) 
 
-                            testsnum=0
-                            testsnum=$(cat $currdir/testsLock.txt) 
+                            if [[ $technique == "randoop" ]]; then
 
+                                testsnum=$(echo $testline | cut -d' ' -f4|cut -d',' -f1)
+                            else
+
+                                testsnum=0
+                                testsnum=$(cat $currdir/testsLock.txt) 
+                            fi
                             objectsInvalids=$(cat $currdir/invalidsLock.txt)
                             if [[ $technique == "beapi" ]]; then
                                 genTimeMs=$(cat $currdir/log.txt | grep "Bounded exhaustive generation time" | cut -d' ' -f5)
@@ -120,7 +124,7 @@ function process_results() {
                     fi
 #
 
-                    echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$branchescov,$mutantsKilled,$mutationTime,$runtime,$genTime" >> $tmpfile
+                    echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$branchescov,$mutantsKilled,$runtime,$genTime" >> $tmpfile
 
                 done
             done
