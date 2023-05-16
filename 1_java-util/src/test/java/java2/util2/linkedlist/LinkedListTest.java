@@ -1,19 +1,9 @@
 package java2.util2.linkedlist;
 
-import java2.util2.hashmap.HashMap;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.rules.ExpectedException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import java2.util2.Collection;
 import java2.util2.NoSuchElementException;
-
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 
 import utils.TestHarness;
@@ -376,12 +366,12 @@ public class LinkedListTest extends TestHarness {
 			if (!l.repOK()) {
 				continue;
 			}
-			int e = getInt(0, l.size() - 1);
-			Object objToAdd = l.get(e);
-			if (!l.contains(e)) {
+			int pos = getInt(0, l.size() - 1);
+			Integer objToAdd = new Integer (-1);
+			if (!l.contains(objToAdd)) {
 				int oldSize = l.size();
-				l.add(e, objToAdd);
-				assertEquals(l.get(e), objToAdd);
+				l.add(pos, objToAdd);
+				assertEquals(l.get(pos), objToAdd);
 				assertTrue(l.contains(objToAdd));
 				assertEquals(oldSize + 1, l.size());
 			}

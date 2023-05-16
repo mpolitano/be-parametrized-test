@@ -70,9 +70,9 @@ import java.util.HashSet;
  * @since 1.2
  */
 public class LinkedList extends AbstractSequentialList
-    implements List, Cloneable, java.io.Serializable {
-  private Entry header = new Entry(null, null, null);
-  private int size = 0;
+        implements List, Cloneable, java.io.Serializable {
+  private transient Entry header = new Entry(null, null, null);
+  private transient int size = 0;
 
   /**
    * Constructs an empty list.
@@ -547,8 +547,6 @@ public class LinkedList extends AbstractSequentialList
 //  }
 
   private static class Entry implements java.io.Serializable{
-    private static final long serialVersionUID = 1L;
-
     Object element;
     Entry next;
     Entry previous;
@@ -686,7 +684,7 @@ public class LinkedList extends AbstractSequentialList
    * deserialize it).
    */
   private void readObject(java.io.ObjectInputStream s)
-      throws java.io.IOException, ClassNotFoundException {
+          throws java.io.IOException, ClassNotFoundException {
     // Read in any hidden serialization magic
     s.defaultReadObject();
 
@@ -702,32 +700,32 @@ public class LinkedList extends AbstractSequentialList
   }
 
 
-    public boolean repOK() {
-      if (header == null)
+  public boolean repOK() {
+    if (header == null)
+      return false;
+    Set<Entry> visited = new HashSet<Entry>();
+    visited.add(header);
+    Entry current = header;
+
+    while (true) {
+      Entry next = current.next;
+      if (next == null)
         return false;
-      Set<Entry> visited = new HashSet<Entry>();
-      visited.add(header);
-      Entry current = header;
-
-      while (true) {
-        Entry next = current.next;
-        if (next == null)
-          return false;
-        if (next.previous != current)
-          return false;
-        if(! (next.element instanceof Comparable || next.element == null)  ) {
-          return false;
-        }
-        current = next;
-
-          if (!visited.add(next))
-          break;
+      if (next.previous != current)
+        return false;
+      if(! (next.element instanceof Comparable || next.element == null)  ) {
+        return false;
       }
-      if (current != header)
-        return false;
+      current = next;
 
-      return true;
+      if (!visited.add(next))
+        break;
     }
+    if (current != header)
+      return false;
+
+    return true;
+  }
 
 
 }
