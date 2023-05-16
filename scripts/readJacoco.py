@@ -16,7 +16,7 @@ def parser( file, package, suffix =".csv"):
 	branchTotal=0
 	lineTotal=0
 	fname = file
-	df = pd.read_csv(fname, on_bad_lines='skip')
+	df = pd.read_csv(fname, error_bad_lines=False)
 	df=df[df['PACKAGE'].str.contains(package)]
 	# print(df)
 	discard = ['HashMap.KeyIterator','HashMap.Values','HashMap.KeySet','repOK', 'putAll']
