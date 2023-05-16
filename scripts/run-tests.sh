@@ -53,10 +53,15 @@ then
 
 fi    
 
+echo "RunTime: $SECONDS" >> $explog
+
+
+echo ""
+echo "> Saving tests count: $cmd"
+cp $resultsdir/tests.txt $resultsdir/testsLock.txt 
 
 echo ""
 echo "> Saving invalids Objects: $cmd"
 cp $resultsdir/invalids.txt $resultsdir/invalidsLock.txt 
 
-echo "RunTime: $SECONDS" >> $explog
 
