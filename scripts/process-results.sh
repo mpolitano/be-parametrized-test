@@ -43,6 +43,7 @@ function process_results() {
                     mutantsKilled=0
                     mutationTotal=0
                     mutationTime=0
+                    genTime=0
 
 
                         testreport=$(ls $currdir/log.txt 2> /dev/null)
