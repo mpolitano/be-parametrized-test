@@ -44,7 +44,7 @@ function process_results() {
                     mutationTotal=0
                     mutationTime=0
                     genTime=0
-
+                    objectsInvalids=0
 
                         testreport=$(ls $currdir/log.txt 2> /dev/null)
                         if [[ $testreport != "" ]]; then
@@ -117,10 +117,11 @@ function process_results() {
                             mutantsKilled=${arrMutants[0]}
                             mutantsNoKilled=${arrMutants[1]}
                             mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
-                            
-                            mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
-                            mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
-                            mutationTime=$(($mutationSecond + $mutationMinutes*60))
+                                mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
+                                mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
+                            if [ -z "$var" ]]; then
+                                mutationTime=$(($mutationSecond + $mutationMinutes*60))
+                            fi
                         fi 
                     fi
 #
@@ -138,7 +139,7 @@ echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov,Branc
 
 # techniques="randoop randoop-serialize-builders randoop-serialize"
 techniques="randoop-serialize randoop-builders beapi randoop"
-techniques="beapi randoop-serialize"
+# techniques="beapi randoop-serialize"
 
 process_results
 
