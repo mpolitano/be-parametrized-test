@@ -117,11 +117,11 @@ function process_results() {
                             mutantsKilled=${arrMutants[0]}
                             mutantsNoKilled=${arrMutants[1]}
                             mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
-                                mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
-                                mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
-                            if [[ -z "$mutationMinutes" ]]; then
-                                mutationTime=$(($mutationSecond + $mutationMinutes*60))
-                            fi
+                            #     mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
+                            #     mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
+                            # if [[ -z "$mutationMinutes" ]]; then
+                            #     mutationTime=$(($mutationSecond + $mutationMinutes*60))
+                            # fi
                         fi 
                     fi
 #
