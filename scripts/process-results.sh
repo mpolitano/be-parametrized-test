@@ -115,8 +115,8 @@ function process_results() {
                             mutants=$(python3 $file $pitreport $casestudy)
                             arrMutants=(${mutants//,/ })
                             mutantsKilled=${arrMutants[0]}
-                            mutantsNoKilled=${arrMutants[1]}
-                            mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
+                            mutationTotal=${arrMutants[1]}
+                            # mutationTotal=$(($mutantsKilled + $mutantsNoKilled))
                             #     mutationMinutes=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f5)
                             #     mutationSecond=$(grep "Total  :" $currdir/log.txt|  cut -d ' ' -f8)
                             # if [[ -z "$mutationMinutes" ]]; then
@@ -126,7 +126,7 @@ function process_results() {
                     fi
 #
 
-                    echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$branchescov,$mutantsKilled,$runtime,$genTime" >> $tmpfile
+echo "$project,$casestudy,$technique,$budget,$objects,$objectsInvalids,$testsnum,$linescov,$branchescov,$mutantsKilled,$runtime,$genTime" >> $tmpfile
 
                 done
             done
@@ -137,8 +137,8 @@ function process_results() {
 
 echo "Project,Class,Technique,Budget,Objects,ObjectsInvalid,Tests,Line cov,Branches cov, Mutants Killed,Testing time,GenTime"
 
-# techniques="randoop randoop-serialize-builders randoop-serialize"
-techniques="randoop-serialize randoop-builders beapi randoop"
+techniques="randoop randoop-serialize-builders randoop-serialize"
+# techniques="randoop-builders beapi"
 # techniques="beapi randoop-serialize"
 
 process_results
