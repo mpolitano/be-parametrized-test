@@ -130,6 +130,8 @@ public class LinkedListTest extends TestHarness {
 				continue;
 			}
 			LinkedList b = (LinkedList) getCollection();
+			if(b.equals(l))
+				continue;
 			int oldsize = l.size();
 			if(b.isEmpty()) continue;
 			boolean res = l.addAll(b);
