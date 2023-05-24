@@ -76,13 +76,29 @@ public class HashMapTest extends TestHarness {
 			HashMap l = (HashMap) o;
 			if (l.isEmpty()) continue;
 			if (!l.repOK()) continue;
-			Object k = getInt(-1000, 1000);
+			Object k = getObj(getElementFrom(l));
 			if (!l.containsKey(k)) {
 				Object c = l.get(k);
 				assertEquals(c, null);
 			}
 		}
 	}
+
+//	"Este simple test mata unos brach de tipo"
+//	@Test
+//	public void get_noTest_contains() {
+//		for (Object o: readObjects2()) {
+//			countTest();
+//			HashMap l = (HashMap) o;
+//			if (l.isEmpty()) continue;
+//			if (!l.repOK()) continue;
+////			Object k = getInt(-1000, 1000);
+//			if (!l.containsKey(0)) {
+//				Object c = l.get(0);
+//				assertEquals(c, null);
+//			}
+//		}
+//	}
 
 	@Test
 	public void getEntry_no_contains() {

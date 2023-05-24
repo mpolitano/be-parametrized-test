@@ -1,24 +1,22 @@
 package utils;
 
-import java2.util2.Collection;
+import java2.util2.ArrayList;
+
+import java2.util2.Arrays;
+
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import java2.util2.hashmap.HashMap;
 import java2.util2.hashmap.HashSet;
 import java2.util2.linkedlist.LinkedList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import utils.Config;
-import utils.Reports;
-import utils.Serializer;
 
-import java2.util2.Collections;
 import java2.util2.Set;
 import java2.util2.treemap.TreeMap;
 
-import java.util.List;
-import java.util.stream.Stream;
 
 public class TestHarness {
     private static Serializer serializer;
@@ -58,70 +56,70 @@ public class TestHarness {
 	}
 
     public static Object getElementFrom(LinkedList c) {
-        Object [] arr = c.toArray();
-        int index = randomGen.nextInt(arr.length);
-        return arr[index];
+		java2.util2.List mainList = new ArrayList<>(c);
+        int index = randomGen.nextInt(mainList.size());
+        return mainList.size();
     }
 
 	public static Object getElementFrom(HashSet c) {
-		Object [] arr = c.toArray();
-		int index = randomGen.nextInt(arr.length);
-		return arr[index];
+		java2.util2.List mainList = new ArrayList<>(c);
+		int index = randomGen.nextInt(mainList.size());
+		return mainList.get(index);
 	}
 
 	public static Object getElementFrom(HashMap c) {
-		Object [] arr = c.keySet().toArray();
-		int index = randomGen.nextInt(arr.length);
-		return arr[index];
+		java2.util2.List mainList = new ArrayList<>(c.keySet());
+		int index = randomGen.nextInt(mainList.size());
+		return mainList.get(index);
 	}
 	public static Object getElementFrom(TreeMap c) {
-		Object [] arr = c.keySet().toArray();
-		int index = randomGen.nextInt(arr.length);
-		return arr[index];
+		java2.util2.List mainList = new ArrayList<>(c.keySet());
+		int index = randomGen.nextInt(mainList.size());
+		return mainList.get(index);
 	}
 
 	public static Object getElementFromValues(TreeMap c) {
-		Object [] arr = c.entrySet().toArray();
-		int index = randomGen.nextInt(arr.length);
-		return arr[index];
+		java2.util2.List mainList = new ArrayList<>(c.entrySet());
+		int index = randomGen.nextInt(mainList.size());
+		return mainList.get(index);
 	}
 
 	public static Object getElementFromValues(HashMap c) {
-		Object [] arr = c.entrySet().toArray();
-		int index = randomGen.nextInt(arr.length);
-		return arr[index];
+		java2.util2.List mainList = new ArrayList<>(c.entrySet());
+		int index = randomGen.nextInt(mainList.size());
+		return mainList.get(index);
 	}
 
 
 	public static Object getKeyFrom(TreeMap t) {
-        Set setKey = t.keySet();
-        Object [] arr = setKey.toArray();
-        if (arr.length > 0 ) {
-        	int index = randomGen.nextInt(arr.length);
+		java2.util2.List mainList = new ArrayList<>(t.entrySet());
+//        Object [] arr = setKey.toArray();
+        if (mainList.size() > 0 ) {
+        	int index = randomGen.nextInt(mainList.size());
 
-        	return arr[index];
+        	return mainList.get(index);
         }
         return 0;
     }
 
 		public static Object getKeyFrom(HashMap t) {
-		Set setKey = t.keySet();
-		Object [] arr = setKey.toArray();
-		if (arr.length > 0 ) {
-			int index = randomGen.nextInt(arr.length);
+			java2.util2.List mainList = new ArrayList<>(t.entrySet());
+//        Object [] arr = setKey.toArray();
+			if (mainList.size() > 0 ) {
+				int index = randomGen.nextInt(mainList.size());
 
-			return arr[index];
-		}
-		return 0;
+				return mainList.get(index);
+			}
+			return 0;
 	}
 
 	public static Object getEntryFrom(TreeMap t) {
-		Set entrySet = t.entrySet();
-		Object [] arr = entrySet.toArray();
-		if (arr.length > 0 ) {
-			int index = randomGen.nextInt(arr.length);
+		java2.util2.List mainList = new ArrayList<>(t.entrySet());
+//        Object [] arr = setKey.toArray();
+		if (mainList.size() > 0 ) {
+			int index = randomGen.nextInt(mainList.size());
 
-			return arr[index];
+			return mainList.get(index);
 		}
 		return 0;
 	}
