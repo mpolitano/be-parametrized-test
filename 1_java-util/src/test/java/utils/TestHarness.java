@@ -56,43 +56,43 @@ public class TestHarness {
 	}
 
     public static Object getElementFrom(LinkedList c) {
-		java2.util2.List mainList = new ArrayList<>(c);
+		java2.util2.List mainList = new ArrayList(c);
         int index = randomGen.nextInt(mainList.size());
         return mainList.size();
     }
 
 	public static Object getElementFrom(HashSet c) {
-		java2.util2.List mainList = new ArrayList<>(c);
+		java2.util2.List mainList = new ArrayList(c);
 		int index = randomGen.nextInt(mainList.size());
 		return mainList.get(index);
 	}
 
 	public static Object getElementFrom(HashMap c) {
-		java2.util2.List mainList = new ArrayList<>(c.keySet());
+		java2.util2.List mainList = new ArrayList(c.keySet());
 		int index = randomGen.nextInt(mainList.size());
 		return mainList.get(index);
 	}
 	public static Object getElementFrom(TreeMap c) {
-		java2.util2.List mainList = new ArrayList<>(c.keySet());
+		java2.util2.List mainList = new ArrayList(c.keySet());
 		int index = randomGen.nextInt(mainList.size());
 		return mainList.get(index);
 	}
 
 	public static Object getElementFromValues(TreeMap c) {
-		java2.util2.List mainList = new ArrayList<>(c.entrySet());
+		java2.util2.List mainList = new ArrayList(c.entrySet());
 		int index = randomGen.nextInt(mainList.size());
 		return mainList.get(index);
 	}
 
 	public static Object getElementFromValues(HashMap c) {
-		java2.util2.List mainList = new ArrayList<>(c.entrySet());
+		java2.util2.List mainList = new ArrayList(c.entrySet());
 		int index = randomGen.nextInt(mainList.size());
 		return mainList.get(index);
 	}
 
 
 	public static Object getKeyFrom(TreeMap t) {
-		java2.util2.List mainList = new ArrayList<>(t.entrySet());
+		java2.util2.List mainList = new ArrayList(t.entrySet());
 //        Object [] arr = setKey.toArray();
         if (mainList.size() > 0 ) {
         	int index = randomGen.nextInt(mainList.size());
@@ -103,7 +103,7 @@ public class TestHarness {
     }
 
 		public static Object getKeyFrom(HashMap t) {
-			java2.util2.List mainList = new ArrayList<>(t.entrySet());
+			java2.util2.List mainList = new ArrayList(t.entrySet());
 //        Object [] arr = setKey.toArray();
 			if (mainList.size() > 0 ) {
 				int index = randomGen.nextInt(mainList.size());
@@ -114,7 +114,7 @@ public class TestHarness {
 	}
 
 	public static Object getEntryFrom(TreeMap t) {
-		java2.util2.List mainList = new ArrayList<>(t.entrySet());
+		java2.util2.List mainList = new ArrayList(t.entrySet());
 //        Object [] arr = setKey.toArray();
 		if (mainList.size() > 0 ) {
 			int index = randomGen.nextInt(mainList.size());
