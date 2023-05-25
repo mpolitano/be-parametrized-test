@@ -7,6 +7,8 @@
 
 package org.apache.commons.collections4;
 
+import java.util.Collection;
+
 /**
  * An ordered collection (also known as a <i>sequence</i>).  The user of this
  * interface has precise control over where in the list each element is
@@ -247,7 +249,7 @@ public interface List extends Collection {
    *         list.
    * @see #add(Object)
    */
-  //boolean addAll(Collection c);
+  boolean addAll(Collection c);
 
   /**
    * Inserts all of the elements in the specified collection into this

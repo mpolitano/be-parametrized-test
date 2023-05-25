@@ -18,17 +18,18 @@ def parser( file, suffix =".csv"):
 	df = pd.read_csv(fname, header=None,error_bad_lines=False)
 
 	out = open(output, "a+")
-	discard = ['readObject','writeObject','repOK', 'newKeyIterator', 'newValueIterator', 'putAll']
+	discard = ['readObject','writeObject','repOK', 'resize' ,'transfer'  ,'newKeyIterator', 'newValueIterator', 'putAll', 'isLinkedList', 'repOK', 'putAll']
+	
 	for index, row in df.iterrows():
 			method=row[3]
 			if method not in discard:
 				if row[5] == 'KILLED':
 	  				killed=killed+1
-			
+	  			
 
 	print(killed)
 	print(len(df))
-	out.write('{},{}\n'.format(killed,len(df)))
+	# out.write('{},{}\n'.format(killed,df.count()))
 
 	out.close()
 

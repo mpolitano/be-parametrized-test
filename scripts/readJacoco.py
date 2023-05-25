@@ -19,15 +19,16 @@ def parser( file, package, suffix =".csv"):
 	df = pd.read_csv(fname, error_bad_lines=False)
 	df=df[df['PACKAGE'].str.contains(package)]
 	# print(df)
+	#No tengo los metodos en JACOCO csv. Ver la forma de omitir, repoks, isLinkedList, etc.
 	discard = ['HashMap.KeyIterator','HashMap.Values','HashMap.KeySet','repOK', 'putAll']
 	for index, row in df.iterrows():
 			clazz=row[2]
 			if clazz not in discard:
 				# print(clazz)
-				branch=row[6]+branch
-				branchTotal=row[6]+row[7]+branchTotal
-				line=row[8]+line
-				lineTotal=row[8]+row[9]+branchTotal
+				branch=row['BRANCH_COVERED']+branch
+				branchTotal=row['BRANCH_COVERED']+row['BRANCH_MISSED']+branchTotal
+				line=row['LINE_COVERED']+line
+				lineTotal=row['LINE_MISSED']+row['LINE_COVERED']+lineTotal
 
 	#   				
 			

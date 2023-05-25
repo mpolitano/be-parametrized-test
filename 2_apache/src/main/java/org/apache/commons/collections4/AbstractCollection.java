@@ -8,6 +8,7 @@
 package org.apache.commons.collections4;
 
 import java.util.Iterator;
+import java.util.Collection;
 
 /**
  * This class provides a skeletal implementation of the <tt>Collection</tt>
