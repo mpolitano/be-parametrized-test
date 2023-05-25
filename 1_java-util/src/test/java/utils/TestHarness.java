@@ -58,7 +58,7 @@ public class TestHarness {
     public static Object getElementFrom(LinkedList c) {
 		java2.util2.List mainList = new ArrayList(c);
         int index = randomGen.nextInt(mainList.size());
-        return mainList.size();
+        return mainList.get(index);
     }
 
 	public static Object getElementFrom(HashSet c) {

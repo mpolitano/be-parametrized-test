@@ -127,7 +127,7 @@ public class HashMap extends AbstractMap implements Map, Cloneable, java.io.Seri
 	/**
 	 * The table, resized as necessary. Length MUST Always be a power of two.
 	 */
-	Entry[] table;
+	private Entry[] table;
 
 	/**
 	 * The number of key-value mappings contained in this identity hash map.

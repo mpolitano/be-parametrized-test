@@ -9,7 +9,8 @@ public class HashSetTest extends TestHarness {
 
 	@Test
 	public void elementsDoesNotBelongToList() {
-		for (Object o: readObjects2()) {
+		for (Object o : readObjects2()) {
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) {
 				addInvalidTest();
@@ -29,6 +30,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void elementsBelongToList() {
 		for (Object o: readObjects2()) {
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -43,6 +45,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void clear() {
 		for (Object o: readObjects2()) {
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -65,6 +68,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void noElem_containsValue() {
 		for (Object o: readObjects2()) {
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -82,6 +86,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void belong_remove() {
 		for (Object o: readObjects2()) {
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -99,6 +104,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void noEleme_remove() {
 		for (Object o: readObjects2()) {
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -127,7 +133,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void empty_test() {
 		for (Object o: readObjects2()) {
-
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -141,7 +147,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void non_empty_test() {
 		for (Object o: readObjects2()) {
-
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -167,7 +173,7 @@ public class HashSetTest extends TestHarness {
 	@Test
 	public void toString_test() {
 		for (Object o: readObjects2()) {
-
+			countTest();
 			HashSet l = (HashSet) o;
 			if (!l.repOK()) continue;
 			if (l.isEmpty()) continue;
@@ -188,22 +194,26 @@ public class HashSetTest extends TestHarness {
 
 	@Test
 	public void constructor_test() {
+		countTest();
 		HashSet t = new HashSet();
 	}
 
 	@Test
 	public void constructor_two_test() {
+		countTest();
 		HashSet t = new HashSet(10,10);
 	}
 
 	@Test
 	public void constructor_all_test() {
+		countTest();
 		HashSet t = new HashSet(10);
 		t = new HashSet(0);
 	}
 
 	@Test
 	public void elementsDoesNotBelongToList_remove_First() {
+		countTest();
 			assertThrows(IllegalArgumentException.class, () -> {
 				HashSet t = new HashSet(-1);
 				t = new HashSet(-1,10);
